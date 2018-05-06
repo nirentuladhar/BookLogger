@@ -62,7 +62,7 @@ public class ReadingFragment extends Fragment{
 
     public void bookFactory() {
         Book book;
-        book = new Book("Harry Potter", "JK Rowling", "http://books.google.com/books/content?id=kxsQhM4D8uIC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api");
+        book = new Book("Harry Potter", "JK Rowling", "http://books.google.com/books/content?id=66Dm4p1wxqUC&printsec=frontcover&img=1&zoom=1&source=gbs_api");
         mBookArrayList.add(book);
         book = new Book("Lord of The Rings", "JRR Tolkein", "http://books.google.com/books/content?id=gqDf__ULmR8C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api");
         mBookArrayList.add(book);
