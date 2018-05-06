@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        //instantiate firebase value
+        //instantiate firebase values
         bookFactory();
 
         // test link to google books
