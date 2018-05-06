@@ -17,8 +17,11 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONObject;
 
@@ -29,7 +32,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.fragment.CompletedFragment;
@@ -71,15 +76,11 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+        //instantiate firebase value
+        bookFactory();
 
-        // Firebase instantiation
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-        myRef.setValue("Hello, World!");
-
-        // test link to firebase
+        // test link to google books
         new BookAPITest().execute();
-
 
     }
 
@@ -105,6 +106,44 @@ public class MainActivity extends AppCompatActivity {
             }
             return "";
         }
+
+    }
+
+    private void bookFactory() {
+        // Firebase instantiation
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+
+        final DatabaseReference booksRef = database.getReference("books");
+        booksRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.getChildrenCount() == 0) {
+                    Map<String, Object> values = new HashMap<>();
+                    values.put("name", "Harry Potter and the Prisoner of Azkaban");
+                    values.put("author", "J.K. Rowling");
+                    values.put("imagePath", "http://books.google.com/books/content?id=wHlDzHnt6x0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api");
+                    booksRef.push().setValue(values);
+
+                    values.clear();
+                    values.put("name", "The Lord of the Rings: The Fellowship of the Ring");
+                    values.put("author", "J.R.R. Tolkien");
+                    values.put("imagePath", "http://books.google.com/books/content?id=wRP4dbYE0bAC&printsec=frontcover&img=1&zoom=1&source=gbs_api");
+                    booksRef.push().setValue(values);
+
+                    values.clear();
+                    values.put("name", "Kafka on the Shore");
+                    values.put("author", "Haruki Murakami");
+                    values.put("imagePath", "http://books.google.com/books/content?id=L6AtuutQHpwC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api");
+                    booksRef.push().setValue(values);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
