@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "957190043058",
+    "firebase_url": "https://booklogger-96917.firebaseio.com",
+    "project_id": "booklogger-96917",
+    "storage_bucket": "booklogger-96917.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:957190043058:android:612667c4f9a4302d",
+        "android_client_info": {
+          "package_name": "app.mad.com.booklogger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "957190043058-fkaijdcd8bekcs2o5tauapnl3efk9i18.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.mad.com.booklogger",
+            "certificate_hash": "6ea767434a90c8a4f4d4fbb91ca0f8fba11f36a4"
+          }
+        },
+        {
+          "client_id": "957190043058-4jifa6jmbbi812jn4ema0mcpluqo0p60.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGq_Kh7S0PsejzdHw9aeyBMUrRrkvi6z0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "957190043058-4jifa6jmbbi812jn4ema0mcpluqo0p60.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
