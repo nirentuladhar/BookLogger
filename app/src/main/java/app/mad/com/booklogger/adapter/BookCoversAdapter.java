@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
@@ -55,7 +57,9 @@ public class BookCoversAdapter extends RecyclerView.Adapter<BookCoversAdapter.Vi
     public void onBindViewHolder(BookCoversAdapter.ViewHolder holder, int position) {
         Book book = mBookList.get(position);
 //        holder.mBookCoverCard.setText(book.getTitle());
-        new DownloadImageTask(holder.mBookCover).execute(book.getImagePath());
+        Picasso.get().load(book.getImagePath()).into(holder.mBookCover);
+
+//        new DownloadImageTask(holder.mBookCover).execute(book.getImagePath());
     }
 
     @Override
