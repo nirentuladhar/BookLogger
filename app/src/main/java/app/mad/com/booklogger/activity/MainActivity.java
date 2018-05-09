@@ -1,8 +1,8 @@
 package app.mad.com.booklogger.activity;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -22,13 +22,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.json.JSONObject;
+import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -36,11 +34,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import app.mad.com.booklogger.GoogleBooksApi;
 import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.fragment.CompletedFragment;
 import app.mad.com.booklogger.fragment.ReadingFragment;
 import app.mad.com.booklogger.fragment.ToReadFragment;
 import app.mad.com.booklogger.model.Book;
+import app.mad.com.booklogger.model.BookList;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -82,6 +87,40 @@ public class MainActivity extends AppCompatActivity {
         // test link to google books
         new BookAPITest().execute();
 
+
+        //retrofit for api calls
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GoogleBooksApi.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        GoogleBooksApi booksApi = retrofit.create(GoogleBooksApi.class);
+
+        Call<BookList> call = booksApi.getBook("freakonomics");
+
+        call.enqueue(new Callback<BookList>() {
+            @Override
+            public void onResponse(@NonNull Call<BookList> call, @NonNull Response<BookList> response) {
+                BookList book = response.body();
+                List<BookList.BookItem> bookItems = book.getItems();
+
+                for (BookList.BookItem b : bookItems) {
+                    BookList.VolumeInfo volumeInfo = b.getVolumeInfo();
+                    Log.d(TAG, volumeInfo.getThumbnail());
+                }
+            }
+            @Override
+            public void onFailure(Call<BookList> call, Throwable t) {
+                Log.d(TAG, t.toString());
+                Log.d(TAG, "Bye");
+            }
+        });
+
+
+
+
+
+
     }
 
     /**
@@ -94,12 +133,6 @@ public class MainActivity extends AppCompatActivity {
                 URL url = new URL("https://www.googleapis.com/books/v1/volumes?q=freakonomics");
                 URLConnection conn = url.openConnection();
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-//                JSONObject jsonObject = new JSONObject(in);
-
-//                        String joke = in.readLine();
-//                Log.d(TAG, joke);
-                Log.d(TAG, "DONE");
                 in.close();
             } catch(IOException e) {
                 e.printStackTrace();
@@ -122,19 +155,19 @@ public class MainActivity extends AppCompatActivity {
                     Map<String, Object> values = new HashMap<>();
                     values.put("name", "Harry Potter and the Prisoner of Azkaban");
                     values.put("author", "J.K. Rowling");
-                    values.put("imagePath", "http://books.google.com/books/content?id=wHlDzHnt6x0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api");
+                    values.put("imagePath", "http://books.google.com/books/content?id=wHlDzHnt6x0C&printsec=frontcover&img=1&zoom=2&source=gbs_api");
                     booksRef.push().setValue(values);
 
                     values.clear();
                     values.put("name", "The Lord of the Rings: The Fellowship of the Ring");
                     values.put("author", "J.R.R. Tolkien");
-                    values.put("imagePath", "http://books.google.com/books/content?id=wRP4dbYE0bAC&printsec=frontcover&img=1&zoom=1&source=gbs_api");
+                    values.put("imagePath", "http://books.google.com/books/content?id=wRP4dbYE0bAC&printsec=frontcover&img=1&zoom=2&source=gbs_api");
                     booksRef.push().setValue(values);
 
                     values.clear();
                     values.put("name", "Kafka on the Shore");
                     values.put("author", "Haruki Murakami");
-                    values.put("imagePath", "http://books.google.com/books/content?id=L6AtuutQHpwC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api");
+                    values.put("imagePath", "http://books.google.com/books/content?id=L6AtuutQHpwC&printsec=frontcover&img=1&zoom=2&&source=gbs_api");
                     booksRef.push().setValue(values);
                 }
             }

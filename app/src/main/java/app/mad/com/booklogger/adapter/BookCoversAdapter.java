@@ -54,7 +54,7 @@ public class BookCoversAdapter extends RecyclerView.Adapter<BookCoversAdapter.Vi
     @Override
     public void onBindViewHolder(BookCoversAdapter.ViewHolder holder, int position) {
         Book book = mBookList.get(position);
-//        holder.mBookCoverCard.setText(book.getName());
+//        holder.mBookCoverCard.setText(book.getTitle());
         new DownloadImageTask(holder.mBookCover).execute(book.getImagePath());
     }
 
