@@ -30,18 +30,18 @@ public class Book {
     public Book(){
     }
 
-    public Book(String name, String author, String imagePath) {
-        mTitle = name;
+    public Book(String title, String author, String imagePath) {
+        mTitle = title;
         mAuthor = author;
         mImagePath = imagePath;
     }
 
-    public Book(String id, String name, String author, String imagePath, String synopsis,
+    public Book(String id, String title, String author, String imagePath, String synopsis,
                 String notes, int rating,
                 boolean isReading, boolean toRead, boolean hasCompleted,
                 String dateModified, String dateAdded) {
         mId = id;
-        mTitle = name;
+        mTitle = title;
         mAuthor = author;
         mImagePath = imagePath;
         mSynopsis = synopsis;

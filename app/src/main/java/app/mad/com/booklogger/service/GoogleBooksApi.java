@@ -1,4 +1,4 @@
-package app.mad.com.booklogger;
+package app.mad.com.booklogger.service;
 
 import java.util.List;
 

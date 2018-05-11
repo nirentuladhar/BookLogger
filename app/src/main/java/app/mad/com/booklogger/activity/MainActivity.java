@@ -12,17 +12,16 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.api.services.books.model.Volume;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,12 +33,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import app.mad.com.booklogger.GoogleBooksApi;
+import app.mad.com.booklogger.service.GoogleBooksApi;
 import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.fragment.CompletedFragment;
 import app.mad.com.booklogger.fragment.ReadingFragment;
 import app.mad.com.booklogger.fragment.ToReadFragment;
-import app.mad.com.booklogger.model.Book;
 import app.mad.com.booklogger.model.BookList;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -81,11 +79,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        //instantiate firebase values
-        bookFactory();
-
-        // test link to google books
-        new BookAPITest().execute();
+        // add books to firebase if firebase doesn't have any books
+//        bookFactory();
 
 
         //retrofit for api calls
@@ -106,16 +101,16 @@ public class MainActivity extends AppCompatActivity {
 
                 for (BookList.BookItem b : bookItems) {
                     BookList.VolumeInfo volumeInfo = b.getVolumeInfo();
-                    Log.d(TAG, volumeInfo.getThumbnail());
+//                    Log.d(TAG, volumeInfo.getThumbnail());
                 }
             }
             @Override
             public void onFailure(Call<BookList> call, Throwable t) {
-                Log.d(TAG, t.toString());
-                Log.d(TAG, "Bye");
+//                Log.d(TAG, t.toString());
+//                Log.d(TAG, "Bye");
             }
         });
-
+        Volume
 
 
 
@@ -124,61 +119,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Test for Firebase connection
+     * Creates three dummy books in firebase
+     * only if there are no books in the database
      */
-    private class BookAPITest extends AsyncTask<Void, Void, String> {
-        @Override
-        protected String doInBackground(Void... voids) {
-            try {
-                URL url = new URL("https://www.googleapis.com/books/v1/volumes?q=freakonomics");
-                URLConnection conn = url.openConnection();
-                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                in.close();
-            } catch(IOException e) {
-                e.printStackTrace();
-            }
-            return "";
-        }
-
-    }
-
-    private void bookFactory() {
-        // Firebase instantiation
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-
-        final DatabaseReference booksRef = database.getReference("books");
-        booksRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.getChildrenCount() == 0) {
-                    Map<String, Object> values = new HashMap<>();
-                    values.put("name", "Harry Potter and the Prisoner of Azkaban");
-                    values.put("author", "J.K. Rowling");
-                    values.put("imagePath", "http://books.google.com/books/content?id=wHlDzHnt6x0C&printsec=frontcover&img=1&zoom=2&source=gbs_api");
-                    booksRef.push().setValue(values);
-
-                    values.clear();
-                    values.put("name", "The Lord of the Rings: The Fellowship of the Ring");
-                    values.put("author", "J.R.R. Tolkien");
-                    values.put("imagePath", "http://books.google.com/books/content?id=wRP4dbYE0bAC&printsec=frontcover&img=1&zoom=2&source=gbs_api");
-                    booksRef.push().setValue(values);
-
-                    values.clear();
-                    values.put("name", "Kafka on the Shore");
-                    values.put("author", "Haruki Murakami");
-                    values.put("imagePath", "http://books.google.com/books/content?id=L6AtuutQHpwC&printsec=frontcover&img=1&zoom=2&&source=gbs_api");
-                    booksRef.push().setValue(values);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-    }
+//    private void bookFactory() {
+//        // Firebase instantiation
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//
+//
+//        final DatabaseReference booksRef = database.getReference("books");
+//        booksRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot snapshot) {
+//                if (snapshot.getChildrenCount() == 0) {
+//                    Map<String, Object> values = new HashMap<>();
+//                    values.put("title", "Harry Potter and the Prisoner of Azkaban");
+//                    values.put("author", "J.K. Rowling");
+//                    values.put("imagePath", "http://books.google.com/books/content?id=wHlDzHnt6x0C&printsec=frontcover&img=1&zoom=2&source=gbs_api");
+//                    booksRef.push().setValue(values);
+//
+//                    values.clear();
+//                    values.put("title", "The Lord of the Rings: The Fellowship of the Ring");
+//                    values.put("author", "J.R.R. Tolkien");
+//                    values.put("imagePath", "http://books.google.com/books/content?id=wRP4dbYE0bAC&printsec=frontcover&img=1&zoom=2&source=gbs_api");
+//                    booksRef.push().setValue(values);
+//
+//                    values.clear();
+//                    values.put("title", "Kafka on the Shore");
+//                    values.put("author", "Haruki Murakami");
+//                    values.put("imagePath", "http://books.google.com/books/content?id=L6AtuutQHpwC&printsec=frontcover&img=1&zoom=2&&source=gbs_api");
+//                    booksRef.push().setValue(values);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//    }
 
 
     @Override
