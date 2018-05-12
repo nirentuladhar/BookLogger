@@ -12,7 +12,9 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme">
+        android:background="#FFF"
+        android:elevation="0dp"
+        >
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:elevation="16dp"
@@ -31,7 +33,21 @@
                 android:queryHint="Search Books"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
         </android.support.v7.widget.Toolbar>
+
+
     </android.support.design.widget.AppBarLayout>
+
+    <ProgressBar
+        android:id="@+id/search_progress_bar"
+        style="@style/SearchLinearProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-6dp"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        android:indeterminateTint="@color/colorAccent"
+        />
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/search_recycler"

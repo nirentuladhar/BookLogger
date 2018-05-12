@@ -1,6 +1,7 @@
 package app.mad.com.booklogger.activity;
 
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -19,6 +20,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 
 import java.util.ArrayList;
@@ -42,11 +44,15 @@ public class SearchActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     SearchCoverRVAdapter mAdapter;
     List<BookList.BookItem> mBookItem = new ArrayList<>();
+    ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        progressBar = findViewById(R.id.search_progress_bar);
 
         setUpActionBar();
         setRecyclerView();
@@ -100,6 +106,7 @@ public class SearchActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                progressBar.setVisibility(View.VISIBLE);
                 fetchBooks(query);
                 return false;
             }
@@ -119,6 +126,7 @@ public class SearchActivity extends AppCompatActivity {
      * @param bookName Name of the book to be searched
      */
     public void fetchBooks(final String bookName) {
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GoogleBooksApi.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -139,6 +147,8 @@ public class SearchActivity extends AppCompatActivity {
                 mAdapter = new SearchCoverRVAdapter(mBookItem, mContext);
                 mRecyclerView.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.INVISIBLE);
+
             }
 
             @Override
@@ -146,6 +156,7 @@ public class SearchActivity extends AppCompatActivity {
 //                Log.d(MainActivity.TAG, "Bye " + bookName);
             }
         });
+
 
 
     }
