@@ -3,10 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="5dp"
+    android:layout_margin="8dp"
     app:cardBackgroundColor="#FFF"
     app:cardCornerRadius="2dp"
-    app:cardElevation="4dp">
+    app:cardElevation="0dp"
+
+    >
 
     <LinearLayout
         android:orientation="vertical"
@@ -14,27 +16,36 @@
         android:layout_height="match_parent">
         
         <ImageView
+            android:id="@+id/imageview_book_cover"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="160dp"
+            android:padding="1dp"
             android:scaleType="centerCrop"
+            android:cropToPadding="true"
+            android:background="@drawable/image_border"
             android:src="@drawable/ic_launcher_background"/>
 
         <TextView
+            android:id="@+id/textview_title"
             android:textColor="#333"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:textSize="16sp"
+            android:textSize="14sp"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="This changes everything"/>
 
         <TextView
+            android:id="@+id/textview_authors"
             android:textColor="#777"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginBottom="16dp"
             android:textSize="12sp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"
             android:text="By JK Rowling"/>
 
 

@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import app.mad.com.booklogger.R;
@@ -31,24 +33,28 @@ public class SearchCoverRVAdapter extends RecyclerView.Adapter<SearchCoverRVAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mBookCoverCard;
+        public TextView mBookTitle;
         public ImageView mBookCover;
+        public TextView mBookAuthors;
         public ViewHolder(View itemView) {
             super(itemView);
-//            mBookCoverCard = itemView.findViewById(R.id.text_book_cover_card);
             mBookCover = itemView.findViewById(R.id.imageview_book_cover);
+            mBookTitle = itemView.findViewById(R.id.textview_title);
+            mBookAuthors = itemView.findViewById(R.id.textview_authors);
         }
     }
 
     @Override
     public SearchCoverRVAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_cover_card, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_card, parent, false);
         return new SearchCoverRVAdapter.ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(SearchCoverRVAdapter.ViewHolder holder, int position) {
         BookList.BookItem book = mBookList.get(position);
+        holder.mBookTitle.setText(book.getVolumeInfo().getTitle());
+        holder.mBookAuthors.setText(book.getVolumeInfo().getAuthors());
         Picasso.get().load(book.getVolumeInfo().getThumbnail()).into(holder.mBookCover);
     }
 

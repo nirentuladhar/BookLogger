@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="app.mad.com.booklogger.activity.SearchActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#FFF">
 
-    <EditText
-        android:id="@+id/search_query_edittext"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/search_query_button"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Search"/>
+        android:theme="@style/AppTheme">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:elevation="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark">
+            <SearchView
+                android:id="@+id/book_search_view"
+                android:title="Search"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:paddingLeft="0dp"
+                android:layout_marginLeft="0dp"
+                android:iconifiedByDefault="false"
+                android:queryHint="Search Books"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/search_recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
     </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

@@ -32,7 +32,7 @@ public class BookList {
     }
 
     /**
-     * TODO: Create a Books.Volume.VolumeInfo instance 
+     * TODO: Create a Books.Volume.VolumeInfo instance
      */
 
 
@@ -48,8 +48,16 @@ public class BookList {
         public String getTitle() {
             return title;
         }
-        public List<String> getAuthors() {
-            return authors;
+        public String getAuthors() {
+            String author = "";
+            if (authors != null) {
+                StringBuilder auth = new StringBuilder();
+                for (String a: authors) {
+                    auth.append(a).append(", ");
+                }
+                author = auth.substring(0, auth.length() - 2);
+            }
+            return author;
         }
         public String getDescription() {
             return description;
