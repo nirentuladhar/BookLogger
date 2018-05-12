@@ -1,5 +1,6 @@
 package app.mad.com.booklogger.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,12 +10,15 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import com.google.api.services.books.model.Volume;
 import com.google.firebase.database.DataSnapshot;
@@ -64,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -91,27 +95,25 @@ public class MainActivity extends AppCompatActivity {
 
         GoogleBooksApi booksApi = retrofit.create(GoogleBooksApi.class);
 
-        Call<BookList> call = booksApi.getBook("freakonomics");
-
-        call.enqueue(new Callback<BookList>() {
-            @Override
-            public void onResponse(@NonNull Call<BookList> call, @NonNull Response<BookList> response) {
-                BookList book = response.body();
-                List<BookList.BookItem> bookItems = book.getItems();
-
-                for (BookList.BookItem b : bookItems) {
-                    BookList.VolumeInfo volumeInfo = b.getVolumeInfo();
-//                    Log.d(TAG, volumeInfo.getThumbnail());
-                }
-            }
-            @Override
-            public void onFailure(Call<BookList> call, Throwable t) {
-//                Log.d(TAG, t.toString());
-//                Log.d(TAG, "Bye");
-            }
-        });
-        Volume
-
+//        Call<BookList> call = booksApi.getBook("freakonomics");
+//
+//        call.enqueue(new Callback<BookList>() {
+//            @Override
+//            public void onResponse(@NonNull Call<BookList> call, @NonNull Response<BookList> response) {
+//                BookList book = response.body();
+//                List<BookList.BookItem> bookItems = book.getItems();
+//
+//                for (BookList.BookItem b : bookItems) {
+//                    BookList.VolumeInfo volumeInfo = b.getVolumeInfo();
+////                    Log.d(TAG, volumeInfo.getThumbnail());
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<BookList> call, Throwable t) {
+////                Log.d(TAG, t.toString());
+////                Log.d(TAG, "Bye");
+//            }
+//        });
 
 
 
@@ -173,12 +175,12 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+//        int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -224,4 +226,5 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 }

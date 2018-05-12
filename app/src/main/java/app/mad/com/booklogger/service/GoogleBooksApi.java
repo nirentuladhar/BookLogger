@@ -1,5 +1,7 @@
 package app.mad.com.booklogger.service;
 
+import com.google.api.services.books.Books;
+
 import java.util.List;
 
 import app.mad.com.booklogger.model.Book;
@@ -18,6 +20,5 @@ public interface GoogleBooksApi {
 
     @GET("volumes")
     Call<BookList> getBook(@Query("q") String q);
-
 
 }
