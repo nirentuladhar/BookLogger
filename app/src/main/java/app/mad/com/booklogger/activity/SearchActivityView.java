@@ -1,5 +1,7 @@
 package app.mad.com.booklogger.activity;
 
+import android.widget.ImageView;
+
 import java.util.List;
 
 import app.mad.com.booklogger.model.BookList;
@@ -12,4 +14,6 @@ public interface SearchActivityView {
     void displayBooks(List<BookList.BookItem> bookLists);
 
     void displayNoBooks();
+
+    void displayBookInfo(BookList.BookItem bookItem, ImageView cover);
 }

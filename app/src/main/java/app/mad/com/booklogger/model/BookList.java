@@ -76,7 +76,26 @@ public class BookList {
             return ratingsCount;
         }
         public String getThumbnail() {
-            return imageLinks.getThumbnail();
+            if (imageLinks != null) {
+                String image = null;
+                if (imageLinks.getExtraLarge() != null) {
+                    image = imageLinks.getExtraLarge();
+                } else if (imageLinks.getLarge() != null) {
+                    image = imageLinks.getLarge();
+                } else if (imageLinks.getMedium() != null) {
+                    image = imageLinks.getMedium();
+                } else if (imageLinks.getSmall() != null) {
+                    image = imageLinks.getSmall();
+                } else if (imageLinks.getThumbnail() != null) {
+                    image = imageLinks.getThumbnail();
+                } else if (imageLinks.getSmallThumbnail() != null) {
+                    image = imageLinks.getSmallThumbnail();
+                }
+                if (image != null) {
+                    return imageLinks.getThumbnail();
+                }
+            }
+            return null;
         }
     }
 }
