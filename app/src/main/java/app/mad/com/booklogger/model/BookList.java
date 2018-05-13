@@ -11,6 +11,10 @@ public class BookList {
     String totalItems;
     List<BookItem> items;
 
+    public BookList() {
+
+    }
+
     public String getTotalItems () {
         return totalItems;
     }
