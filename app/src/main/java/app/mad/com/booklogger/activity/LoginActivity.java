@@ -1,4 +1,4 @@
-package app.mad.com.booklogger;
+package app.mad.com.booklogger.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -55,6 +55,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.activity.MainActivity;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -192,7 +193,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void updateUI(FirebaseUser user) {
 //        hideProgressDialog();
         if (user != null) {
-            Toast.makeText(this, "User not null", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
         } else {
             Toast.makeText(this, "User null", Toast.LENGTH_SHORT).show();
         }
@@ -208,7 +210,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void signOut() {
+    public void signOut() {
         // Firebase sign out
         mAuth.signOut();
 
