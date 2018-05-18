@@ -71,7 +71,7 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoView 
 
         String imageTransitionName = mIntent.getStringExtra(SearchActivity.TRANSITION_NAME);
         bookInfoImage.setTransitionName(imageTransitionName);
-        
+
         Picasso.get()
                 .load(mIntent.getStringExtra(SearchActivity.SEARCH_COVER))
                 .noFade()
