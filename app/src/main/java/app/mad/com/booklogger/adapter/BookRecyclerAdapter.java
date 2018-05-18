@@ -12,25 +12,22 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 import app.mad.com.booklogger.R;
-import app.mad.com.booklogger.model.Book;
 import app.mad.com.booklogger.model.BookList;
 
 /**
  * Created by Niren on 11/5/18.
  */
 
-public class SearchCoverRVAdapter extends RecyclerView.Adapter<SearchCoverRVAdapter.ViewHolder>{
+public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapter.ViewHolder>{
 
     private List<BookList.BookItem> mBookList;
     private Context mContext;
     private OnRowClickListener mListener;
 
-    public SearchCoverRVAdapter(List<BookList.BookItem> bookList, Context context) {
+    public BookRecyclerAdapter(List<BookList.BookItem> bookList, Context context) {
         this.mBookList = bookList;
         this.mContext = context;
     }
@@ -51,13 +48,13 @@ public class SearchCoverRVAdapter extends RecyclerView.Adapter<SearchCoverRVAdap
     }
 
     @Override
-    public SearchCoverRVAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BookRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_card, parent, false);
-        return new SearchCoverRVAdapter.ViewHolder(itemView);
+        return new BookRecyclerAdapter.ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final SearchCoverRVAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final BookRecyclerAdapter.ViewHolder holder, int position) {
         BookList.BookItem book = mBookList.get(position);
         holder.mBookTitle.setText(book.getVolumeInfo().getTitle());
         holder.mBookAuthors.setText(book.getVolumeInfo().getAuthors());

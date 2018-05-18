@@ -1,8 +1,7 @@
-package app.mad.com.booklogger.activity;
+package app.mad.com.booklogger.search;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -17,23 +16,23 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import app.mad.com.booklogger.R;
-import app.mad.com.booklogger.adapter.SearchCoverRVAdapter;
-import app.mad.com.booklogger.adapter.SearchCoverRVAdapter.OnRowClickListener;
+import app.mad.com.booklogger.bookinfo.BookInfoActivity;
+import app.mad.com.booklogger.home.HomeActivity;
+import app.mad.com.booklogger.adapter.BookRecyclerAdapter;
+import app.mad.com.booklogger.adapter.BookRecyclerAdapter.OnRowClickListener;
 import app.mad.com.booklogger.model.BookList;
 import app.mad.com.booklogger.repositories.GoogleBooksImpl;
-import app.mad.com.booklogger.service.GoogleBooksService;
 
 public class SearchActivity extends AppCompatActivity implements SearchActivityView {
 
     Context mContext;
     RecyclerView mRecyclerView;
-    SearchCoverRVAdapter mAdapter;
+    BookRecyclerAdapter mAdapter;
     List<BookList.BookItem> mBookItem = new ArrayList<>();
     ProgressBar progressBar;
     private SearchActivityPresenter mPresenter;
@@ -71,7 +70,7 @@ public class SearchActivity extends AppCompatActivity implements SearchActivityV
     public void displayBooks(List<BookList.BookItem> bookLists) {
         mBookItem.clear();
         mBookItem.addAll(bookLists);
-        mAdapter = new SearchCoverRVAdapter(mBookItem, mContext);
+        mAdapter = new BookRecyclerAdapter(mBookItem, mContext);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
         mAdapter.setOnRowClickListener(new OnRowClickListener() {
@@ -86,7 +85,7 @@ public class SearchActivity extends AppCompatActivity implements SearchActivityV
 
     @Override
     public void displayNoBooks() {
-        Log.d(MainActivity.TAG, "No books");
+        Log.d(HomeActivity.TAG, "No books");
     }
 
     @Override

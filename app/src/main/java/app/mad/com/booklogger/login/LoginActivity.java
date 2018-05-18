@@ -1,45 +1,21 @@
-package app.mad.com.booklogger.activity;
+package app.mad.com.booklogger.login;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -51,14 +27,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import app.mad.com.booklogger.R;
-import app.mad.com.booklogger.activity.MainActivity;
-
-import static android.Manifest.permission.READ_CONTACTS;
+import app.mad.com.booklogger.home.HomeActivity;
 
 /**
  * A login screen that offers login via email/password.
@@ -89,8 +59,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // Button listeners
         findViewById(R.id.button_google_sign_in).setOnClickListener(this);
-        findViewById(R.id.login_close_button).setOnClickListener(this);
-
 
         // [START config_signin]
         // Configure Google Sign In
@@ -193,7 +161,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void updateUI(FirebaseUser user) {
 //        hideProgressDialog();
         if (user != null) {
-            Intent i = new Intent(this, MainActivity.class);
+            Intent i = new Intent(this, HomeActivity.class);
             startActivity(i);
         } else {
             Toast.makeText(this, "User null", Toast.LENGTH_SHORT).show();
@@ -205,8 +173,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         int i = v.getId();
         if (i == R.id.button_google_sign_in) {
             signIn();
-        } else if (i == R.id.login_close_button) {
-            signOut();
         }
     }
 

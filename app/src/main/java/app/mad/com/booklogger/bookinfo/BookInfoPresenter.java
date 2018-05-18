@@ -1,4 +1,4 @@
-package app.mad.com.booklogger.activity;
+package app.mad.com.booklogger.bookinfo;
 
 /**
  * Created by Niren on 13/5/18.

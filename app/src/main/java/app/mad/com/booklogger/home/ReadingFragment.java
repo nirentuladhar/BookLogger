@@ -1,4 +1,4 @@
-package app.mad.com.booklogger.fragment;
+package app.mad.com.booklogger.home;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

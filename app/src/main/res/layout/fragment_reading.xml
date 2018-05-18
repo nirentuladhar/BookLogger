@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="app.mad.com.booklogger.fragment.ReadingFragment">
+    tools:context="app.mad.com.booklogger.home.ReadingFragment">
 
 
     <android.support.v7.widget.RecyclerView

@@ -1,19 +1,18 @@
-package app.mad.com.booklogger.activity;
+package app.mad.com.booklogger.bookinfo;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import app.mad.com.booklogger.R;
+import app.mad.com.booklogger.search.SearchActivity;
 
 public class BookInfoActivity extends AppCompatActivity implements BookInfoView {
 

@@ -1,4 +1,4 @@
-package app.mad.com.booklogger.activity;
+package app.mad.com.booklogger.search;
 
 import app.mad.com.booklogger.model.BookList;
 import app.mad.com.booklogger.service.GoogleBooksService;
