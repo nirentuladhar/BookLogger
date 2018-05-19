@@ -8,12 +8,10 @@ import java.util.List;
  */
 
 public class BookList {
-    String totalItems;
-    List<BookItem> items;
+    private String totalItems;
+    private List<BookItem> items;
 
-    public BookList() {
-
-    }
+    public BookList() {}
 
     public String getTotalItems () {
         return totalItems;
@@ -21,7 +19,6 @@ public class BookList {
     public List<BookItem> getItems () {
         return items;
     }
-
 
     public class BookItem {
         String id;
@@ -35,8 +32,6 @@ public class BookList {
         }
     }
 
-
-
     public class VolumeInfo {
         String title;
         List<String> authors;
@@ -49,6 +44,7 @@ public class BookList {
         public String getTitle() {
             return title;
         }
+
         public String getAuthors() {
             String author = "";
             if (authors != null) {
@@ -60,18 +56,23 @@ public class BookList {
             }
             return author;
         }
+
         public String getDescription() {
             return description;
         }
+
         public int getPageCount() {
             return pageCount;
         }
+
         public float getAverageRating() {
             return averageRating;
         }
+
         public int getRatingsCount() {
             return ratingsCount;
         }
+
         public String getThumbnail() {
             if (imageLinks != null) {
                 String image = null;

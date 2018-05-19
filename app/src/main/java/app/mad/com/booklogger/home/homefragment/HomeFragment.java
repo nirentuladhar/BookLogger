@@ -1,4 +1,4 @@
-package app.mad.com.booklogger.home;
+package app.mad.com.booklogger.home.homefragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +29,15 @@ import app.mad.com.booklogger.model.Book;
  */
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements HomeFragmentView {
+
+    private static final String TAG = "BOOK_LOGGER " + HomeFragment.class.getSimpleName();
+
 
     private RecyclerView mRecyclerView;
     private CoverRVAdapter mAdapter;
     private ArrayList<Book> mBookArrayList = new ArrayList<>();
+    HomeFragmentPresenter mPresenter;
 
     public HomeFragment() {}
 
@@ -40,6 +45,12 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fetchBooks();
+
+        mPresenter = new HomeFragmentPresenter();
+        mPresenter.bind(this);
+
+
+
     }
 
     @Override
@@ -59,14 +70,20 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
+    @Override
+    public void onDestroy() {
+        mPresenter.unbind();
+        super.onDestroy();
+    }
+
     /**
      * Loads items from the firebase database
      * from the root 'books'
      */
     public void fetchBooks() {
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference booksRef = database.getReference("reading").child(FirebaseAuth.getInstance().getUid());
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        final DatabaseReference booksRef = database.getReference("reading").child(mAuth.getUid());
 
         booksRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -74,7 +91,8 @@ public class HomeFragment extends Fragment {
                 int index = 0;
                 for(DataSnapshot snap: dataSnapshot.getChildren()) {
                     Book book = snap.getValue(Book.class);
-                    mBookArrayList.add(new Book(book.getTitle(), book.getAuthor(), book.getImagePath()));
+                    Log.i(TAG, "Book added");
+                    mBookArrayList.add(new Book(book.getTitle(), book.getAuthors(), book.getImagePath()));
                     mAdapter.notifyItemInserted(index + 1);
                     index++;
                 }
@@ -85,6 +103,7 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
     }
 
 }

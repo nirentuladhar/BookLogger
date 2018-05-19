@@ -22,5 +22,6 @@
         completions."
     </string>
     <string name="sign_out">Sign Out</string>
+    <string name="appNameID">BOOK_LOGGER</string>
 
 </resources>

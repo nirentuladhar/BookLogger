@@ -1,4 +1,4 @@
-package app.mad.com.booklogger.repositories;
+package app.mad.com.booklogger.utils;
 
 import app.mad.com.booklogger.model.BookList;
 import app.mad.com.booklogger.service.GoogleBooksService;

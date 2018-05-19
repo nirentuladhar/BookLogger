@@ -1,4 +1,4 @@
-package app.mad.com.booklogger.home;
+package app.mad.com.booklogger.home.homefragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,8 @@ import app.mad.com.booklogger.model.Book;
 
 public class ReadingFragment extends Fragment{
 
+    private static final String TAG = "BOOK_LOGGER " + ReadingFragment.class.getSimpleName();
+
     private RecyclerView mRecyclerView;
     private CoverRVAdapter mAdapter;
     private ArrayList<Book> mBookArrayList = new ArrayList<>();
@@ -38,6 +41,7 @@ public class ReadingFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fetchBooks();
+        Log.i(TAG, "Reading fragment onCreate");
     }
 
     @Override
@@ -71,7 +75,7 @@ public class ReadingFragment extends Fragment{
                 int index = 0;
                 for(DataSnapshot snap: dataSnapshot.getChildren()) {
                     Book book = snap.getValue(Book.class);
-                    mBookArrayList.add(new Book(book.getTitle(), book.getAuthor(), book.getImagePath()));
+                    mBookArrayList.add(new Book(book.getTitle(), book.getAuthors(), book.getImagePath()));
                     mAdapter.notifyItemInserted(index + 1);
                     index++;
                 }

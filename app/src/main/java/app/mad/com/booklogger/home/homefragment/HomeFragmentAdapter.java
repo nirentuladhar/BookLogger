@@ -1,4 +1,4 @@
-package app.mad.com.booklogger.home;
+package app.mad.com.booklogger.home.homefragment;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,12 +12,12 @@ import java.util.List;
  * Created by Niren on 18/5/18.
  */
 
-public class HomePagerAdapter extends FragmentPagerAdapter {
+public class HomeFragmentAdapter extends FragmentPagerAdapter {
 
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
 
-    public HomePagerAdapter(FragmentManager fm) {
+    public HomeFragmentAdapter(FragmentManager fm) {
         super(fm);
     }
 

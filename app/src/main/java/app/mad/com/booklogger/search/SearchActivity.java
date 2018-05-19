@@ -26,7 +26,7 @@ import app.mad.com.booklogger.home.HomeActivity;
 import app.mad.com.booklogger.adapter.BookRecyclerAdapter;
 import app.mad.com.booklogger.adapter.BookRecyclerAdapter.OnRowClickListener;
 import app.mad.com.booklogger.model.BookList;
-import app.mad.com.booklogger.repositories.GoogleBooksImpl;
+import app.mad.com.booklogger.utils.GoogleBooksImpl;
 
 public class SearchActivity extends AppCompatActivity implements SearchActivityView {
 
@@ -37,10 +37,16 @@ public class SearchActivity extends AppCompatActivity implements SearchActivityV
     ProgressBar progressBar;
     private SearchActivityPresenter mPresenter;
 
+    public static final String SEARCH_ID = "id";
     public static final String SEARCH_TITLE = "title";
     public static final String SEARCH_AUTHORS = "authors";
     public static final String SEARCH_COVER = "cover";
     public static final String SEARCH_DESCRIPTION = "description";
+
+    public static final String SEARCH_PAGE_COUNT = "page_count";
+    public static final String SEARCH_AVERAGE_RATING = "average_rating";
+    public static final String SEARCH_RATINGS_COUNT = "ratings_count";
+
     public static final String TRANSITION_NAME = "transitionSearchToBookInfo";
 
 
@@ -91,10 +97,15 @@ public class SearchActivity extends AppCompatActivity implements SearchActivityV
     @Override
     public void displayBookInfo(BookList.BookItem bookItem, ImageView cover) {
         Intent intent = new Intent(getApplicationContext(), BookInfoActivity.class);
+
+        intent.putExtra(SEARCH_ID, bookItem.getId());
         intent.putExtra(SEARCH_TITLE, bookItem.getVolumeInfo().getTitle());
         intent.putExtra(SEARCH_AUTHORS, bookItem.getVolumeInfo().getAuthors());
         intent.putExtra(SEARCH_COVER, bookItem.getVolumeInfo().getThumbnail());
         intent.putExtra(SEARCH_DESCRIPTION, bookItem.getVolumeInfo().getDescription());
+        intent.putExtra(SEARCH_PAGE_COUNT, bookItem.getVolumeInfo().getPageCount());
+        intent.putExtra(SEARCH_AVERAGE_RATING, bookItem.getVolumeInfo().getAverageRating());
+        intent.putExtra(SEARCH_RATINGS_COUNT, bookItem.getVolumeInfo().getRatingsCount());
 
         intent.putExtra(TRANSITION_NAME, ViewCompat.getTransitionName(cover));
 
@@ -165,4 +176,6 @@ public class SearchActivity extends AppCompatActivity implements SearchActivityV
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 3);
         mRecyclerView.setLayoutManager(layoutManager);
     }
+
+
 }

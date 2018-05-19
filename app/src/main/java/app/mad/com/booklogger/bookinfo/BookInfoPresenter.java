@@ -1,10 +1,15 @@
 package app.mad.com.booklogger.bookinfo;
 
+import app.mad.com.booklogger.model.Book;
+import app.mad.com.booklogger.utils.FirebaseHelper;
+
 /**
  * Created by Niren on 13/5/18.
  */
 
 public class BookInfoPresenter {
+
+    private static final String TAG = "BOOK_LOGGER " + BookInfoPresenter.class.getSimpleName();
 
     BookInfoView mView;
 
@@ -24,6 +29,8 @@ public class BookInfoPresenter {
         this.mView = null;
     }
 
-    public void addToRead() {
+    public void addBook(Book book) {
+        FirebaseHelper firebaseHelper = new FirebaseHelper();
+        firebaseHelper.addBook("toread", book);
     }
 }

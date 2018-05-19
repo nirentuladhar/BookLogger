@@ -3,7 +3,6 @@ package app.mad.com.booklogger.bookinfo;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +11,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import app.mad.com.booklogger.R;
+import app.mad.com.booklogger.model.Book;
 import app.mad.com.booklogger.search.SearchActivity;
 
 public class BookInfoActivity extends AppCompatActivity implements BookInfoView {
@@ -22,6 +22,18 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoView 
     TextView bookInfoAuthors;
     TextView bookInfoDescription;
     ImageView bookInfoImage;
+
+    Book book;
+
+    String mId;
+    String mTitle;
+    String mAuthors;
+    String mImagePath;
+    String mDescription;
+    String mPageCount;
+    String mAverageRating;
+    String mRatingsCount;
+
     Button mToRead;
     Intent mIntent;
 
@@ -40,15 +52,8 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoView 
         mPresenter.bind(this);
         mPresenter.loadBook();
 
-        mToRead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.addToRead();
-            }
-        });
 
-
-
+        mToRead.setOnClickListener(v -> mPresenter.addBook(book));
     }
 
     @Override
@@ -63,10 +68,29 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoView 
 
         mIntent = getIntent();
 
-        bookInfoTitle.setText(mIntent.getStringExtra(SearchActivity.SEARCH_TITLE));
-        bookInfoDescription.setText(mIntent.getStringExtra(SearchActivity.SEARCH_DESCRIPTION));
-        bookInfoAuthors.setText(mIntent.getStringExtra(SearchActivity.SEARCH_AUTHORS));
+        mId = mIntent.getStringExtra(SearchActivity.SEARCH_ID);
+        mTitle = mIntent.getStringExtra(SearchActivity.SEARCH_TITLE);
+        mDescription = mIntent.getStringExtra(SearchActivity.SEARCH_DESCRIPTION);
+        mAuthors = mIntent.getStringExtra(SearchActivity.SEARCH_AUTHORS);
+        mImagePath = mIntent.getStringExtra(SearchActivity.SEARCH_COVER);
+        mPageCount = mIntent.getStringExtra(SearchActivity.SEARCH_PAGE_COUNT);
+        mAverageRating = mIntent.getStringExtra(SearchActivity.SEARCH_AVERAGE_RATING);
+        mRatingsCount = mIntent.getStringExtra(SearchActivity.SEARCH_RATINGS_COUNT);
 
+        book = new Book();
+
+        book.setId(mId);
+        book.setTitle(mTitle);
+        book.setDescription(mDescription);
+        book.setAuthors(mAuthors);
+        book.setImagePath(mImagePath);
+        book.setPageCount(mPageCount);
+        book.setAverageRating(mAverageRating);
+        book.setRatingsCount(mRatingsCount);
+
+        bookInfoTitle.setText(mTitle);
+        bookInfoAuthors.setText(mAuthors);
+        bookInfoDescription.setText(mDescription);
 
         String imageTransitionName = mIntent.getStringExtra(SearchActivity.TRANSITION_NAME);
         bookInfoImage.setTransitionName(imageTransitionName);
