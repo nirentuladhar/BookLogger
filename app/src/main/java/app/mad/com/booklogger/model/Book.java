@@ -1,7 +1,5 @@
 package app.mad.com.booklogger.model;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by Niren on 4/5/18.
  */
@@ -9,100 +7,45 @@ import com.google.gson.annotations.SerializedName;
 public class Book {
 
     private String mId;
+    private String mTitle;
+    private String mAuthors;
+    private String mDescription;
+    private String mPageCount;
+    private String mAverageRating;
+    private String mRatingsCount;
 
-    @SerializedName("title")
-    String mTitle;
-    private String mAuthor;
     private String mImagePath;
-    private String mSynopsis;
 
     private String mNotes;
-    private int mRating = 0;
-
-    private boolean mIsReading = false;
-    private boolean mToRead = true;
-    private boolean mHasCompleted =false;
+    private String mUserRating = "0";
 
     private String mDateModified;
     private String mDateAdded;
 
 
-    public Book(){
-    }
+    public Book(){}
 
-    public Book(String title, String author, String imagePath) {
+    public Book(String title, String authors, String imagePath) {
         mTitle = title;
-        mAuthor = author;
+        mAuthors = authors;
         mImagePath = imagePath;
     }
 
-    public Book(String id, String title, String author, String imagePath, String synopsis,
-                String notes, int rating,
-                boolean isReading, boolean toRead, boolean hasCompleted,
-                String dateModified, String dateAdded) {
+    public Book(String id, String title, String authors, String imagePath, String description,
+                String pageCount, String averageRating, String ratingsCount,
+                String notes, String userRating) {
         mId = id;
         mTitle = title;
-        mAuthor = author;
+        mAuthors = authors;
+        mDescription = description;
+        mPageCount = pageCount;
+        mAverageRating = averageRating;
+        mRatingsCount = ratingsCount;
+
         mImagePath = imagePath;
-        mSynopsis = synopsis;
 
         mNotes = notes;
-        mRating = rating;
-
-        mIsReading = isReading;
-        mToRead = toRead;
-        mHasCompleted = hasCompleted;
-
-        mDateModified = dateModified;
-        mDateAdded = dateAdded;
-    }
-
-    public String getAuthor() {
-        return mAuthor;
-    }
-
-    public void setAuthor(String author) {
-        this.mAuthor = author;
-    }
-
-    public String getTitle() {
-        return mTitle;
-    }
-
-    public void setTitle(String title) {
-        this.mTitle = title;
-    }
-
-    public String getImagePath() {
-        return mImagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        mImagePath = imagePath;
-    }
-
-    public int getRating() {
-        return mRating;
-    }
-
-    public void setRating(int rating) {
-        mRating = rating;
-    }
-
-    public String getNotes() {
-        return mNotes;
-    }
-
-    public void setNotes(String notes) {
-        mNotes = notes;
-    }
-
-    public String getSynopsis() {
-        return mSynopsis;
-    }
-
-    public void setSynopsis(String synopsis) {
-        mSynopsis = synopsis;
+        mUserRating = userRating;
     }
 
     public String getId() {
@@ -113,28 +56,76 @@ public class Book {
         mId = id;
     }
 
-    public boolean isReading() {
-        return mIsReading;
+    public String getTitle() {
+        return mTitle;
     }
 
-    public void setReading(boolean reading) {
-        mIsReading = reading;
+    public void setTitle(String title) {
+        mTitle = title;
     }
 
-    public boolean isToRead() {
-        return mToRead;
+    public String getAuthors() {
+        return mAuthors;
     }
 
-    public void setToRead(boolean toRead) {
-        mToRead = toRead;
+    public void setAuthors(String authors) {
+        mAuthors = authors;
     }
 
-    public boolean isHasCompleted() {
-        return mHasCompleted;
+    public String getDescription() {
+        return mDescription;
     }
 
-    public void setHasCompleted(boolean hasCompleted) {
-        mHasCompleted = hasCompleted;
+    public void setDescription(String description) {
+        mDescription = description;
+    }
+
+    public String getPageCount() {
+        return mPageCount;
+    }
+
+    public void setPageCount(String pageCount) {
+        mPageCount = pageCount;
+    }
+
+    public String getAverageRating() {
+        return mAverageRating;
+    }
+
+    public void setAverageRating(String averageRating) {
+        mAverageRating = averageRating;
+    }
+
+    public String getRatingsCount() {
+        return mRatingsCount;
+    }
+
+    public void setRatingsCount(String ratingsCount) {
+        mRatingsCount = ratingsCount;
+    }
+
+    public String getImagePath() {
+        return mImagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        mImagePath = imagePath;
+    }
+
+    public String getNotes() {
+        return mNotes;
+    }
+
+    public void setNotes(String notes) {
+        mNotes = notes;
+    }
+
+    public String getUserRating() {
+        return mUserRating;
+    }
+
+    public void setUserRating(String userRating) {
+        mUserRating = userRating;
     }
 
     public String getDateModified() {

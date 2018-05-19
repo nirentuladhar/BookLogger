@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -62,7 +63,7 @@ public class ReadingFragment extends Fragment{
      */
     public void fetchBooks() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference booksRef = database.getReference("books");
+        final DatabaseReference booksRef = database.getReference("reading").child(FirebaseAuth.getInstance().getUid());
 
         booksRef.addValueEventListener(new ValueEventListener() {
             @Override
