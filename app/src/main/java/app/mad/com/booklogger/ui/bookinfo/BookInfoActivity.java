@@ -37,6 +37,7 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
     Button mToRead;
     Button mCompleted;
     Button mReading;
+    ImageView mCloseButton;
     Intent mIntent;
 
     @Override
@@ -51,6 +52,7 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
         mToRead = findViewById(R.id.button_to_read);
         mCompleted = findViewById(R.id.button_completed);
         mReading = findViewById(R.id.button_reading);
+        mCloseButton = findViewById(R.id.button_close);
 
         mPresenter = new BookInfoPresenter();
         mPresenter.bind(this);
@@ -59,6 +61,7 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
         mToRead.setOnClickListener(v -> mPresenter.addBookToRead(book));
         mCompleted.setOnClickListener(v -> mPresenter.addBookToCompleted(book));
         mReading.setOnClickListener(v -> mPresenter.addBookToReading(book));
+        mCloseButton.setOnClickListener(v -> finish());
     }
 
     @Override
@@ -71,8 +74,8 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
     public void displayBookInfo() {
         supportPostponeEnterTransition();
 
+        // get book info from google books
         mIntent = getIntent();
-
         mId = mIntent.getStringExtra(SearchActivity.SEARCH_ID);
         mTitle = mIntent.getStringExtra(SearchActivity.SEARCH_TITLE);
         mDescription = mIntent.getStringExtra(SearchActivity.SEARCH_DESCRIPTION);
@@ -82,8 +85,8 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
         mAverageRating = mIntent.getStringExtra(SearchActivity.SEARCH_AVERAGE_RATING);
         mRatingsCount = mIntent.getStringExtra(SearchActivity.SEARCH_RATINGS_COUNT);
 
+        // create new book object
         book = new Book();
-
         book.setId(mId);
         book.setTitle(mTitle);
         book.setDescription(mDescription);
@@ -116,4 +119,6 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
                 });
 
     }
+
+
 }
