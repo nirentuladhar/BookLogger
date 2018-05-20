@@ -1,7 +1,5 @@
 package app.mad.com.booklogger.utils;
 
-import android.util.Log;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -11,7 +9,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import app.mad.com.booklogger.adapter.CoverRVAdapter;
 import app.mad.com.booklogger.model.Book;
 
 /**
