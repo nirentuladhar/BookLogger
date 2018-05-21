@@ -9,6 +9,7 @@ import app.mad.com.booklogger.model.Book;
 public interface BookInfoContract {
 
     interface View {
+        Book getCurrentBook();
         void displayBookInfo();
     }
 
@@ -17,9 +18,9 @@ public interface BookInfoContract {
         void unbind();
 
         void loadBook();
-        void addBookToRead(Book book);
-        void addBookToCompleted(Book book);
-        void addBookToReading(Book book);
+        void addBookToRead();
+        void addBookToCompleted();
+        void addBookToReading();
     }
 
 }

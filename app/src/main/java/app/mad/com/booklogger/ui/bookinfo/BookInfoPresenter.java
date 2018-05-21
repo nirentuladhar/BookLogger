@@ -11,14 +11,17 @@ public class BookInfoPresenter implements BookInfoContract.Presenter {
 
     private static final String TAG = "BOOK_LOGGER " + BookInfoPresenter.class.getSimpleName();
 
-    BookInfoContract.View mView;
-    FirebaseHelper mFirebaseHelper;
+    private BookInfoContract.View mView;
+    private FirebaseHelper mFirebaseHelper;
+    private Book mBook;
+
 
     BookInfoPresenter(){
         mFirebaseHelper = new FirebaseHelper();
     }
 
     public void loadBook() {
+        mBook = mView.getCurrentBook();
         mView.displayBookInfo();
     }
 
@@ -30,15 +33,15 @@ public class BookInfoPresenter implements BookInfoContract.Presenter {
         this.mView = null;
     }
 
-    public void addBookToRead(Book book) {
-        mFirebaseHelper.addBook("toread", book);
+    public void addBookToRead() {
+        mFirebaseHelper.addBook("toread", mBook);
     }
 
-    public void addBookToCompleted(Book book) {
-        mFirebaseHelper.addBook("completed", book);
+    public void addBookToCompleted() {
+        mFirebaseHelper.addBook("completed", mBook);
     }
 
-    public void addBookToReading(Book book) {
-        mFirebaseHelper.addBook("reading", book);
+    public void addBookToReading() {
+        mFirebaseHelper.addBook("reading", mBook);
     }
 }
