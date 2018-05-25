@@ -31,5 +31,9 @@
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
 
+    <style name="PrimaryButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:colorAccent">@color/colorAccent</item>
+    </style>
+
 
 </resources>

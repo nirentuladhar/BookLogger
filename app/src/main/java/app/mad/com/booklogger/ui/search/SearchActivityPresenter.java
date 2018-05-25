@@ -27,8 +27,8 @@ public class SearchActivityPresenter implements SearchActivityContract.Presenter
         this.mView = null;
     }
 
-    public void loadBooks(String userInput) {
-        mGoogleBooksApi.getBooks(userInput)
+    public void loadBooks() {
+        mGoogleBooksApi.getBooks(mView.getQuery())
                 .enqueue(new Callback<BookList>() {
                     @Override
                     public void onResponse(Call<BookList> call, Response<BookList> response) {

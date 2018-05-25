@@ -1,5 +1,7 @@
 package app.mad.com.booklogger.ui.login;
 
+import android.widget.TextView;
+
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
@@ -11,16 +13,21 @@ import com.google.firebase.auth.FirebaseUser;
 public interface LoginContract {
 
     interface View {
+        String getEmail();
+        String getPassword();
         void showLoginSuccess();
-        void showLoginError();
+        void showLoginError(String errorMessage);
     }
 
     interface Presenter {
         void bind(LoginContract.View view);
         void unbind();
 
-        void signIn();
-        void firebaseAuthWithGoogle(Task<GoogleSignInAccount> task);
+        void loginGoogle();
+        void loginEmail();
+
+        void firebaseAuthWithGoogle(GoogleSignInAccount account);
+
     }
 
 }

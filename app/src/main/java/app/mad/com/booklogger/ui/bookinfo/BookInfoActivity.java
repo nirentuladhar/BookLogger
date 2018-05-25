@@ -224,7 +224,7 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
                     break;
             }
         });
-        
+
 
         /**
          * todo make the views constant

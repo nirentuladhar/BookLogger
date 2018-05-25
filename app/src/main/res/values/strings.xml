@@ -23,5 +23,6 @@
     </string>
     <string name="sign_out">Sign Out</string>
     <string name="appNameID">BOOK_LOGGER</string>
+    <string name="generic_error">Something went wrong :(</string>
 
 </resources>

@@ -4,27 +4,39 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.SignInButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 import app.mad.com.booklogger.R;
+import app.mad.com.booklogger.ui.signup.SignUpActivity;
 import app.mad.com.booklogger.ui.home.HomeActivity;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginContract.View {
+public class LoginActivity extends AppCompatActivity implements LoginContract.View {
 
 
     private static final String TAG = "Login";
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     private LoginContract.Presenter mPresenter;
+    TextView mEmail;
+    TextView mPassword;
+    Button mLoginButton;
+
+    Button mGoToSignUpButton;
+    SignInButton mSignInGoogleButton;
 
     public static int RC_SIGN_IN = 1234;
 
@@ -38,24 +50,42 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mPresenter = new LoginPresenter(mAuth);
         mPresenter.bind(this);
 
-        // Button listeners
-        findViewById(R.id.button_google_sign_in).setOnClickListener(this);
 
+        mLoginButton = findViewById(R.id.email_sign_in_button);
+        mEmail = findViewById(R.id.email);
+        mPassword = findViewById(R.id.password);
+        mGoToSignUpButton = findViewById(R.id.goto_sign_up_button);
+        mSignInGoogleButton = findViewById(R.id.button_google_sign_in);
+
+        mSignInGoogleButton.setOnClickListener(v -> {
+            signInWithGoogle();
+        });
+
+        mLoginButton.setOnClickListener(v -> {
+            mPresenter.loginEmail();
+        });
+
+        mGoToSignUpButton.setOnClickListener(v -> {
+            Intent i = new Intent(this, SignUpActivity.class);
+            startActivity(i);
+        });
+
+        setGoogleClient();
+    }
+
+    private void setGoogleClient() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-
     }
+
 
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        mPresenter.signIn();
+        mPresenter.loginGoogle();
     }
 
     @Override
@@ -64,7 +94,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mPresenter.unbind();
     }
 
-    private void signIn() {
+    private void signInWithGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -76,18 +106,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
 
         if (requestCode == RC_SIGN_IN) {
-            mPresenter.firebaseAuthWithGoogle(GoogleSignIn.getSignedInAccountFromIntent(data));
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if (result.isSuccess()) {
+                GoogleSignInAccount account = result.getSignInAccount();
+                mPresenter.firebaseAuthWithGoogle(account);
+            }
         }
+    }
+
+
+    @Override
+    public String getEmail() {
+        return mEmail.getText().toString().trim();
     }
 
     @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.button_google_sign_in) {
-            signIn();
-        }
+    public String getPassword() {
+        return mPassword.getText().toString().trim();
     }
-
 
     @Override
     public void showLoginSuccess() {
@@ -96,8 +132,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void showLoginError() {
-        Toast.makeText(this, "User null", Toast.LENGTH_SHORT).show();
+    public void showLoginError(String errorMessage) {
+        if (errorMessage == null) errorMessage = getString(R.string.generic_error);
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 }
 

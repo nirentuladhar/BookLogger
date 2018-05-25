@@ -12,6 +12,7 @@ import app.mad.com.booklogger.model.BookList;
 
 public interface SearchActivityContract {
     interface View {
+        String getQuery();
         void displayBooks(List<BookList.BookItem> bookLists);
         void displayNoBooks();
         void displayBookInfo(BookList.BookItem bookItem, ImageView cover);
@@ -21,7 +22,7 @@ public interface SearchActivityContract {
         void bind(SearchActivityContract.View view);
         void unbind();
 
-        void loadBooks(String userInput);
+        void loadBooks();
     }
 
 }

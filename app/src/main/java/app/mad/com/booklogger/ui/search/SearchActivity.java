@@ -35,6 +35,7 @@ public class SearchActivity extends AppCompatActivity implements SearchActivityC
     List<BookList.BookItem> mBookItem = new ArrayList<>();
     ProgressBar progressBar;
     private SearchActivityContract.Presenter mPresenter;
+    String mQuery;
 
     public static final String SEARCH_ID = "id";
     public static final String SEARCH_TITLE = "title";
@@ -70,6 +71,10 @@ public class SearchActivity extends AppCompatActivity implements SearchActivityC
     }
 
 
+    @Override
+    public String getQuery() {
+        return mQuery;
+    }
 
     @Override
     public void displayBooks(List<BookList.BookItem> bookLists) {
@@ -126,8 +131,9 @@ public class SearchActivity extends AppCompatActivity implements SearchActivityC
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                mQuery = query;
                 progressBar.setVisibility(View.VISIBLE);
-                mPresenter.loadBooks(query);
+                mPresenter.loadBooks();
                 return false;
             }
 
@@ -137,6 +143,7 @@ public class SearchActivity extends AppCompatActivity implements SearchActivityC
             }
         });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
