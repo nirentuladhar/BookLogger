@@ -1,4 +1,4 @@
-package app.mad.com.booklogger.ui.home.homefragment;
+package app.mad.com.booklogger.ui.home.completed;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,29 +19,43 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.ui.home.CoverRVAdapter;
 import app.mad.com.booklogger.model.Book;
+import app.mad.com.booklogger.ui.home.toread.BookRecyclerAdapter;
 
 
-public class ReadingFragment extends Fragment{
+public class CompletedFragment extends Fragment implements CompletedContract.View {
 
-    private static final String TAG = "BOOK_LOGGER " + ReadingFragment.class.getSimpleName();
+    private static final String TAG = "BOOK_LOGGER " + CompletedFragment.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
-    private CoverRVAdapter mAdapter;
-    private ArrayList<Book> mBookArrayList = new ArrayList<>();
+    private BookRecyclerAdapter mAdapter;
+    private List<Book> mBookArrayList = new ArrayList<>();
 
-    public ReadingFragment() {
+    private CompletedContract.Presenter mPresenter;
+
+    public CompletedFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fetchBooks();
-        Log.i(TAG, "Reading fragment onCreate");
+
+        mPresenter = new CompletedPresenter();
+        mPresenter.bind(this);
+
+        Log.i(TAG, "Completed fragment onCreate");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.unbind();
     }
 
     @Override
@@ -56,37 +70,14 @@ public class ReadingFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new CoverRVAdapter(mBookArrayList, getActivity());
+        mAdapter = new BookRecyclerAdapter(mBookArrayList);
         mRecyclerView.setAdapter(mAdapter);
+        mPresenter.loadBooks(mAdapter);
+        Log.d("BOOK_LOGGER", "hello from comp");
+
         super.onViewCreated(view, savedInstanceState);
     }
 
-    /**
-     * Loads items from the firebase database
-     * from the root 'books'
-     */
-    public void fetchBooks() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference booksRef = database.getReference("reading").child(FirebaseAuth.getInstance().getUid());
 
-        booksRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                int index = 1;
-                mBookArrayList.clear();
-                for(DataSnapshot snap: dataSnapshot.getChildren()) {
-                    Book book = snap.getValue(Book.class);
-                    mBookArrayList.add(new Book(book.getTitle(), book.getAuthors(), book.getImagePath()));
-                    mAdapter.notifyItemInserted(index);
-                    index++;
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 
 }

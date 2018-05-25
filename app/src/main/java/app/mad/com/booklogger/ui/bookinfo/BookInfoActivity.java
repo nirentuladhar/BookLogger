@@ -1,9 +1,12 @@
 package app.mad.com.booklogger.ui.bookinfo;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -15,18 +18,23 @@ import com.squareup.picasso.Picasso;
 
 import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.model.Book;
+import app.mad.com.booklogger.ui.home.HomeActivity;
+import app.mad.com.booklogger.ui.home.toread.ToReadFragment;
 import app.mad.com.booklogger.ui.search.SearchActivity;
 
 public class BookInfoActivity extends AppCompatActivity implements BookInfoContract.View {
 
     public static final String TAG = "BOOK_LOGGER BIA";
-    BookInfoPresenter mPresenter;
+    BookInfoContract.Presenter mPresenter;
 
     TextView bookInfoTitle;
     TextView bookInfoAuthors;
     TextView bookInfoDescription;
     ImageView bookInfoImage;
-
+    TextView bookInfoRatingsCount;
+    TextView bookInfoMetadata;
+    RatingBar mbookInfoAvgRating;
+    RatingBar mUserRating;
     Book book;
 
     String mId;
@@ -38,14 +46,15 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
     String mAverageRating;
     String mRatingsCount;
 
-    Button mToRead;
     Button mCompleted;
     Button mReading;
-    ImageView mCloseButton;
     Button mAddToRead;
+    ImageView mCloseButton;
     Intent mIntent;
 
-    RatingBar mAvgRating;
+    String mCurrentView = "";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,14 +80,49 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
     public void displayBookInfo() {
         supportPostponeEnterTransition();
         if (book != null) {
+
+            // sets book metadata to the view from the given intent
             bookInfoTitle.setText(book.getTitle());
             bookInfoAuthors.setText(book.getAuthors());
             bookInfoDescription.setText(book.getDescription());
-            mAvgRating.setRating(Float.valueOf(book.getAverageRating()));
+            if (!book.getAverageRating().equals("null")) {
+                mbookInfoAvgRating.setRating(Float.valueOf(book.getAverageRating()));
+            }
+            if (!book.getPageCount().equals(null)) {
+                bookInfoMetadata.setText(book.getPageCount() + " pages");
+            } else {
+                bookInfoMetadata.setVisibility(View.GONE);
+            }
+            if (!book.getRatingsCount().equals(null)) {
+                bookInfoRatingsCount.setText("(" + book.getRatingsCount() + ")");
+            } else {
+                bookInfoRatingsCount.setVisibility(View.GONE);
+            }
+            /**
+             * todo add the literal string to the xml file
+             */
 
+
+            // image transition animation
             String imageTransitionName = mIntent.getStringExtra(SearchActivity.TRANSITION_NAME);
             bookInfoImage.setTransitionName(imageTransitionName);
 
+
+            // checks what the current view is
+            // and selects the button
+            switch (mCurrentView) {
+                case "toread":
+                    mAddToRead.setSelected(true);
+                    break;
+                case "reading":
+                    mReading.setSelected(true);
+                    break;
+                case "completed":
+                    mCompleted.setSelected(true);
+                    break;
+            }
+
+            // download image with the supplied link
             Picasso.get()
                     .load(mIntent.getStringExtra(SearchActivity.SEARCH_COVER))
                     .noFade()
@@ -100,6 +144,13 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
     }
 
     @Override
+    public void closeActivity() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public Book getCurrentBook() {
 
         // get book info from google books
@@ -112,6 +163,9 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
         mPageCount = mIntent.getStringExtra(SearchActivity.SEARCH_PAGE_COUNT);
         mAverageRating = mIntent.getStringExtra(SearchActivity.SEARCH_AVERAGE_RATING);
         mRatingsCount = mIntent.getStringExtra(SearchActivity.SEARCH_RATINGS_COUNT);
+
+        if (mIntent.getStringExtra(ToReadFragment.SEARCH_REF) != null)
+            mCurrentView = mIntent.getStringExtra(ToReadFragment.SEARCH_REF);
 
         // create new book object
         book = new Book();
@@ -132,27 +186,92 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
         bookInfoAuthors = findViewById(R.id.book_info_authors_textview);
         bookInfoDescription = findViewById(R.id.book_info_description_textview);
         bookInfoImage = findViewById(R.id.book_info_cover_imageview);
-        mToRead = findViewById(R.id.button_to_read);
-        mCompleted = findViewById(R.id.button_completed);
-        mReading = findViewById(R.id.button_reading);
-        mCloseButton = findViewById(R.id.button_close);
+        bookInfoRatingsCount = findViewById(R.id.book_info_ratings_count);
+        bookInfoMetadata = findViewById(R.id.book_info_metadata_textview);
+        mUserRating = findViewById(R.id.ratingbar_user);
+
+
+        mCompleted = findViewById(R.id.button_add_completed);
+        mReading = findViewById(R.id.button_add_reading);
         mAddToRead = findViewById(R.id.button_add_to_read);
-        mAvgRating = findViewById(R.id.ratingbar_average);
+
+        mCloseButton = findViewById(R.id.button_close);
+        mbookInfoAvgRating = findViewById(R.id.ratingbar_average);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     void setClickListeners() {
-        mToRead.setOnClickListener(v -> mPresenter.addBookToRead());
-        mCompleted.setOnClickListener(v -> mPresenter.addBookToCompleted());
-        mReading.setOnClickListener(v -> mPresenter.addBookToReading());
-        mCloseButton.setOnClickListener(v -> finish());
+        mCompleted.setOnClickListener(v -> {
+            v.setSelected(!v.isSelected());
+            if (v.isSelected()) {
+                mPresenter.addBook("completed");
+            } else {
+                mPresenter.removeBook("completed");
+            }
+        });
+
+        mReading.setOnClickListener(v -> {
+            v.setSelected(!v.isSelected());
+            if (v.isSelected()) {
+                mPresenter.addBook("reading");
+            } else {
+                mPresenter.removeBook("reading");
+            }
+        });
+
         mAddToRead.setOnClickListener(v -> {
             v.setSelected(!v.isSelected());
             if (v.isSelected()) {
-                Toast.makeText(this, "Button Selected", Toast.LENGTH_SHORT).show();
+                mPresenter.addBook("toread");
             } else {
-                Toast.makeText(this, "Deselected", Toast.LENGTH_SHORT).show();
+                mPresenter.addBook("toread");
             }
         });
+
+        /**
+         * todo make the views constant
+         */
+
+        mCloseButton.setOnClickListener(v -> finish());
+
+        /**
+         * TODO post the user rating to firebase
+         */
+
+        mUserRating.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    float touchPositionX = event.getX();
+                    float width = mUserRating.getWidth();
+                    float starsf = (touchPositionX / width) * 5.0f;
+                    int stars = (int)starsf + 1;
+                    mUserRating.setRating(stars);
+
+
+                    Toast.makeText(BookInfoActivity.this, String.valueOf("test"), Toast.LENGTH_SHORT).show();
+                    v.setPressed(false);
+                }
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.setPressed(true);
+                }
+
+                if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    v.setPressed(false);
+                }
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public void showBookAdded() {
+        Toast.makeText(this, "Book added", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showBookRemoved() {
+        Toast.makeText(this, "Book removed", Toast.LENGTH_SHORT).show();
     }
 
 

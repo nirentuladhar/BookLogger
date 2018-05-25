@@ -21,13 +21,13 @@ import app.mad.com.booklogger.model.BookList;
  * Created by Niren on 11/5/18.
  */
 
-public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapter.ViewHolder>{
+public class BookListRecyclerAdapter extends RecyclerView.Adapter<BookListRecyclerAdapter.ViewHolder>{
 
     private List<BookList.BookItem> mBookList;
     private Context mContext;
     private OnRowClickListener mListener;
 
-    public BookRecyclerAdapter(List<BookList.BookItem> bookList, Context context) {
+    public BookListRecyclerAdapter(List<BookList.BookItem> bookList, Context context) {
         this.mBookList = bookList;
         this.mContext = context;
     }
@@ -48,13 +48,13 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
     }
 
     @Override
-    public BookRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BookListRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_card, parent, false);
-        return new BookRecyclerAdapter.ViewHolder(itemView);
+        return new BookListRecyclerAdapter.ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final BookRecyclerAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final BookListRecyclerAdapter.ViewHolder holder, int position) {
         BookList.BookItem book = mBookList.get(position);
         holder.mBookTitle.setText(book.getVolumeInfo().getTitle());
         holder.mBookAuthors.setText(book.getVolumeInfo().getAuthors());
@@ -71,7 +71,7 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
         });
     }
 
-    public void setOnRowClickListener(OnRowClickListener listener) {
+    void setOnRowClickListener(OnRowClickListener listener) {
         mListener = listener;
     }
 
@@ -79,7 +79,7 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
         void onRowClick(BookList.BookItem bookItem, ImageView cover);
     }
 
-    public BookList.BookItem getBookItem(int position) {
+    private BookList.BookItem getBookItem(int position) {
         return mBookList.get(position);
     }
 

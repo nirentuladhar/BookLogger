@@ -10,9 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-import app.mad.com.booklogger.ui.home.homefragment.CompletedFragment;
-import app.mad.com.booklogger.ui.home.homefragment.ReadingFragment;
-import app.mad.com.booklogger.ui.home.homefragment.ToReadFragment;
+import app.mad.com.booklogger.ui.home.completed.CompletedFragment;
+import app.mad.com.booklogger.ui.home.reading.ReadingFragment;
+import app.mad.com.booklogger.ui.home.toread.ToReadFragment;
 import app.mad.com.booklogger.ui.login.LoginActivity;
 import app.mad.com.booklogger.ui.search.SearchActivity;
 import app.mad.com.booklogger.R;
@@ -72,7 +72,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
 
     private void setupViewPager(ViewPager viewPager) {
-        HomeFragmentAdapter adapter = new HomeFragmentAdapter(getSupportFragmentManager());
+        HomeFragmentAdapter adapter = new HomeFragmentAdapter(getSupportFragmentManager(), this);
         adapter.addFragment(new ReadingFragment(), "Reading");
         adapter.addFragment(new ToReadFragment(), "To Read");
         adapter.addFragment(new CompletedFragment(), "Completed");
@@ -90,6 +90,9 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         setupViewPager(viewPager);
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+//        tabLayout.getTabAt(0).setIcon(R.drawable.ic_search_icon);
+//        tabLayout.getTabAt(1).setIcon(R.drawable.ic_search_icon);
+//        tabLayout.getTabAt(2).setIcon(R.drawable.ic_search_icon);
     }
 
 

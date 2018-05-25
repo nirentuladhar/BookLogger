@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".ui.home.homefragment.ReadingFragment">
+    tools:context=".ui.home.reading.ReadingFragment">
 
 
     <android.support.v7.widget.RecyclerView

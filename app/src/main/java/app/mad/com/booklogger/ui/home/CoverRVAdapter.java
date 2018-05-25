@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -49,6 +50,12 @@ public class CoverRVAdapter extends RecyclerView.Adapter<CoverRVAdapter.ViewHold
     public void onBindViewHolder(CoverRVAdapter.ViewHolder holder, int position) {
         Book book = mBookList.get(position);
         Picasso.get().load(book.getImagePath()).into(holder.mBookCover);
+        holder.mBookCover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "hi", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

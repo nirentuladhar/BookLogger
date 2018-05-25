@@ -5,4 +5,5 @@
     <color name="colorAccent">#EA1F62</color>
     <color name="colorAccentLight">#f5d1dd</color>
     <color name="album_title">#4c4c4c</color>
+    <color name="colorGray">#CCC</color>
 </resources>

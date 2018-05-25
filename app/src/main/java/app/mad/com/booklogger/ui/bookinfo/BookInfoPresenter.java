@@ -1,5 +1,7 @@
 package app.mad.com.booklogger.ui.bookinfo;
 
+import android.util.Log;
+
 import app.mad.com.booklogger.model.Book;
 import app.mad.com.booklogger.utils.FirebaseHelper;
 
@@ -33,15 +35,21 @@ public class BookInfoPresenter implements BookInfoContract.Presenter {
         this.mView = null;
     }
 
-    public void addBookToRead() {
-        mFirebaseHelper.addBook("toread", mBook);
+    @Override
+    public void addBook(String ref) {
+        mFirebaseHelper.addBook(ref, mBook);
+//        mView.closeActivity();
+        mView.showBookAdded();
     }
 
-    public void addBookToCompleted() {
-        mFirebaseHelper.addBook("completed", mBook);
+
+    @Override
+    public void removeBook(String ref) {
+        mBook = mView.getCurrentBook();
+        mFirebaseHelper.removeBook(ref, mBook);
+        Log.d(TAG, "removeBook");
+        mView.showBookRemoved();
     }
 
-    public void addBookToReading() {
-        mFirebaseHelper.addBook("reading", mBook);
-    }
+
 }

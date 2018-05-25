@@ -18,20 +18,11 @@
 
             <ImageView
                 android:id="@+id/button_close"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
                 android:src="@drawable/ic_close"/>
-            <ImageView
-                android:id="@+id/button_delete"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:padding="2dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_delete"/>
 
             <ImageView
                 android:id="@+id/book_info_cover_imageview"
@@ -71,33 +62,10 @@
                 android:textColor="#FFF"
                 android:textAlignment="center"
                 android:textSize="12sp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginBottom="16dp"
                 android:layout_below="@+id/book_info_authors_textview"
                 android:text="Published 2014 | 914 pages"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp">
-            <!--<RatingBar-->
-                <!--android:id="@+id/rating"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:numStars="5"-->
-                <!--android:stepSize="0.5"-->
-                <!--android:rating="3.5"-->
-                <!--android:scaleX="0.5"-->
-                <!--android:scaleY="0.5"-->
-                <!--android:transformPivotX="0dp"-->
-                <!--android:transformPivotY="0dp"-->
-                <!--android:progressTint="@color/colorAccent"-->
-                <!--android:progressBackgroundTint="@color/colorAccentLight"-->
-                <!--android:secondaryProgressTint="@color/colorAccent"-->
-                <!--style="@style/RatingBar"-->
-                <!--android:isIndicator="true" />-->
 
             <me.zhanghai.android.materialratingbar.MaterialRatingBar
                 android:id="@+id/ratingbar_average"
@@ -106,15 +74,24 @@
                 android:numStars="5"
                 android:stepSize="0.5"
                 style="@style/Widget.MaterialRatingBar.RatingBar"
-                app:mrb_progressTint="@color/colorAccent"
-                android:isIndicator="true" />
-            <Button
-                android:id="@+id/button_add_to_read"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/selector_bookmark"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="end"/>
+                app:mrb_progressTint="@android:color/white"
+                android:isIndicator="true"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="2dp"
+                android:layout_below="@id/book_info_metadata_textview"/>
+
+            <TextView
+                android:id="@+id/book_info_ratings_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                android:textAlignment="center"
+                android:textSize="12sp"
+                android:alpha="0.75"
+                android:layout_marginBottom="16dp"
+                android:layout_below="@+id/ratingbar_average"
+                android:text="(841)"/>
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -122,73 +99,49 @@
             android:layout_height="match_parent"
             android:padding="16dp">
 
-            <TextView
-                android:id="@+id/book_info_description_textview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="2dp"
-                android:textSize="18sp"
-                android:text="In the aftermath of his terrible war, Ender Wiggin disappeared, and a powerful voice arose: the Speaker for the Dead, who told of the true story of the Bugger War.as the courage to confront the mystery…and the truth."/>
-
-            <Button
-                android:id="@+id/button_to_read"
+            <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                android:id="@+id/ratingbar_user"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/book_info_description_textview"
-                android:text="To read"/>
-
+                android:layout_height="24dp"
+                android:numStars="5"
+                android:stepSize="0.5"
+                style="@style/Widget.MaterialRatingBar.RatingBar"
+                app:mrb_progressTint="@color/colorAccent"
+                android:isIndicator="true" />
             <Button
-                android:id="@+id/button_completed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/button_to_read"
-                android:text="Completed"/>
-
+                android:id="@+id/button_add_reading"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/selector_reading"
+                android:layout_toStartOf="@id/button_add_completed"
+                android:layout_gravity="end"/>
             <Button
-                android:id="@+id/button_reading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/button_completed"
-                android:text="Reading"/>
+                android:id="@+id/button_add_completed"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/selector_completed"
+                android:layout_toStartOf="@id/button_add_to_read"
+                android:layout_gravity="end"/>
+            <Button
+                android:id="@+id/button_add_to_read"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/selector_toread"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"/>
 
         </RelativeLayout>
+        <TextView
+            android:id="@+id/book_info_description_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="2dp"
+            android:textSize="18sp"
+            android:padding="16dp"
+            android:text="In the aftermath of his terrible war, Ender Wiggin disappeared, and a powerful voice arose: the Speaker for the Dead, who told of the true story of the Bugger War.as the courage to confront the mystery…and the truth."/>
 
 
     </LinearLayout>
-    <!---->
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:padding="16dp">-->
-            <!--<TextView-->
-                <!--android:id="@+id/book_info_description_textview"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:lineSpacingExtra="2dp"-->
-                <!--android:textSize="16sp"-->
-                <!--android:text="In the aftermath of his terrible war, Ender Wiggin disappeared, and a powerful voice arose: the Speaker for the Dead, who told of the true story of the Bugger War.as the courage to confront the mystery…and the truth."/>-->
-    <!---->
-        <!--</LinearLayout>-->
-    <!---->
-        <!--<Button-->
-            <!--android:id="@+id/button_to_read"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="To read"/>-->
-    <!---->
-        <!--<Button-->
-            <!--android:id="@+id/button_completed"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Completed"/>-->
-    <!---->
-        <!--<Button-->
-            <!--android:id="@+id/button_reading"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Reading"/>-->
-    <!---->
-    <!--</LinearLayout>-->
 </ScrollView>

@@ -23,7 +23,7 @@ import java.util.List;
 import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.ui.bookinfo.BookInfoActivity;
 import app.mad.com.booklogger.ui.home.HomeActivity;
-import app.mad.com.booklogger.ui.search.BookRecyclerAdapter.OnRowClickListener;
+import app.mad.com.booklogger.ui.search.BookListRecyclerAdapter.OnRowClickListener;
 import app.mad.com.booklogger.model.BookList;
 import app.mad.com.booklogger.api.GoogleBooksImpl;
 
@@ -31,10 +31,10 @@ public class SearchActivity extends AppCompatActivity implements SearchActivityC
 
     Context mContext;
     RecyclerView mRecyclerView;
-    BookRecyclerAdapter mAdapter;
+    BookListRecyclerAdapter mAdapter;
     List<BookList.BookItem> mBookItem = new ArrayList<>();
     ProgressBar progressBar;
-    private SearchActivityPresenter mPresenter;
+    private SearchActivityContract.Presenter mPresenter;
 
     public static final String SEARCH_ID = "id";
     public static final String SEARCH_TITLE = "title";
@@ -75,7 +75,7 @@ public class SearchActivity extends AppCompatActivity implements SearchActivityC
     public void displayBooks(List<BookList.BookItem> bookLists) {
         mBookItem.clear();
         mBookItem.addAll(bookLists);
-        mAdapter = new BookRecyclerAdapter(mBookItem, mContext);
+        mAdapter = new BookListRecyclerAdapter(mBookItem, mContext);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
         mAdapter.setOnRowClickListener(new OnRowClickListener() {
