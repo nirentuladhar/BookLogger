@@ -108,29 +108,39 @@
                 style="@style/Widget.MaterialRatingBar.RatingBar"
                 app:mrb_progressTint="@color/colorAccent"
                 android:isIndicator="true" />
-            <Button
-                android:id="@+id/button_add_reading"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="12dp"
-                android:background="@drawable/selector_reading"
-                android:layout_toStartOf="@id/button_add_completed"
-                android:layout_gravity="end"/>
-            <Button
-                android:id="@+id/button_add_completed"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="12dp"
-                android:background="@drawable/selector_completed"
-                android:layout_toStartOf="@id/button_add_to_read"
-                android:layout_gravity="end"/>
-            <Button
-                android:id="@+id/button_add_to_read"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/selector_toread"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="end"/>
+
+            <RadioGroup
+                android:id="@+id/radiogroup_bookflag"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:orientation="horizontal"
+                android:layout_alignParentEnd="true">
+                <RadioButton
+                    android:id="@+id/radio_reading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/selector_reading"/>
+                <RadioButton
+                    android:id="@+id/radio_toread"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@android:color/transparent"
+                    android:layout_marginEnd="8dp"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_toread"/>
+                <RadioButton
+                    android:id="@+id/radio_completed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@android:color/transparent"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_completed"/>
+
+            </RadioGroup>
 
         </RelativeLayout>
         <TextView

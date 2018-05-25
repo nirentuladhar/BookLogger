@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,13 +48,12 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
     String mAverageRating;
     String mRatingsCount;
 
-    Button mCompleted;
-    Button mReading;
-    Button mAddToRead;
     ImageView mCloseButton;
     Intent mIntent;
 
     String mCurrentView = "";
+
+    RadioGroup mBookFlag;
 
 
 
@@ -103,24 +104,27 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
              */
 
 
-            // image transition animation
-            String imageTransitionName = mIntent.getStringExtra(SearchActivity.TRANSITION_NAME);
-            bookInfoImage.setTransitionName(imageTransitionName);
-
-
             // checks what the current view is
             // and selects the button
             switch (mCurrentView) {
                 case "toread":
-                    mAddToRead.setSelected(true);
+                    mBookFlag.check(R.id.radio_toread);
                     break;
                 case "reading":
-                    mReading.setSelected(true);
+                    mBookFlag.check(R.id.radio_reading);
                     break;
                 case "completed":
-                    mCompleted.setSelected(true);
+                    mBookFlag.check(R.id.radio_completed);
                     break;
             }
+
+
+
+
+            // image transition animation
+            String imageTransitionName = mIntent.getStringExtra(SearchActivity.TRANSITION_NAME);
+            bookInfoImage.setTransitionName(imageTransitionName);
+
 
             // download image with the supplied link
             Picasso.get()
@@ -189,44 +193,38 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
         bookInfoRatingsCount = findViewById(R.id.book_info_ratings_count);
         bookInfoMetadata = findViewById(R.id.book_info_metadata_textview);
         mUserRating = findViewById(R.id.ratingbar_user);
+        mBookFlag = findViewById(R.id.radiogroup_bookflag);
 
 
-        mCompleted = findViewById(R.id.button_add_completed);
-        mReading = findViewById(R.id.button_add_reading);
-        mAddToRead = findViewById(R.id.button_add_to_read);
 
         mCloseButton = findViewById(R.id.button_close);
         mbookInfoAvgRating = findViewById(R.id.ratingbar_average);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     void setClickListeners() {
-        mCompleted.setOnClickListener(v -> {
-            v.setSelected(!v.isSelected());
-            if (v.isSelected()) {
-                mPresenter.addBook("completed");
-            } else {
-                mPresenter.removeBook("completed");
-            }
-        });
 
-        mReading.setOnClickListener(v -> {
-            v.setSelected(!v.isSelected());
-            if (v.isSelected()) {
-                mPresenter.addBook("reading");
-            } else {
-                mPresenter.removeBook("reading");
-            }
-        });
+        mBookFlag.setOnCheckedChangeListener((radioGroup, position) -> {
+            RadioButton selectedRadioButton = findViewById(mBookFlag.getCheckedRadioButtonId());
 
-        mAddToRead.setOnClickListener(v -> {
-            v.setSelected(!v.isSelected());
-            if (v.isSelected()) {
-                mPresenter.addBook("toread");
-            } else {
-                mPresenter.addBook("toread");
+            switch (selectedRadioButton.getId()) {
+                case R.id.radio_completed:
+                    mPresenter.addBook("completed");
+                    mPresenter.removeBook("reading");
+                    mPresenter.removeBook("toread");
+                    break;
+                case R.id.radio_reading:
+                    mPresenter.addBook("reading");
+                    mPresenter.removeBook("completed");
+                    mPresenter.removeBook("toread");
+                    break;
+                case R.id.radio_toread:
+                    mPresenter.addBook("toread");
+                    mPresenter.removeBook("reading");
+                    mPresenter.removeBook("completed");
+                    break;
             }
         });
+        
 
         /**
          * todo make the views constant
@@ -266,12 +264,12 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
 
     @Override
     public void showBookAdded() {
-        Toast.makeText(this, "Book added", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Book added", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showBookRemoved() {
-        Toast.makeText(this, "Book removed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Book removed" + book.getTitle(), Toast.LENGTH_SHORT).show();
     }
 
 

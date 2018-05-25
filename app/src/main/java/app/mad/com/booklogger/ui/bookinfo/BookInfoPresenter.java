@@ -47,7 +47,6 @@ public class BookInfoPresenter implements BookInfoContract.Presenter {
     public void removeBook(String ref) {
         mBook = mView.getCurrentBook();
         mFirebaseHelper.removeBook(ref, mBook);
-        Log.d(TAG, "removeBook");
         mView.showBookRemoved();
     }
 
