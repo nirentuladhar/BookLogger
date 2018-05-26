@@ -10,7 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-import app.mad.com.booklogger.ui.home.completed.CompletedFragment;
+import app.mad.com.booklogger.ui.home.fragments.HomeCompletedFragment;
+import app.mad.com.booklogger.ui.home.fragments.HomeFragmentAdapter;
+import app.mad.com.booklogger.ui.home.fragments.HomeReadingFragment;
+import app.mad.com.booklogger.ui.home.fragments.HomeToReadFragment;
 import app.mad.com.booklogger.ui.home.reading.ReadingFragment;
 import app.mad.com.booklogger.ui.home.toread.ToReadFragment;
 import app.mad.com.booklogger.ui.login.LoginActivity;
@@ -73,9 +76,9 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     private void setupViewPager(ViewPager viewPager) {
         HomeFragmentAdapter adapter = new HomeFragmentAdapter(getSupportFragmentManager(), this);
-        adapter.addFragment(new ReadingFragment(), "Reading");
-        adapter.addFragment(new ToReadFragment(), "To Read");
-        adapter.addFragment(new CompletedFragment(), "Completed");
+        adapter.addFragment(new HomeReadingFragment(), "Reading");
+        adapter.addFragment(new HomeToReadFragment(), "To Read");
+        adapter.addFragment(new HomeCompletedFragment(), "Completed");
         viewPager.setAdapter(adapter);
 
     }

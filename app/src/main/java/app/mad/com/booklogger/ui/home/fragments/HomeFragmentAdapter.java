@@ -1,4 +1,4 @@
-package app.mad.com.booklogger.ui.home;
+package app.mad.com.booklogger.ui.home.fragments;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

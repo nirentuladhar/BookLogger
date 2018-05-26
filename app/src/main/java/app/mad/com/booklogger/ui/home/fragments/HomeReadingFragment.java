@@ -1,10 +1,10 @@
-package app.mad.com.booklogger.ui.home.completed;
+package app.mad.com.booklogger.ui.home.fragments;
 
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,11 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -28,10 +25,12 @@ import app.mad.com.booklogger.model.Book;
 import app.mad.com.booklogger.ui.bookinfo.BookInfoActivity;
 import app.mad.com.booklogger.ui.home.BookRecyclerAdapter;
 
+/**
+ * Created by Niren on 26/5/18.
+ */
 
-public class CompletedFragment extends Fragment implements CompletedContract.View {
-
-    private static final String TAG = "BOOK_LOGGER " + CompletedFragment.class.getSimpleName();
+public class HomeReadingFragment extends Fragment implements HomeFragmentContract.View {
+    private static final String TAG = "BOOK_LOGGER " + HomeCompletedFragment.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
     private BookRecyclerAdapter mAdapter;
@@ -50,9 +49,9 @@ public class CompletedFragment extends Fragment implements CompletedContract.Vie
 
     public static final String TRANSITION_NAME = "transitionSearchToBookInfo";
 
-    private CompletedContract.Presenter mPresenter;
+    private HomeFragmentContract.Presenter mPresenter;
 
-    public CompletedFragment() {
+    public HomeReadingFragment() {
         // Required empty public constructor
     }
 
@@ -61,7 +60,7 @@ public class CompletedFragment extends Fragment implements CompletedContract.Vie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mPresenter = new CompletedPresenter();
+        mPresenter = new HomeFragmentPresenter();
         mPresenter.bind(this);
         Log.i(TAG, "Completed fragment onCreate");
 
@@ -90,7 +89,7 @@ public class CompletedFragment extends Fragment implements CompletedContract.Vie
         mAdapter = new BookRecyclerAdapter(mBookArrayList);
         mRecyclerView.setAdapter(mAdapter);
 
-        mPresenter.setDatabaseRef("completed")
+        mPresenter.setDatabaseRef("reading")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -121,7 +120,7 @@ public class CompletedFragment extends Fragment implements CompletedContract.Vie
                 /**
                  * TODO: change the name of the constants
                  */
-                intent.putExtra(SEARCH_REF, "completed");
+                intent.putExtra(SEARCH_REF, "reading");
 
 //                intent.putExtra(TRANSITION_NAME, ViewCompat.getTransitionName(cover));
 
