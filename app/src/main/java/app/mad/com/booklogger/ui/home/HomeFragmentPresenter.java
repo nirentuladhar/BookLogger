@@ -1,4 +1,4 @@
-package app.mad.com.booklogger.ui.home.completed;
+package app.mad.com.booklogger.ui.home;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -9,19 +9,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.mad.com.booklogger.model.Book;
+import app.mad.com.booklogger.ui.home.completed.CompletedContract;
 
 /**
- * Created by Niren on 21/5/18.
+ * Created by Niren on 26/5/18.
  */
 
-public class CompletedPresenter implements CompletedContract.Presenter {
+public class HomeFragmentPresenter implements HomeFragmentContract.Presenter {
 
     private CompletedContract.View mView;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mRef;
     private String mUserId;
 
-    CompletedPresenter() {
+    HomeFragmentPresenter() {
         mUserId = FirebaseAuth.getInstance().getUid();
     }
 

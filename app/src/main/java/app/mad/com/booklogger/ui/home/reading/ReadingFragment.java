@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -28,11 +25,8 @@ import java.util.List;
 
 import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.model.Book;
-import app.mad.com.booklogger.model.BookList;
 import app.mad.com.booklogger.ui.bookinfo.BookInfoActivity;
-import app.mad.com.booklogger.ui.home.toread.BookRecyclerAdapter;
-import app.mad.com.booklogger.ui.search.BookListRecyclerAdapter;
-import app.mad.com.booklogger.ui.search.SearchActivity;
+import app.mad.com.booklogger.ui.home.BookRecyclerAdapter;
 
 
 public class ReadingFragment extends Fragment{

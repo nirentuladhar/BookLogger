@@ -1,18 +1,16 @@
-package app.mad.com.booklogger.ui.home.completed;
+package app.mad.com.booklogger.ui.home;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
-import java.util.List;
-
 import app.mad.com.booklogger.model.Book;
-import app.mad.com.booklogger.ui.home.BookRecyclerAdapter;
+import app.mad.com.booklogger.ui.home.completed.CompletedContract;
 
 /**
- * Created by Niren on 21/5/18.
+ * Created by Niren on 26/5/18.
  */
 
-public interface CompletedContract {
+public class HomeFragmentContract {
     interface View {
         void addBook(Book book);
     }

@@ -1,5 +1,6 @@
 package app.mad.com.booklogger.ui.home.completed;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -22,9 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.mad.com.booklogger.R;
-import app.mad.com.booklogger.ui.home.CoverRVAdapter;
 import app.mad.com.booklogger.model.Book;
-import app.mad.com.booklogger.ui.home.toread.BookRecyclerAdapter;
+import app.mad.com.booklogger.ui.bookinfo.BookInfoActivity;
+import app.mad.com.booklogger.ui.home.BookRecyclerAdapter;
 
 
 public class CompletedFragment extends Fragment implements CompletedContract.View {
@@ -34,6 +36,19 @@ public class CompletedFragment extends Fragment implements CompletedContract.Vie
     private RecyclerView mRecyclerView;
     private BookRecyclerAdapter mAdapter;
     private List<Book> mBookArrayList = new ArrayList<>();
+
+    public static final String SEARCH_ID = "id";
+    public static final String SEARCH_TITLE = "title";
+    public static final String SEARCH_AUTHORS = "authors";
+    public static final String SEARCH_COVER = "cover";
+    public static final String SEARCH_DESCRIPTION = "description";
+
+    public static final String SEARCH_PAGE_COUNT = "page_count";
+    public static final String SEARCH_AVERAGE_RATING = "average_rating";
+    public static final String SEARCH_RATINGS_COUNT = "ratings_count";
+    public static final String SEARCH_REF= "toread";
+
+    public static final String TRANSITION_NAME = "transitionSearchToBookInfo";
 
     private CompletedContract.Presenter mPresenter;
 
@@ -48,8 +63,8 @@ public class CompletedFragment extends Fragment implements CompletedContract.Vie
 
         mPresenter = new CompletedPresenter();
         mPresenter.bind(this);
-
         Log.i(TAG, "Completed fragment onCreate");
+
     }
 
     @Override
@@ -64,20 +79,68 @@ public class CompletedFragment extends Fragment implements CompletedContract.Vie
         View view = inflater.inflate(R.layout.fragment_reading, container, false);
         mRecyclerView = view.findViewById(R.id.recycler_view);
         return view;
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new BookRecyclerAdapter(mBookArrayList);
         mRecyclerView.setAdapter(mAdapter);
-        mPresenter.loadBooks(mAdapter);
-        Log.d("BOOK_LOGGER", "hello from comp");
+
+        mPresenter.setDatabaseRef("completed")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        mBookArrayList.clear();
+                        mPresenter.getBooks(dataSnapshot);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+        mAdapter.setOnRowClickListener(new BookRecyclerAdapter.OnRowClickListener() {
+            @Override
+            public void onRowClick(Book bookItem, ImageView cover) {
+                // pass an intent to open a book activity
+                Intent intent = new Intent(getContext(), BookInfoActivity.class);
+
+                intent.putExtra(SEARCH_ID, bookItem.getId());
+                intent.putExtra(SEARCH_TITLE, bookItem.getTitle());
+                intent.putExtra(SEARCH_AUTHORS, bookItem.getAuthors());
+                intent.putExtra(SEARCH_COVER, bookItem.getImagePath());
+                intent.putExtra(SEARCH_DESCRIPTION, bookItem.getDescription());
+                intent.putExtra(SEARCH_PAGE_COUNT, String.valueOf(bookItem.getPageCount()));
+                intent.putExtra(SEARCH_AVERAGE_RATING, String.valueOf(bookItem.getAverageRating()));
+                intent.putExtra(SEARCH_RATINGS_COUNT, String.valueOf(bookItem.getRatingsCount()));
+                /**
+                 * TODO: change the name of the constants
+                 */
+                intent.putExtra(SEARCH_REF, "completed");
+
+//                intent.putExtra(TRANSITION_NAME, ViewCompat.getTransitionName(cover));
+
+//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                        ToReadFragment.this,
+//                        cover,
+//                        ViewCompat.getTransitionName(cover));
+
+                startActivity(intent);
+            }
+        });
 
         super.onViewCreated(view, savedInstanceState);
     }
 
-
-
+    @Override
+    public void addBook(Book book) {
+        mBookArrayList.add(book);
+        mAdapter.notifyDataSetChanged();
+        Log.d(TAG, "set books called");
+    }
 }

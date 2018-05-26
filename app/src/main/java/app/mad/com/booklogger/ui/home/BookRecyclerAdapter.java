@@ -1,4 +1,4 @@
-package app.mad.com.booklogger.ui.home.toread;
+package app.mad.com.booklogger.ui.home;
 
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
