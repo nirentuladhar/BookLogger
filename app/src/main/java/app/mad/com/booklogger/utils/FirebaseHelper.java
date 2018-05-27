@@ -37,7 +37,7 @@ public class FirebaseHelper {
                 boolean bookExists = false;
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Book bookFH = ds.getValue(Book.class);
-                    if (bookFH.getTitle().equals(book.getTitle())) {
+                    if (bookFH.getId().equals(book.getId())) {
                         Log.d("BOOK_LOGGER", "BOOK ADDED " + book.getTitle());
                         bookExists = true;
                     }
@@ -64,9 +64,54 @@ public class FirebaseHelper {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Book bookFH = ds.getValue(Book.class);
-                    if (bookFH.getTitle().equals(book.getTitle())) {
+                    if (bookFH.getId().equals(book.getId())) {
                         Log.d("BOOK_LOGGER" , "BOOK DELETED " + book.getTitle());
                         ds.getRef().removeValue();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+    public void updateRating(String ref, Book book) {
+        mDatabase = FirebaseDatabase.getInstance();
+        mUserId = FirebaseAuth.getInstance().getUid();
+        final DatabaseReference booksRef = mDatabase.getReference(ref).child(mUserId);
+
+        booksRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Book bookFH = ds.getValue(Book.class);
+                    if (bookFH.getId().equals(book.getId())) {
+                        ds.getRef().child("userRating").setValue(book.getUserRating());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+    public void updateRatingNotes(String ref, Book book) {
+        mDatabase = FirebaseDatabase.getInstance();
+        mUserId = FirebaseAuth.getInstance().getUid();
+        final DatabaseReference booksRef = mDatabase.getReference(ref).child(mUserId);
+
+        booksRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Book bookFH = ds.getValue(Book.class);
+                    if (bookFH.getId().equals(book.getId())) {
+                        ds.getRef().child("userRating").setValue(book.getUserRating());
+                        ds.getRef().child("notes").setValue(book.getNotes());
                     }
                 }
             }

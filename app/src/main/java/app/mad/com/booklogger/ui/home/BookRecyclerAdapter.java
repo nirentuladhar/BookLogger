@@ -39,7 +39,6 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
             mBookCover = itemView.findViewById(R.id.imageview_book_cover);
             mBookTitle = itemView.findViewById(R.id.textview_title);
             mBookAuthors = itemView.findViewById(R.id.textview_authors);
-
             mBookContainer = itemView.findViewById(R.id.layout_book_container);
         }
     }

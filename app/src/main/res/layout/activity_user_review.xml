@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    style="@style/UserReviewActionBar"
+    tools:context="app.mad.com.booklogger.ui.userreview.UserReview">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@drawable/ic_border_bottom">
+        <TextView
+            android:id="@+id/textview_user_review_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_rating"
+            android:textSize="12sp"/>
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:id="@+id/rating_user_review"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:numStars="5"
+            android:stepSize="0.5"
+            style="@style/Widget.MaterialRatingBar.RatingBar"
+            app:mrb_progressTint="@color/colorAccent"
+            android:isIndicator="true"/>
+        </LinearLayout>
+
+
+
+        <EditText
+            android:id="@+id/edittext_user_review_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_margin="16dp"
+            android:inputType="textMultiLine"
+            android:hint="Write your review"/>
+
+    </LinearLayout>
+
+
+
+</ScrollView>

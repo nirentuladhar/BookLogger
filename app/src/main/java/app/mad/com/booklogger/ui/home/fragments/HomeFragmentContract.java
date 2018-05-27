@@ -16,6 +16,7 @@ public interface HomeFragmentContract {
     interface Presenter {
         void bind (HomeFragmentContract.View view);
         void unbind();
+
         void getBooks(DataSnapshot dataSnapshot);
         DatabaseReference setDatabaseRef(String ref);
     }

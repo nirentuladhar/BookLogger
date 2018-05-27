@@ -10,13 +10,14 @@ public interface BookInfoContract {
 
     interface View {
         Book getCurrentBook();
+        String getCurrentRef();
         void displayBookInfo();
-
+        void displayBookDeleted();
+        void displayBookAdded();
+        void displayDeleteConfirmation();
+        void displayUserRating();
         void closeActivity();
 
-        void showBookAdded();
-
-        void showBookRemoved();
     }
 
     interface Presenter {
@@ -24,10 +25,9 @@ public interface BookInfoContract {
         void unbind();
 
         void loadBook();
-
-        void removeBook(String ref);
-
-        void addBook(String ref);
+        void addBook();
+        void deleteBook();
+        void setUserRating(int stars);
     }
 
 }

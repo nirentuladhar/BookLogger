@@ -23,6 +23,7 @@ import java.util.List;
 import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.ui.bookinfo.BookInfoActivity;
 import app.mad.com.booklogger.ui.home.HomeActivity;
+import app.mad.com.booklogger.ui.home.fragments.HomeFragment;
 import app.mad.com.booklogger.ui.search.BookListRecyclerAdapter.OnRowClickListener;
 import app.mad.com.booklogger.model.BookList;
 import app.mad.com.booklogger.api.GoogleBooksImpl;
@@ -37,17 +38,6 @@ public class SearchActivity extends AppCompatActivity implements SearchActivityC
     private SearchActivityContract.Presenter mPresenter;
     String mQuery;
 
-    public static final String SEARCH_ID = "id";
-    public static final String SEARCH_TITLE = "title";
-    public static final String SEARCH_AUTHORS = "authors";
-    public static final String SEARCH_COVER = "cover";
-    public static final String SEARCH_DESCRIPTION = "description";
-
-    public static final String SEARCH_PAGE_COUNT = "page_count";
-    public static final String SEARCH_AVERAGE_RATING = "average_rating";
-    public static final String SEARCH_RATINGS_COUNT = "ratings_count";
-
-    public static final String TRANSITION_NAME = "transitionSearchToBookInfo";
 
 
     @Override
@@ -102,16 +92,17 @@ public class SearchActivity extends AppCompatActivity implements SearchActivityC
     public void displayBookInfo(BookList.BookItem bookItem, ImageView cover) {
         Intent intent = new Intent(getApplicationContext(), BookInfoActivity.class);
 
-        intent.putExtra(SEARCH_ID, bookItem.getId());
-        intent.putExtra(SEARCH_TITLE, bookItem.getVolumeInfo().getTitle());
-        intent.putExtra(SEARCH_AUTHORS, bookItem.getVolumeInfo().getAuthors());
-        intent.putExtra(SEARCH_COVER, bookItem.getVolumeInfo().getThumbnail());
-        intent.putExtra(SEARCH_DESCRIPTION, bookItem.getVolumeInfo().getDescription());
-        intent.putExtra(SEARCH_PAGE_COUNT, String.valueOf(bookItem.getVolumeInfo().getPageCount()));
-        intent.putExtra(SEARCH_AVERAGE_RATING, String.valueOf(bookItem.getVolumeInfo().getAverageRating()));
-        intent.putExtra(SEARCH_RATINGS_COUNT, String.valueOf(bookItem.getVolumeInfo().getRatingsCount()));
+        intent.putExtra(BookInfoActivity.ID, bookItem.getId());
+        intent.putExtra(BookInfoActivity.TITLE, bookItem.getVolumeInfo().getTitle());
+        intent.putExtra(BookInfoActivity.AUTHORS, bookItem.getVolumeInfo().getAuthors());
+        intent.putExtra(BookInfoActivity.IMAGE_PATH, bookItem.getVolumeInfo().getThumbnail());
+        intent.putExtra(BookInfoActivity.DESCRIPTION, bookItem.getVolumeInfo().getDescription());
+        intent.putExtra(BookInfoActivity.PAGE_COUNT, String.valueOf(bookItem.getVolumeInfo().getPageCount()));
+        intent.putExtra(BookInfoActivity.AVERAGE_RATING, String.valueOf(bookItem.getVolumeInfo().getAverageRating()));
+        intent.putExtra(BookInfoActivity.RATINGS_COUNT, String.valueOf(bookItem.getVolumeInfo().getRatingsCount()));
+        intent.putExtra(BookInfoActivity.CURRENT_VIEW, "search");
 
-        intent.putExtra(TRANSITION_NAME, ViewCompat.getTransitionName(cover));
+        intent.putExtra(BookInfoActivity.TRANSITION_NAME, ViewCompat.getTransitionName(cover));
 
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 SearchActivity.this,

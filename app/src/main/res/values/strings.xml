@@ -24,5 +24,9 @@
     <string name="sign_out">Sign Out</string>
     <string name="appNameID">BOOK_LOGGER</string>
     <string name="generic_error">Something went wrong :(</string>
+    <string name="no_book_message">No books yet</string>
+    <string name="user_rating">Your rating:</string>
+    <string name="dummy_text">In the aftermath of his terrible war, Ender Wiggin disappeared, and a powerful voice arose: the Speaker for the Dead, who told of the true story of the Bugger War.as the courage to confront the mystery…and the truth.</string>
+    <string name="done">Done</string>
 
 </resources>

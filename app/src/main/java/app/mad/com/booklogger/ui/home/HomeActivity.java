@@ -10,20 +10,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-import app.mad.com.booklogger.ui.home.fragments.HomeCompletedFragment;
+//import app.mad.com.booklogger.ui.home.fragments.HomeCompletedFragment;
+import app.mad.com.booklogger.ui.home.fragments.HomeFragment;
 import app.mad.com.booklogger.ui.home.fragments.HomeFragmentAdapter;
-import app.mad.com.booklogger.ui.home.fragments.HomeReadingFragment;
-import app.mad.com.booklogger.ui.home.fragments.HomeToReadFragment;
-import app.mad.com.booklogger.ui.home.reading.ReadingFragment;
-import app.mad.com.booklogger.ui.home.toread.ToReadFragment;
+//import app.mad.com.booklogger.ui.home.fragments.HomeReadingFragment;
+//import app.mad.com.booklogger.ui.home.fragments.HomeToReadFragment;
+//import app.mad.com.booklogger.ui.home.reading.ReadingFragment;
+//import app.mad.com.booklogger.ui.home.toread.ToReadFragment;
 import app.mad.com.booklogger.ui.login.LoginActivity;
 import app.mad.com.booklogger.ui.search.SearchActivity;
 import app.mad.com.booklogger.R;
 
-public class HomeActivity extends AppCompatActivity implements HomeView {
+public class HomeActivity extends AppCompatActivity implements HomeContract.view {
     public static final String TAG = "BOOK_LOGGER";
     public HomePresenter mPresenter;
 
+    public static final String READING_REF = "reading";
+    public static final String TOREAD_REF = "toread";
+    public static final String COMPLETED_REF = "completed";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +80,28 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     private void setupViewPager(ViewPager viewPager) {
         HomeFragmentAdapter adapter = new HomeFragmentAdapter(getSupportFragmentManager(), this);
-        adapter.addFragment(new HomeReadingFragment(), "Reading");
-        adapter.addFragment(new HomeToReadFragment(), "To Read");
-        adapter.addFragment(new HomeCompletedFragment(), "Completed");
+
+        HomeFragment reading = new HomeFragment();
+        reading.setArguments(getBundle(READING_REF));
+        adapter.addFragment(reading, "Reading");
+
+        HomeFragment toread = new HomeFragment();
+        toread.setArguments(getBundle(TOREAD_REF));
+        adapter.addFragment(toread, "To Read");
+
+        HomeFragment completed = new HomeFragment();
+        completed.setArguments(getBundle(COMPLETED_REF));
+        adapter.addFragment(completed, "Completed");
+
+
         viewPager.setAdapter(adapter);
 
+    }
+
+    private Bundle getBundle(String ref) {
+        Bundle bundle = new Bundle();
+        bundle.putString(HomeFragment.CURRENT_FRAG_KEY, ref);
+        return bundle;
     }
 
     private void toolbarSetup () {
@@ -93,9 +114,6 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         setupViewPager(viewPager);
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-//        tabLayout.getTabAt(0).setIcon(R.drawable.ic_search_icon);
-//        tabLayout.getTabAt(1).setIcon(R.drawable.ic_search_icon);
-//        tabLayout.getTabAt(2).setIcon(R.drawable.ic_search_icon);
     }
 
 

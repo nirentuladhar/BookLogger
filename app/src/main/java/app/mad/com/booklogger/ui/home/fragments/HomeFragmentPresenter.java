@@ -21,6 +21,8 @@ public class HomeFragmentPresenter implements HomeFragmentContract.Presenter {
     private DatabaseReference mRef;
     private String mUserId;
 
+
+
     public HomeFragmentPresenter() {
         mUserId = FirebaseAuth.getInstance().getUid();
     }
@@ -33,16 +35,6 @@ public class HomeFragmentPresenter implements HomeFragmentContract.Presenter {
     @Override
     public void unbind() {
         this.mView = null;
-    }
-
-
-    /**
-     * Loads items from the firebase database
-     * from the root 'books'
-     * @param
-     */
-    public void loadBooks() {
-
     }
 
     public DatabaseReference setDatabaseRef(String ref) {

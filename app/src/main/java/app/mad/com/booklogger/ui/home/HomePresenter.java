@@ -2,23 +2,22 @@ package app.mad.com.booklogger.ui.home;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import app.mad.com.booklogger.ui.login.LoginActivity;
-import app.mad.com.booklogger.ui.search.SearchActivity;
-
 /**
  * Created by Niren on 18/5/18.
  */
 
-public class HomePresenter {
-    private HomeView mView;
+public class HomePresenter implements HomeContract.presenter{
+    private HomeContract.view mView;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     public HomePresenter() {}
 
-    public void bind(HomeView view) {
+    @Override
+    public void bind(HomeContract.view view) {
         this.mView = view;
     }
 
+    @Override
     public void unbind() {
         mView = null;
     }

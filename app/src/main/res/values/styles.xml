@@ -35,5 +35,14 @@
         <item name="android:colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SecondaryButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="UserReviewActionBar" parent="@android:style/Theme.Holo.Light">
+        <item name="android:background">#FFF</item>
+    </style>
+
 
 </resources>
