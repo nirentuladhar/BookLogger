@@ -96,9 +96,6 @@ public class HomeFragment extends Fragment implements HomeFragmentContract.View 
 
             Intent intent = new Intent(getContext(), BookInfoActivity.class);
 
-            Gson gson = new Gson();
-            String bookAsString = gson.toJson(bookItem);
-            intent.putExtra("intent", bookAsString);
 
             intent.putExtra(BookInfoActivity.ID, bookItem.getId());
             intent.putExtra(BookInfoActivity.TITLE, bookItem.getTitle());
@@ -109,6 +106,7 @@ public class HomeFragment extends Fragment implements HomeFragmentContract.View 
             intent.putExtra(BookInfoActivity.AVERAGE_RATING, String.valueOf(bookItem.getAverageRating()));
             intent.putExtra(BookInfoActivity.RATINGS_COUNT, String.valueOf(bookItem.getRatingsCount()));
             intent.putExtra(BookInfoActivity.USER_RATING, String.valueOf(bookItem.getUserRating()));
+            intent.putExtra(BookInfoActivity.NOTE, String.valueOf(bookItem.getNotes()));
             /**
              * TODO: change the name of the constants
              */

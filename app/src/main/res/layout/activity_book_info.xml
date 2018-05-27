@@ -167,6 +167,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
+            android:paddingTop="8dp"
             android:paddingBottom="16dp"
             android:orientation="vertical"
             android:background="@drawable/ic_border_bottom">
@@ -174,14 +175,17 @@
             <Button
                 android:id="@+id/button_write_a_note"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginTop="8dp"
                 style="@style/SecondaryButton"
                 android:text="WRITE A NOTE"/>
             <TextView
+                android:id="@+id/textview_your_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:textStyle="bold"
+                android:layout_marginTop="8dp"
                 android:text="Your note:"/>
 
             <TextView

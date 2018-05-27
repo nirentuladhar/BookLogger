@@ -57,6 +57,7 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
     RatingBar mbookInfoAvgRating;
     RatingBar mbookInfoUserRating;
     TextView mBookInfoNotes;
+    Button mBookInfoEditNotes;
     Button mDelete;
     Book book;
 
@@ -100,6 +101,7 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
         mbookInfoAvgRating = findViewById(R.id.ratingbar_average);
         mDelete = findViewById(R.id.button_delete);
         mBookInfoNotes = findViewById(R.id.book_info_notes);
+        mBookInfoEditNotes = findViewById(R.id.button_edit_your_note);
 
         mPresenter = new BookInfoPresenter();
         mPresenter.bind(this);
@@ -138,6 +140,21 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
                 bookInfoRatingsCount.setVisibility(View.GONE);
             }
             mBookInfoNotes.setText(book.getNotes());
+            if (!mCurrentRef.equals("search")) {
+                mbookInfoUserRating.setRating(Float.valueOf(book.getUserRating()));
+                if (!book.getNotes().equals("null")) {
+                    mBookInfoNotes.setText(book.getNotes());
+                    findViewById(R.id.button_write_a_note).setVisibility(View.GONE);
+                } else {
+                    mBookInfoNotes.setVisibility(View.GONE);
+                    mBookInfoEditNotes.setVisibility(View.GONE);
+                    findViewById(R.id.textview_your_note).setVisibility(View.GONE);
+
+                }
+            }
+
+
+
             /**
              * todo add the literal string to the xml file
              */
@@ -197,20 +214,17 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
 
         // get book info from google books
         mIntent = getIntent();
-//        mId = mIntent.getStringExtra(ID);
-//        mTitle = mIntent.getStringExtra(TITLE);
-//        mDescription = mIntent.getStringExtra(DESCRIPTION);
-//        mAuthors = mIntent.getStringExtra(AUTHORS);
-//        mImagePath = mIntent.getStringExtra(IMAGE_PATH);
-//        mPageCount = mIntent.getStringExtra(PAGE_COUNT);
-//        mUserRating = mIntent.getStringExtra(USER_RATING);
-//        mAverageRating = mIntent.getStringExtra(AVERAGE_RATING);
-//        mRatingsCount = mIntent.getStringExtra(RATINGS_COUNT);
-//        mNotes = mIntent.getStringExtra(NOTE);
+        mId = mIntent.getStringExtra(ID);
+        mTitle = mIntent.getStringExtra(TITLE);
+        mDescription = mIntent.getStringExtra(DESCRIPTION);
+        mAuthors = mIntent.getStringExtra(AUTHORS);
+        mImagePath = mIntent.getStringExtra(IMAGE_PATH);
+        mPageCount = mIntent.getStringExtra(PAGE_COUNT);
+        mUserRating = mIntent.getStringExtra(USER_RATING);
+        mAverageRating = mIntent.getStringExtra(AVERAGE_RATING);
+        mRatingsCount = mIntent.getStringExtra(RATINGS_COUNT);
+        mNotes = mIntent.getStringExtra(NOTE);
 
-        Gson gson = new Gson();
-
-        book = gson.fromJson(mIntent.getStringExtra("intent"), Book.class);
 
         if (mCurrentRef != null) {
             mCurrentRef = mIntent.getStringExtra(CURRENT_VIEW);
@@ -223,17 +237,17 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
 
 
         // create new book object
-//        book = new Book();
-//        book.setId(mId);
-//        book.setTitle(mTitle);
-//        book.setDescription(mDescription);
-//        book.setAuthors(mAuthors);
-//        book.setImagePath(mImagePath);
-//        book.setPageCount(mPageCount);
-//        book.setAverageRating(mAverageRating);
-//        book.setRatingsCount(mRatingsCount);
-//        book.setUserRating(mUserRating);
-//        book.setNotes(mNotes);
+        book = new Book();
+        book.setId(mId);
+        book.setTitle(mTitle);
+        book.setDescription(mDescription);
+        book.setAuthors(mAuthors);
+        book.setImagePath(mImagePath);
+        book.setPageCount(mPageCount);
+        book.setAverageRating(mAverageRating);
+        book.setRatingsCount(mRatingsCount);
+        book.setUserRating(mUserRating);
+        book.setNotes(mNotes);
 
         return book;
     }
@@ -285,10 +299,10 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
                     float width = mbookInfoUserRating.getWidth();
                     float starsf = (touchPositionX / width) * 5.0f;
                     int stars = (int)starsf + 1;
-
-
+                    
                     if (String.valueOf(stars).equals(mUserRating)) stars = 0;
                     mPresenter.setUserRating(stars);
+                    book.setUserRating(String.valueOf(stars));
                     view.setPressed(false);
                 }
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -303,6 +317,15 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
         });
 
         findViewById(R.id.button_write_a_note).setOnClickListener(v -> {
+            Gson gson = new Gson();
+            String bookAsString = gson.toJson(book);
+
+            Intent i = new Intent(this, UserReview.class);
+            i.putExtra(BOOK_INFO_OBJECT, bookAsString);
+            startActivityForResult(i, REQUEST_CODE);
+        });
+
+        mBookInfoEditNotes.setOnClickListener(v -> {
             Gson gson = new Gson();
             String bookAsString = gson.toJson(book);
 

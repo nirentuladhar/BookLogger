@@ -61,7 +61,8 @@ public class UserReview extends AppCompatActivity implements UserReviewContract.
                     int stars = (int)starsf + 1;
 
                     if (String.valueOf(stars).equals(mUserRating)) stars = 0;
-                        mBook.setUserRating(String.valueOf(stars));
+                    mUserRating.setRating(stars);
+                    mBook.setUserRating(String.valueOf(stars));
                     view.setPressed(false);
                 }
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
