@@ -10,16 +10,16 @@ import retrofit2.Response;
  * Created by Niren on 12/5/18.
  */
 
-public class SearchActivityPresenter implements SearchActivityContract.Presenter {
+public class SearchPresenter implements SearchContract.Presenter {
 
-    private SearchActivityContract.View mView;
+    private SearchContract.View mView;
     private GoogleBooksApi mGoogleBooksApi;
 
-    public SearchActivityPresenter(GoogleBooksApi googleBooksApi) {
+    public SearchPresenter(GoogleBooksApi googleBooksApi) {
         this.mGoogleBooksApi = googleBooksApi;
     }
 
-    public void bind(SearchActivityContract.View view) {
+    public void bind(SearchContract.View view) {
         this.mView = view;
     }
 

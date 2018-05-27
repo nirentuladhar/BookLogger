@@ -10,9 +10,9 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 import app.mad.com.booklogger.R;
-import app.mad.com.booklogger.ui.login.LoginActivity;
+import app.mad.com.booklogger.ui.login.Login;
 
-public class SignUpActivity extends AppCompatActivity implements SignUpContract.View{
+public class SignUp extends AppCompatActivity implements SignUpContract.View{
 
     public static final String TAG = "BOOK_LOGGER signup";
 
@@ -23,7 +23,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
     FirebaseAuth mAuth;
     SignUpContract.Presenter mPresenter;
 
-    SignUpActivity() {}
+    SignUp() {}
 
 
 
@@ -42,7 +42,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
         mPassword = findViewById(R.id.sign_up_password);
 
         mGoToLoginButton.setOnClickListener(v -> {
-            Intent i = new Intent(this, LoginActivity.class);
+            Intent i = new Intent(this, Login.class);
             startActivity(i);
         });
 
@@ -88,7 +88,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
 
     @Override
     public void displaySuccess() {
-        Intent i = new Intent(this, LoginActivity.class);
+        Intent i = new Intent(this, Login.class);
         startActivity(i);
         Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show();
     }

@@ -24,9 +24,9 @@ import com.squareup.picasso.Picasso;
 import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.ui.userreview.UserReview;
 import app.mad.com.booklogger.model.Book;
-import app.mad.com.booklogger.ui.home.HomeActivity;
+import app.mad.com.booklogger.ui.home.Home;
 
-public class BookInfoActivity extends AppCompatActivity implements BookInfoContract.View {
+public class BookInfo extends AppCompatActivity implements BookInfoContract.View {
 
     public static final String TAG = "BOOK_LOGGER BIA";
 
@@ -163,13 +163,13 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
             // checks what the current view is
             // and selects the button
             switch (mCurrentRef) {
-                case HomeActivity.TOREAD_REF:
+                case Home.TOREAD_REF:
                     mBookFlag.check(R.id.radio_toread);
                     break;
-                case HomeActivity.READING_REF:
+                case Home.READING_REF:
                     mBookFlag.check(R.id.radio_reading);
                     break;
-                case HomeActivity.COMPLETED_REF:
+                case Home.COMPLETED_REF:
                     mBookFlag.check(R.id.radio_completed);
                     break;
             }
@@ -178,7 +178,7 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
 
 
             // image transition animation
-            String imageTransitionName = mIntent.getStringExtra(BookInfoActivity.TRANSITION_NAME);
+            String imageTransitionName = mIntent.getStringExtra(BookInfo.TRANSITION_NAME);
             bookInfoImage.setTransitionName(imageTransitionName);
 
 
@@ -205,7 +205,7 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
 
     @Override
     public void closeActivity() {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, Home.class);
         startActivity(intent);
     }
 
@@ -265,15 +265,15 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
 
             switch (selectedRadioButton.getId()) {
                 case R.id.radio_completed:
-                    mCurrentRef = HomeActivity.COMPLETED_REF;
+                    mCurrentRef = Home.COMPLETED_REF;
                     mPresenter.addBook();
                     break;
                 case R.id.radio_reading:
-                    mCurrentRef = HomeActivity.READING_REF;
+                    mCurrentRef = Home.READING_REF;
                     mPresenter.addBook();
                     break;
                 case R.id.radio_toread:
-                    mCurrentRef = HomeActivity.TOREAD_REF;
+                    mCurrentRef = Home.TOREAD_REF;
                     mPresenter.addBook();
                     break;
             }
@@ -299,7 +299,7 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
                     float width = mbookInfoUserRating.getWidth();
                     float starsf = (touchPositionX / width) * 5.0f;
                     int stars = (int)starsf + 1;
-                    
+
                     if (String.valueOf(stars).equals(mUserRating)) stars = 0;
                     mPresenter.setUserRating(stars);
                     book.setUserRating(String.valueOf(stars));
@@ -339,14 +339,14 @@ public class BookInfoActivity extends AppCompatActivity implements BookInfoContr
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE) {
-            if(resultCode == BookInfoActivity.RESULT_OK){
+            if(resultCode == BookInfo.RESULT_OK){
                 String result = data.getStringExtra("result");
                 Gson gson = new Gson();
                 book = gson.fromJson(result, Book.class);
                 displayBookInfo();
 //                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
             }
-            if (resultCode == BookInfoActivity.RESULT_CANCELED) {
+            if (resultCode == BookInfo.RESULT_CANCELED) {
                 //Write your code if there's no result
             }
         }

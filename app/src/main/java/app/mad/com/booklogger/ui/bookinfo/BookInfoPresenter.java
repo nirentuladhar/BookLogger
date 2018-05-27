@@ -1,7 +1,7 @@
 package app.mad.com.booklogger.ui.bookinfo;
 
 import app.mad.com.booklogger.model.Book;
-import app.mad.com.booklogger.ui.home.HomeActivity;
+import app.mad.com.booklogger.ui.home.Home;
 import app.mad.com.booklogger.utils.FirebaseHelper;
 
 /**
@@ -55,20 +55,20 @@ public class BookInfoPresenter implements BookInfoContract.Presenter {
     @Override
     public void addBook() {
         switch (mView.getCurrentRef()) {
-            case HomeActivity.COMPLETED_REF:
-                addBookTo(HomeActivity.COMPLETED_REF);
-                removeBookFrom(HomeActivity.READING_REF);
-                removeBookFrom(HomeActivity.TOREAD_REF);
+            case Home.COMPLETED_REF:
+                addBookTo(Home.COMPLETED_REF);
+                removeBookFrom(Home.READING_REF);
+                removeBookFrom(Home.TOREAD_REF);
                 break;
-            case HomeActivity.READING_REF:
-                addBookTo(HomeActivity.READING_REF);
-                removeBookFrom(HomeActivity.COMPLETED_REF);
-                removeBookFrom(HomeActivity.TOREAD_REF);
+            case Home.READING_REF:
+                addBookTo(Home.READING_REF);
+                removeBookFrom(Home.COMPLETED_REF);
+                removeBookFrom(Home.TOREAD_REF);
                 break;
-            case HomeActivity.TOREAD_REF:
-                addBookTo(HomeActivity.TOREAD_REF);
-                removeBookFrom(HomeActivity.COMPLETED_REF);
-                removeBookFrom(HomeActivity.READING_REF);
+            case Home.TOREAD_REF:
+                addBookTo(Home.TOREAD_REF);
+                removeBookFrom(Home.COMPLETED_REF);
+                removeBookFrom(Home.READING_REF);
                 break;
         }
         mView.displayBookAdded();

@@ -21,21 +21,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.mad.com.booklogger.R;
-import app.mad.com.booklogger.ui.bookinfo.BookInfoActivity;
-import app.mad.com.booklogger.ui.home.HomeActivity;
-import app.mad.com.booklogger.ui.home.fragments.HomeFragment;
+import app.mad.com.booklogger.ui.bookinfo.BookInfo;
+import app.mad.com.booklogger.ui.home.Home;
 import app.mad.com.booklogger.ui.search.BookListRecyclerAdapter.OnRowClickListener;
 import app.mad.com.booklogger.model.BookList;
 import app.mad.com.booklogger.api.GoogleBooksImpl;
 
-public class SearchActivity extends AppCompatActivity implements SearchActivityContract.View {
+public class Search extends AppCompatActivity implements SearchContract.View {
 
     Context mContext;
     RecyclerView mRecyclerView;
     BookListRecyclerAdapter mAdapter;
     List<BookList.BookItem> mBookItem = new ArrayList<>();
     ProgressBar progressBar;
-    private SearchActivityContract.Presenter mPresenter;
+    private SearchContract.Presenter mPresenter;
     String mQuery;
 
 
@@ -50,7 +49,7 @@ public class SearchActivity extends AppCompatActivity implements SearchActivityC
         setRecyclerView();
         setSearchQueryListener();
 
-        mPresenter = new SearchActivityPresenter(new GoogleBooksImpl());
+        mPresenter = new SearchPresenter(new GoogleBooksImpl());
         mPresenter.bind(this);
     }
 
@@ -85,27 +84,27 @@ public class SearchActivity extends AppCompatActivity implements SearchActivityC
 
     @Override
     public void displayNoBooks() {
-        Log.d(HomeActivity.TAG, "No books");
+        Log.d(Home.TAG, "No books");
     }
 
     @Override
     public void displayBookInfo(BookList.BookItem bookItem, ImageView cover) {
-        Intent intent = new Intent(getApplicationContext(), BookInfoActivity.class);
+        Intent intent = new Intent(getApplicationContext(), BookInfo.class);
 
-        intent.putExtra(BookInfoActivity.ID, bookItem.getId());
-        intent.putExtra(BookInfoActivity.TITLE, bookItem.getVolumeInfo().getTitle());
-        intent.putExtra(BookInfoActivity.AUTHORS, bookItem.getVolumeInfo().getAuthors());
-        intent.putExtra(BookInfoActivity.IMAGE_PATH, bookItem.getVolumeInfo().getThumbnail());
-        intent.putExtra(BookInfoActivity.DESCRIPTION, bookItem.getVolumeInfo().getDescription());
-        intent.putExtra(BookInfoActivity.PAGE_COUNT, String.valueOf(bookItem.getVolumeInfo().getPageCount()));
-        intent.putExtra(BookInfoActivity.AVERAGE_RATING, String.valueOf(bookItem.getVolumeInfo().getAverageRating()));
-        intent.putExtra(BookInfoActivity.RATINGS_COUNT, String.valueOf(bookItem.getVolumeInfo().getRatingsCount()));
-        intent.putExtra(BookInfoActivity.CURRENT_VIEW, "search");
+        intent.putExtra(BookInfo.ID, bookItem.getId());
+        intent.putExtra(BookInfo.TITLE, bookItem.getVolumeInfo().getTitle());
+        intent.putExtra(BookInfo.AUTHORS, bookItem.getVolumeInfo().getAuthors());
+        intent.putExtra(BookInfo.IMAGE_PATH, bookItem.getVolumeInfo().getThumbnail());
+        intent.putExtra(BookInfo.DESCRIPTION, bookItem.getVolumeInfo().getDescription());
+        intent.putExtra(BookInfo.PAGE_COUNT, String.valueOf(bookItem.getVolumeInfo().getPageCount()));
+        intent.putExtra(BookInfo.AVERAGE_RATING, String.valueOf(bookItem.getVolumeInfo().getAverageRating()));
+        intent.putExtra(BookInfo.RATINGS_COUNT, String.valueOf(bookItem.getVolumeInfo().getRatingsCount()));
+        intent.putExtra(BookInfo.CURRENT_VIEW, "search");
 
-        intent.putExtra(BookInfoActivity.TRANSITION_NAME, ViewCompat.getTransitionName(cover));
+        intent.putExtra(BookInfo.TRANSITION_NAME, ViewCompat.getTransitionName(cover));
 
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                SearchActivity.this,
+                Search.this,
                 cover,
                 ViewCompat.getTransitionName(cover));
 

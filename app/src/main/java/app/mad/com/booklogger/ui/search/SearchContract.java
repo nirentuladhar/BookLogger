@@ -10,7 +10,7 @@ import app.mad.com.booklogger.model.BookList;
  * Created by Niren on 12/5/18.
  */
 
-public interface SearchActivityContract {
+public interface SearchContract {
     interface View {
         String getQuery();
         void displayBooks(List<BookList.BookItem> bookLists);
@@ -19,7 +19,7 @@ public interface SearchActivityContract {
     }
 
     interface Presenter {
-        void bind(SearchActivityContract.View view);
+        void bind(SearchContract.View view);
         void unbind();
 
         void loadBooks();

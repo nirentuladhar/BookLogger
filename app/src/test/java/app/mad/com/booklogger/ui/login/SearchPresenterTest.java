@@ -10,7 +10,7 @@ import org.mockito.junit.MockitoJUnitRunner;
  */
 
 @RunWith(MockitoJUnitRunner.class)
-public class SearchActivityPresenterTest {
+public class SearchPresenterTest {
 
     @Test
     public void shouldPass() {
@@ -22,7 +22,7 @@ public class SearchActivityPresenterTest {
 //
 //    @Test
 //    public void shouldPassBooksToView() {
-////        SearchActivityContract view = new MockView();
+////        SearchContract view = new MockView();
 //        Mockito.when(googleBooksService.getBooks("hello"))
 //                .thenReturn(Arrays.asList(new List<BookList()>, new BookList() ));
 //    }

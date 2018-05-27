@@ -17,11 +17,11 @@ import app.mad.com.booklogger.ui.home.fragments.HomeFragmentAdapter;
 //import app.mad.com.booklogger.ui.home.fragments.HomeToReadFragment;
 //import app.mad.com.booklogger.ui.home.reading.ReadingFragment;
 //import app.mad.com.booklogger.ui.home.toread.ToReadFragment;
-import app.mad.com.booklogger.ui.login.LoginActivity;
-import app.mad.com.booklogger.ui.search.SearchActivity;
+import app.mad.com.booklogger.ui.login.Login;
+import app.mad.com.booklogger.ui.search.Search;
 import app.mad.com.booklogger.R;
 
-public class HomeActivity extends AppCompatActivity implements HomeContract.view {
+public class Home extends AppCompatActivity implements HomeContract.view {
     public static final String TAG = "BOOK_LOGGER";
     public HomePresenter mPresenter;
 
@@ -41,7 +41,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.view
         tabLayoutSetup();
 
         findViewById(R.id.search_books_fab).setOnClickListener(v -> {
-            Intent intent = new Intent(this, SearchActivity.class);
+            Intent intent = new Intent(this, Search.class);
             startActivity(intent);
         });
 
@@ -70,7 +70,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.view
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_sign_out) {
             mPresenter.signOut();
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, Login.class);
             startActivity(intent);
         }
 

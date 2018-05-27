@@ -17,14 +17,13 @@ import android.widget.TextView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.model.Book;
-import app.mad.com.booklogger.ui.bookinfo.BookInfoActivity;
+import app.mad.com.booklogger.ui.bookinfo.BookInfo;
 import app.mad.com.booklogger.ui.home.BookRecyclerAdapter;
 
 /**
@@ -94,25 +93,25 @@ public class HomeFragment extends Fragment implements HomeFragmentContract.View 
             // pass an intent to open a book activity
 
 
-            Intent intent = new Intent(getContext(), BookInfoActivity.class);
+            Intent intent = new Intent(getContext(), BookInfo.class);
 
 
-            intent.putExtra(BookInfoActivity.ID, bookItem.getId());
-            intent.putExtra(BookInfoActivity.TITLE, bookItem.getTitle());
-            intent.putExtra(BookInfoActivity.AUTHORS, bookItem.getAuthors());
-            intent.putExtra(BookInfoActivity.IMAGE_PATH, bookItem.getImagePath());
-            intent.putExtra(BookInfoActivity.DESCRIPTION, bookItem.getDescription());
-            intent.putExtra(BookInfoActivity.PAGE_COUNT, String.valueOf(bookItem.getPageCount()));
-            intent.putExtra(BookInfoActivity.AVERAGE_RATING, String.valueOf(bookItem.getAverageRating()));
-            intent.putExtra(BookInfoActivity.RATINGS_COUNT, String.valueOf(bookItem.getRatingsCount()));
-            intent.putExtra(BookInfoActivity.USER_RATING, String.valueOf(bookItem.getUserRating()));
-            intent.putExtra(BookInfoActivity.NOTE, String.valueOf(bookItem.getNotes()));
+            intent.putExtra(BookInfo.ID, bookItem.getId());
+            intent.putExtra(BookInfo.TITLE, bookItem.getTitle());
+            intent.putExtra(BookInfo.AUTHORS, bookItem.getAuthors());
+            intent.putExtra(BookInfo.IMAGE_PATH, bookItem.getImagePath());
+            intent.putExtra(BookInfo.DESCRIPTION, bookItem.getDescription());
+            intent.putExtra(BookInfo.PAGE_COUNT, String.valueOf(bookItem.getPageCount()));
+            intent.putExtra(BookInfo.AVERAGE_RATING, String.valueOf(bookItem.getAverageRating()));
+            intent.putExtra(BookInfo.RATINGS_COUNT, String.valueOf(bookItem.getRatingsCount()));
+            intent.putExtra(BookInfo.USER_RATING, String.valueOf(bookItem.getUserRating()));
+            intent.putExtra(BookInfo.NOTE, String.valueOf(bookItem.getNotes()));
             /**
              * TODO: change the name of the constants
              */
-            intent.putExtra(BookInfoActivity.CURRENT_VIEW, mCurrentFragment);
+            intent.putExtra(BookInfo.CURRENT_VIEW, mCurrentFragment);
 
-            intent.putExtra(BookInfoActivity.TRANSITION_NAME, ViewCompat.getTransitionName(cover));
+            intent.putExtra(BookInfo.TRANSITION_NAME, ViewCompat.getTransitionName(cover));
 
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                     getActivity(),

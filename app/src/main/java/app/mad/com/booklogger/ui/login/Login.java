@@ -18,13 +18,13 @@ import com.google.android.gms.common.SignInButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 import app.mad.com.booklogger.R;
-import app.mad.com.booklogger.ui.signup.SignUpActivity;
-import app.mad.com.booklogger.ui.home.HomeActivity;
+import app.mad.com.booklogger.ui.signup.SignUp;
+import app.mad.com.booklogger.ui.home.Home;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoginContract.View {
+public class Login extends AppCompatActivity implements LoginContract.View {
 
 
     private static final String TAG = "Login";
@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         });
 
         mGoToSignUpButton.setOnClickListener(v -> {
-            Intent i = new Intent(this, SignUpActivity.class);
+            Intent i = new Intent(this, SignUp.class);
             startActivity(i);
         });
 
@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @Override
     public void showLoginSuccess() {
-        Intent i = new Intent(this, HomeActivity.class);
+        Intent i = new Intent(this, Home.class);
         startActivity(i);
     }
 

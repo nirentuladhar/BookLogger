@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 
 import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.model.Book;
-import app.mad.com.booklogger.ui.bookinfo.BookInfoActivity;
+import app.mad.com.booklogger.ui.bookinfo.BookInfo;
 
 public class UserReview extends AppCompatActivity implements UserReviewContract.view {
 
@@ -43,7 +43,7 @@ public class UserReview extends AppCompatActivity implements UserReviewContract.
 
         Intent intent = getIntent();
         Gson gson = new Gson();
-        String bookAsString = intent.getStringExtra(BookInfoActivity.BOOK_INFO_OBJECT);
+        String bookAsString = intent.getStringExtra(BookInfo.BOOK_INFO_OBJECT);
         mBook = gson.fromJson(bookAsString, Book.class);
 
         mUserNote = findViewById(R.id.edittext_user_review_description);
@@ -121,7 +121,7 @@ public class UserReview extends AppCompatActivity implements UserReviewContract.
         String bookAsString = gson.toJson(mBook);
         Intent returnIntent = new Intent();
         returnIntent.putExtra("result", bookAsString);
-        setResult(BookInfoActivity.RESULT_OK, returnIntent);
+        setResult(BookInfo.RESULT_OK, returnIntent);
         finish();
 //        finish();
         Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
