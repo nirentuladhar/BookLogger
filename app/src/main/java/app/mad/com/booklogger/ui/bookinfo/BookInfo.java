@@ -149,8 +149,11 @@ public class BookInfo extends AppCompatActivity implements BookInfoContract.View
                     mBookInfoNotes.setVisibility(View.GONE);
                     mBookInfoEditNotes.setVisibility(View.GONE);
                     findViewById(R.id.textview_your_note).setVisibility(View.GONE);
-
                 }
+            } else {
+                findViewById(R.id.layout_user_note).setVisibility(View.GONE);
+                findViewById(R.id.button_write_a_note).setVisibility(View.GONE);
+                findViewById(R.id.textview_your_note).setVisibility(View.GONE);
             }
 
 

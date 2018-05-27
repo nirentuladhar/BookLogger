@@ -163,6 +163,7 @@
 
         </RelativeLayout>
         <LinearLayout
+            android:id="@+id/layout_user_note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="16dp"
