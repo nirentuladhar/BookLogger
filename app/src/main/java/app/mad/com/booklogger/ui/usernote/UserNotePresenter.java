@@ -1,4 +1,4 @@
-package app.mad.com.booklogger.ui.userreview;
+package app.mad.com.booklogger.ui.usernote;
 
 import app.mad.com.booklogger.model.Book;
 import app.mad.com.booklogger.utils.FirebaseHelper;
@@ -7,16 +7,16 @@ import app.mad.com.booklogger.utils.FirebaseHelper;
  * Created by Niren on 26/5/18.
  */
 
-public class UserReviewPresenter implements UserReviewContract.presenter {
-    UserReviewContract.view mView;
+public class UserNotePresenter implements UserNoteContract.presenter {
+    UserNoteContract.view mView;
     FirebaseHelper mFirebaseHelper;
 
-    public UserReviewPresenter(){
+    public UserNotePresenter(){
         mFirebaseHelper = new FirebaseHelper();
     }
 
     @Override
-    public void bind(UserReviewContract.view view) {
+    public void bind(UserNoteContract.view view) {
         this.mView = view;
     }
 

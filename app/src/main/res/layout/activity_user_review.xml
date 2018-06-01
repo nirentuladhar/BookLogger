@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     style="@style/UserReviewActionBar"
-    tools:context="app.mad.com.booklogger.ui.userreview.UserReview">
+    tools:context="app.mad.com.booklogger.ui.usernote.UserNote">
 
     <LinearLayout
         android:layout_width="match_parent"

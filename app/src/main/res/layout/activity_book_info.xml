@@ -65,7 +65,7 @@
                 android:text="By Orson Scott Card"/>
 
             <TextView
-                android:id="@+id/book_info_metadata_textview"
+                android:id="@+id/book_info_pagecount_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#FFF"
@@ -87,7 +87,7 @@
                 android:isIndicator="true"
                 android:layout_centerInParent="true"
                 android:layout_marginBottom="2dp"
-                android:layout_below="@id/book_info_metadata_textview"/>
+                android:layout_below="@id/book_info_pagecount_textview"/>
 
             <TextView
                 android:id="@+id/book_info_ratings_count"
@@ -163,6 +163,7 @@
 
         </RelativeLayout>
         <LinearLayout
+            android:id="@+id/layout_note_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="16dp"
@@ -189,7 +190,7 @@
                 android:text="Your note:"/>
 
             <TextView
-                android:id="@+id/book_info_notes"
+                android:id="@+id/book_info_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="2dp"

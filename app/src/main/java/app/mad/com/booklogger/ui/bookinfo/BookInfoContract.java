@@ -9,8 +9,10 @@ import app.mad.com.booklogger.model.Book;
 public interface BookInfoContract {
 
     interface View {
+        Book getSelectedBook();
         Book getCurrentBook();
         String getCurrentRef();
+
         void displayBookInfo();
         void displayBookDeleted();
         void displayBookAdded();
@@ -18,6 +20,14 @@ public interface BookInfoContract {
         void displayUserRating();
         void closeActivity();
 
+        void displayNoteContainer();
+        void hideNoteContainer();
+        void displayWriteReview();
+        void displayEditReview();
+
+        void displayToReadSelected();
+        void displayReadingSelected();
+        void displayCompletedSelected();
     }
 
     interface Presenter {
@@ -28,6 +38,8 @@ public interface BookInfoContract {
         void addBook();
         void deleteBook();
         void setUserRating(int stars);
+        void setUserNotes();
+        void setCurrentBookList();
     }
 
 }

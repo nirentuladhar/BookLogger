@@ -1,5 +1,6 @@
-package app.mad.com.booklogger.ui.home;
+package app.mad.com.booklogger.ui.home.fragments;
 
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,24 +18,23 @@ import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.model.Book;
 
 /**
- * Created by Niren on 11/5/18.
+ * Recycler Adapter class specifically for Book object. Used in home activity & fragments
  */
-
 public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapter.ViewHolder>{
 
     private List<Book> mBook;
     private OnRowClickListener mListener;
 
-    public BookRecyclerAdapter(List<Book> book) {
+    BookRecyclerAdapter(List<Book> book) {
         this.mBook = book;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mBookTitle;
-        public ImageView mBookCover;
-        public TextView mBookAuthors;
-        public LinearLayout mBookContainer;
-        public ViewHolder(View itemView) {
+    class ViewHolder extends RecyclerView.ViewHolder {
+        TextView mBookTitle;
+        ImageView mBookCover;
+        TextView mBookAuthors;
+        LinearLayout mBookContainer;
+        ViewHolder(View itemView) {
             super(itemView);
             mBookCover = itemView.findViewById(R.id.imageview_book_cover);
             mBookTitle = itemView.findViewById(R.id.textview_title);
@@ -43,31 +43,30 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
         }
     }
 
+    @NonNull
     @Override
-    public BookRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BookRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_card, parent, false);
         return new BookRecyclerAdapter.ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final BookRecyclerAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final BookRecyclerAdapter.ViewHolder holder, int position) {
         Book book = mBook.get(position);
         holder.mBookTitle.setText(book.getTitle());
         holder.mBookAuthors.setText(book.getAuthors());
-        ViewCompat.setTransitionName(holder.mBookCover, book.getTitle());
-
-
-        Picasso.get().load(book.getImagePath()).into(holder.mBookCover);
-        holder.mBookContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Book bookItem = getBookItem(holder.getAdapterPosition());
-                mListener.onRowClick(bookItem, holder.mBookCover);
-            }
+        holder.mBookContainer.setOnClickListener(v -> {
+            Book bookItem = getBookItem(holder.getAdapterPosition());
+            mListener.onRowClick(bookItem, holder.mBookCover);
         });
+        // downloads image into the holder
+        Picasso.get().load(book.getImagePath()).into(holder.mBookCover);
+
+        // image transition
+        ViewCompat.setTransitionName(holder.mBookCover, book.getTitle());
     }
 
-    public void setOnRowClickListener(OnRowClickListener listener) {
+    void setOnRowClickListener(OnRowClickListener listener) {
         mListener = listener;
     }
 

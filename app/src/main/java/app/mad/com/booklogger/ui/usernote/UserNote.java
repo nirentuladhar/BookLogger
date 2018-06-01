@@ -1,4 +1,4 @@
-package app.mad.com.booklogger.ui.userreview;
+package app.mad.com.booklogger.ui.usernote;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
@@ -18,9 +18,10 @@ import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.model.Book;
 import app.mad.com.booklogger.ui.bookinfo.BookInfo;
 
-public class UserReview extends AppCompatActivity implements UserReviewContract.view {
+public class UserNote extends AppCompatActivity implements UserNoteContract.view {
 
-    UserReviewContract.presenter mPresenter;
+    public static final String USER_NOTE_INTENT_CODE = "user_note";
+    UserNoteContract.presenter mPresenter;
     EditText mUserNote;
     RatingBar mUserRating;
     Book mBook;
@@ -30,7 +31,7 @@ public class UserReview extends AppCompatActivity implements UserReviewContract.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_review);
 
-        mPresenter = new UserReviewPresenter();
+        mPresenter = new UserNotePresenter();
         mPresenter.bind(this);
 
         ActionBar actionBar = getSupportActionBar();
@@ -120,7 +121,7 @@ public class UserReview extends AppCompatActivity implements UserReviewContract.
         Gson gson = new Gson();
         String bookAsString = gson.toJson(mBook);
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("result", bookAsString);
+        returnIntent.putExtra(USER_NOTE_INTENT_CODE , bookAsString);
         setResult(BookInfo.RESULT_OK, returnIntent);
         finish();
 //        finish();

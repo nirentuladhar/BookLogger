@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,10 +59,12 @@ public class Login extends AppCompatActivity implements LoginContract.View {
         mSignInGoogleButton = findViewById(R.id.button_google_sign_in);
 
         mSignInGoogleButton.setOnClickListener(v -> {
+            findViewById(R.id.login_progress_bar).setVisibility(View.VISIBLE);
             signInWithGoogle();
         });
 
         mLoginButton.setOnClickListener(v -> {
+            findViewById(R.id.login_progress_bar).setVisibility(View.VISIBLE);
             mPresenter.loginEmail();
         });
 
@@ -127,6 +130,7 @@ public class Login extends AppCompatActivity implements LoginContract.View {
 
     @Override
     public void showLoginSuccess() {
+        findViewById(R.id.login_progress_bar).setVisibility(View.INVISIBLE);
         Intent i = new Intent(this, Home.class);
         startActivity(i);
     }

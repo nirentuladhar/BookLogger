@@ -6,9 +6,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by Niren on 13/5/18.
+ * Returns a list of books for a given query using Google Books
  */
-
 public class GoogleBooksImpl implements GoogleBooksApi {
 
     private GoogleBooksApi service;

@@ -36,7 +36,7 @@
             android:name=".ui.bookinfo.BookInfo"
             android:theme="@style/AppTheme.AppBarOverlay" />
         <activity android:name=".ui.signup.SignUp" />
-        <activity android:name=".ui.userreview.UserReview"></activity>
+        <activity android:name=".ui.usernote.UserNote"></activity>
     </application>
 
 </manifest>

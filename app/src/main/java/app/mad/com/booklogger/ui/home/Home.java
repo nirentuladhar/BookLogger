@@ -100,7 +100,7 @@ public class Home extends AppCompatActivity implements HomeContract.view {
 
     private Bundle getBundle(String ref) {
         Bundle bundle = new Bundle();
-        bundle.putString(HomeFragment.CURRENT_FRAG_KEY, ref);
+        bundle.putString(HomeFragment.CURRENT_TAB_KEY, ref);
         return bundle;
     }
 

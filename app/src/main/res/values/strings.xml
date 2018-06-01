@@ -28,5 +28,12 @@
     <string name="user_rating">Your rating:</string>
     <string name="dummy_text">In the aftermath of his terrible war, Ender Wiggin disappeared, and a powerful voice arose: the Speaker for the Dead, who told of the true story of the Bugger War.as the courage to confront the mystery…and the truth.</string>
     <string name="done">Done</string>
+    <string name="left_bracket">(</string>
+    <string name="right_bracket">)</string>
+    <string name="pages_text">pages</string>
+    <string name="error_book_load_fail">Unable to load the book. Please try again.</string>
+    <string name="book_deleted">Book deleted</string>
+    <string name="book_added">Book added</string>
+    <string name="dialog_delete_book">Do you want to delete this book?</string>
 
 </resources>

@@ -6,9 +6,8 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 /**
- * Created by Niren on 13/5/18.
+ * API for querying to Google Books
  */
-
 public interface GoogleBooksApi {
 
     String BASE_URL = "https://www.googleapis.com/books/v1/";

@@ -4,7 +4,7 @@ import java.util.List;
 
 
 /**
- * Created by Niren on 6/5/18.
+ * Model for Google Books
  */
 
 public class BookList {
@@ -20,6 +20,9 @@ public class BookList {
         return items;
     }
 
+    /**
+     * Inner class of BookList
+     */
     public class BookItem {
         String id;
         VolumeInfo volumeInfo;
@@ -32,6 +35,9 @@ public class BookList {
         }
     }
 
+    /**
+     * Inner class of BookItem
+     */
     public class VolumeInfo {
         String title;
         List<String> authors;
@@ -46,15 +52,16 @@ public class BookList {
         }
 
         public String getAuthors() {
-            String author = "";
-            if (authors != null) {
+            // returns a formatted string from the provided list of authors
+            String authors = "";
+            if (this.authors != null) {
                 StringBuilder auth = new StringBuilder();
-                for (String a: authors) {
-                    auth.append(a).append(", ");
+                for (String author: this.authors) {
+                    auth.append(author).append(", ");
                 }
-                author = auth.substring(0, auth.length() - 2);
+                authors = auth.substring(0, auth.length() - 2);
             }
-            return author;
+            return authors;
         }
 
         public String getDescription() {
@@ -74,6 +81,8 @@ public class BookList {
         }
 
         public String getThumbnail() {
+            // attempts to get the path for the highest resolution
+            // falls back if not available
             if (imageLinks != null) {
                 String image = null;
                 if (imageLinks.getExtraLarge() != null) {
@@ -90,7 +99,7 @@ public class BookList {
                     image = imageLinks.getSmallThumbnail();
                 }
                 if (image != null) {
-                    return imageLinks.getThumbnail();
+                    return image;
                 }
             }
             return null;

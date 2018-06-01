@@ -1,9 +1,8 @@
 package app.mad.com.booklogger.model;
 
 /**
- * Created by Niren on 4/5/18.
+ * Model for Firebase
  */
-
 public class Book {
 
     private String mId;
@@ -13,17 +12,13 @@ public class Book {
     private String mPageCount;
     private String mAverageRating;
     private String mRatingsCount;
-
     private String mImagePath;
-
+    // custom fields
     private String mNotes;
     private String mUserRating = "0";
 
-    private String mDateModified;
-    private String mDateAdded;
-
-
-    public Book(){}
+    public Book() {
+    }
 
     public Book(String title, String authors, String imagePath) {
         mTitle = title;
@@ -41,7 +36,6 @@ public class Book {
         mPageCount = pageCount;
         mAverageRating = averageRating;
         mRatingsCount = ratingsCount;
-
         mImagePath = imagePath;
 
         mNotes = notes;
@@ -126,21 +120,5 @@ public class Book {
 
     public void setUserRating(String userRating) {
         mUserRating = userRating;
-    }
-
-    public String getDateModified() {
-        return mDateModified;
-    }
-
-    public void setDateModified(String dateModified) {
-        mDateModified = dateModified;
-    }
-
-    public String getDateAdded() {
-        return mDateAdded;
-    }
-
-    public void setDateAdded(String dateAdded) {
-        mDateAdded = dateAdded;
     }
 }

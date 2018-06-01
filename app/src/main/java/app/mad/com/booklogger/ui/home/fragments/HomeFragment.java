@@ -24,31 +24,31 @@ import java.util.List;
 import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.model.Book;
 import app.mad.com.booklogger.ui.bookinfo.BookInfo;
-import app.mad.com.booklogger.ui.home.BookRecyclerAdapter;
 
 /**
- * Created by Niren on 26/5/18.
+ * An instance of the fragment in the home activity
+ * Sets up recycler view and click listener for individual items
  */
 
 public class HomeFragment extends Fragment implements HomeFragmentContract.View {
     private static final String TAG = "BOOK_LOGGER";
 
-    public static final String CURRENT_FRAG_KEY = "key";
+    public static final String CURRENT_TAB_KEY = "key";
+    public static final int GRID_COLUMN_COUNT = 3;
 
     private RecyclerView mRecyclerView;
     private BookRecyclerAdapter mAdapter;
     private List<Book> mBookList = new ArrayList<>();
     private TextView mNoBooksMessage;
-
     private HomeFragmentContract.Presenter mPresenter;
-    private String mCurrentFragment;
+    private String mCurrentTab;
 
     public HomeFragment(){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCurrentFragment = getArguments().getString(CURRENT_FRAG_KEY);
+        mCurrentTab = getArguments().getString(CURRENT_TAB_KEY);
         mPresenter = new HomeFragmentPresenter();
         mPresenter.bind(this);
     }
@@ -70,32 +70,30 @@ public class HomeFragment extends Fragment implements HomeFragmentContract.View 
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), GRID_COLUMN_COUNT);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new BookRecyclerAdapter(mBookList);
         mRecyclerView.setAdapter(mAdapter);
 
-        mPresenter.setDatabaseRef(mCurrentFragment)
+        // gets all the books from the database based on current tab
+        mPresenter.setDatabaseRef(mCurrentTab)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         mBookList.clear();
                         mPresenter.getBooks(dataSnapshot);
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
+                        /**
+                         * todo add something here
+                         */
                     }
                 });
 
         mAdapter.setOnRowClickListener((bookItem, cover) -> {
             // pass an intent to open a book activity
-
-
             Intent intent = new Intent(getContext(), BookInfo.class);
-
-
             intent.putExtra(BookInfo.ID, bookItem.getId());
             intent.putExtra(BookInfo.TITLE, bookItem.getTitle());
             intent.putExtra(BookInfo.AUTHORS, bookItem.getAuthors());
@@ -106,25 +104,18 @@ public class HomeFragment extends Fragment implements HomeFragmentContract.View 
             intent.putExtra(BookInfo.RATINGS_COUNT, String.valueOf(bookItem.getRatingsCount()));
             intent.putExtra(BookInfo.USER_RATING, String.valueOf(bookItem.getUserRating()));
             intent.putExtra(BookInfo.NOTE, String.valueOf(bookItem.getNotes()));
-            /**
-             * TODO: change the name of the constants
-             */
-            intent.putExtra(BookInfo.CURRENT_VIEW, mCurrentFragment);
 
+            // extra metadata
+            intent.putExtra(BookInfo.CURRENT_VIEW, mCurrentTab);
             intent.putExtra(BookInfo.TRANSITION_NAME, ViewCompat.getTransitionName(cover));
 
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    getActivity(),
-                    cover,
-                    ViewCompat.getTransitionName(cover));
-
+            // image transition
+            ActivityOptionsCompat options = ActivityOptionsCompat
+                                            .makeSceneTransitionAnimation(getActivity(), cover, ViewCompat.getTransitionName(cover));
             startActivity(intent, options.toBundle());
         });
-
         super.onViewCreated(view, savedInstanceState);
     }
-
-
 
     @Override
     public void addBook(Book book) {
