@@ -3,9 +3,9 @@ package app.mad.com.booklogger.ui.bookinfo;
 import app.mad.com.booklogger.model.Book;
 
 /**
- * Created by Niren on 13/5/18.
+ * Displays an expanded view of a book
+ * This Activity is usually launched when a user clicks on a RecyclerView Book item
  */
-
 public interface BookInfoContract {
 
     interface View {
@@ -28,6 +28,8 @@ public interface BookInfoContract {
         void displayToReadSelected();
         void displayReadingSelected();
         void displayCompletedSelected();
+
+        void hideUserRating();
     }
 
     interface Presenter {
@@ -40,6 +42,8 @@ public interface BookInfoContract {
         void setUserRating(int stars);
         void setUserNotes();
         void setCurrentBookList();
+
+        void setUserRatingView();
     }
 
 }

@@ -7,9 +7,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
- * Created by Niren on 19/5/18.
+ * A login screen that offers login via email/password and through Google
  */
-
 public interface LoginContract {
 
     interface View {

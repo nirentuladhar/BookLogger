@@ -21,6 +21,10 @@ import app.mad.com.booklogger.ui.login.Login;
 import app.mad.com.booklogger.ui.search.Search;
 import app.mad.com.booklogger.R;
 
+/**
+ * Main screen for users where they can view their saved books
+ * and perform other actions
+ */
 public class Home extends AppCompatActivity implements HomeContract.view {
     public static final String TAG = "BOOK_LOGGER";
     public HomePresenter mPresenter;
@@ -37,9 +41,11 @@ public class Home extends AppCompatActivity implements HomeContract.view {
         mPresenter = new HomePresenter();
         mPresenter.bind(this);
 
+        // View setup
         toolbarSetup();
         tabLayoutSetup();
 
+        // Launches search activity on click
         findViewById(R.id.search_books_fab).setOnClickListener(v -> {
             Intent intent = new Intent(this, Search.class);
             startActivity(intent);
@@ -70,14 +76,15 @@ public class Home extends AppCompatActivity implements HomeContract.view {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_sign_out) {
             mPresenter.signOut();
-            Intent intent = new Intent(this, Login.class);
-            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-
+    /**
+     * Create new instances of tabs
+     * @param viewPager:
+     */
     private void setupViewPager(ViewPager viewPager) {
         HomeFragmentAdapter adapter = new HomeFragmentAdapter(getSupportFragmentManager(), this);
 
@@ -93,9 +100,7 @@ public class Home extends AppCompatActivity implements HomeContract.view {
         completed.setArguments(getBundle(COMPLETED_REF));
         adapter.addFragment(completed, "Completed");
 
-
         viewPager.setAdapter(adapter);
-
     }
 
     private Bundle getBundle(String ref) {
@@ -109,6 +114,9 @@ public class Home extends AppCompatActivity implements HomeContract.view {
         setSupportActionBar(toolbar);
     }
 
+    /**
+     * Finds and sets the tab for the home screen
+     */
     private void tabLayoutSetup() {
         ViewPager viewPager = findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -117,10 +125,9 @@ public class Home extends AppCompatActivity implements HomeContract.view {
     }
 
 
-
-
-
-
-
-
+    @Override
+    public void displaySignedOut() {
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
+    }
 }

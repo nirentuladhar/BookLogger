@@ -11,17 +11,15 @@ import java.util.List;
 import app.mad.com.booklogger.model.Book;
 
 /**
- * Created by Niren on 26/5/18.
+ * An instance of the fragment in the home activity
+ * Sets up recycler view and click listener for individual items
  */
-
 public class HomeFragmentPresenter implements HomeFragmentContract.Presenter {
 
     private HomeFragmentContract.View mView;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mRef;
     private String mUserId;
-
-
 
     public HomeFragmentPresenter() {
         mUserId = FirebaseAuth.getInstance().getUid();

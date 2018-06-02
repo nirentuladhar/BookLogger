@@ -3,11 +3,12 @@ package app.mad.com.booklogger.ui.bookinfo;
 import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.model.Book;
 import app.mad.com.booklogger.ui.home.Home;
+import app.mad.com.booklogger.ui.search.Search;
 import app.mad.com.booklogger.utils.FirebaseHelper;
 
 /**
  * Displays an expanded view of a book
- * Activity usually started on click to RecyclerView items
+ * This Activity is usually launched when a user clicks on a RecyclerView Book item
  */
 public class BookInfoPresenter implements BookInfoContract.Presenter {
 
@@ -72,7 +73,7 @@ public class BookInfoPresenter implements BookInfoContract.Presenter {
     @Override
     public void setUserNotes() {
         mBook = mView.getCurrentBook();
-        if (mView.getCurrentRef().equals("search")) {
+        if (mView.getCurrentRef().equals(Search.SEARCH_REF)) {
             //hide container
             mView.hideNoteContainer();
         } else {
@@ -104,6 +105,15 @@ public class BookInfoPresenter implements BookInfoContract.Presenter {
             case Home.COMPLETED_REF:
                 mView.displayCompletedSelected();
                 break;
+        }
+    }
+
+    @Override
+    public void setUserRatingView() {
+        if (mView.getCurrentRef().equals(Search.SEARCH_REF)) {
+            mView.hideUserRating();
+        } else {
+            mView.displayUserRating();
         }
     }
 

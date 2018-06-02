@@ -18,13 +18,18 @@ import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.model.Book;
 import app.mad.com.booklogger.ui.bookinfo.BookInfo;
 
+/**
+ * Activity to display, edit and save user notes and rating
+ */
 public class UserNote extends AppCompatActivity implements UserNoteContract.view {
 
     public static final String USER_NOTE_INTENT_CODE = "user_note";
-    UserNoteContract.presenter mPresenter;
-    EditText mUserNote;
-    RatingBar mUserRating;
+    EditText mUserNote() { return findViewById(R.id.edittext_user_review_description); }
+    RatingBar mUserRating() { return findViewById(R.id.rating_user_review); }
+
     Book mBook;
+    UserNoteContract.presenter mPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,7 @@ public class UserNote extends AppCompatActivity implements UserNoteContract.view
         mPresenter = new UserNotePresenter();
         mPresenter.bind(this);
 
+        // set up action bar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
@@ -42,41 +48,48 @@ public class UserNote extends AppCompatActivity implements UserNoteContract.view
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
+        // sets current note and rating
+        setUserNoteAndRating();
+
+        setRatingListener();
+    }
+
+    private void setRatingListener() {
+        mUserRating().setOnTouchListener((view, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                float touchPositionX = event.getX();
+                float width = mUserRating().getWidth();
+                float starsf = (touchPositionX / width) * 5.0f;
+                int stars = (int)starsf + 1;
+
+                if (String.valueOf(stars).equals(mUserRating())) stars = 0;
+                mUserRating().setRating(stars);
+                mBook.setUserRating(String.valueOf(stars));
+                view.setPressed(false);
+            }
+            if (event.getAction() == MotionEvent.ACTION_DOWN) view.setPressed(true);
+            if (event.getAction() == MotionEvent.ACTION_CANCEL) view.setPressed(false);
+            return true;
+        });
+    }
+
+    /**
+     * Gets the book object from an intent
+     * Sets the current note and rating
+     */
+    private void setUserNoteAndRating() {
         Intent intent = getIntent();
         Gson gson = new Gson();
         String bookAsString = intent.getStringExtra(BookInfo.BOOK_INFO_OBJECT);
         mBook = gson.fromJson(bookAsString, Book.class);
 
-        mUserNote = findViewById(R.id.edittext_user_review_description);
-        mUserNote.setText(mBook.getNotes());
-        mUserRating = findViewById(R.id.rating_user_review);
-        mUserRating.setRating(Float.valueOf(mBook.getUserRating()));
-
-        mUserRating.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    float touchPositionX = event.getX();
-                    float width = mUserRating.getWidth();
-                    float starsf = (touchPositionX / width) * 5.0f;
-                    int stars = (int)starsf + 1;
-
-                    if (String.valueOf(stars).equals(mUserRating)) stars = 0;
-                    mUserRating.setRating(stars);
-                    mBook.setUserRating(String.valueOf(stars));
-                    view.setPressed(false);
-                }
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    view.setPressed(true);
-                }
-
-                if (event.getAction() == MotionEvent.ACTION_CANCEL) {
-                    view.setPressed(false);
-                }
-                return true;
-            }
-        });
-
+        String userNote = mBook.getNotes();
+        if (userNote.equals("null")) {
+            mUserNote().setText("");
+        } else {
+            mUserNote().setText(userNote);
+        }
+        mUserRating().setRating(Float.valueOf(mBook.getUserRating()));
     }
 
     @Override
@@ -97,25 +110,22 @@ public class UserNote extends AppCompatActivity implements UserNoteContract.view
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
             case R.id.action_done:
-                mBook.setNotes(mUserNote.getText().toString());
+                mBook.setNotes(mUserNote().getText().toString());
                 mPresenter.saveNote();
-
-//                mPresenter.saveNote();
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-    @Override
-    public String getNote() {
-        return null;
-    }
 
+    /**
+     * If the user saves the note, returns the new book object through an intent
+     * And, closes the current activty
+     */
     @Override
     public void displaySaved() {
         Gson gson = new Gson();
@@ -124,7 +134,6 @@ public class UserNote extends AppCompatActivity implements UserNoteContract.view
         returnIntent.putExtra(USER_NOTE_INTENT_CODE , bookAsString);
         setResult(BookInfo.RESULT_OK, returnIntent);
         finish();
-//        finish();
         Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
     }
 

@@ -23,21 +23,21 @@ import app.mad.com.booklogger.ui.signup.SignUp;
 import app.mad.com.booklogger.ui.home.Home;
 
 /**
- * A login screen that offers login via email/password.
+ * A login screen that offers login via email/password and through Google
  */
 public class Login extends AppCompatActivity implements LoginContract.View {
 
 
     private static final String TAG = "Login";
-    private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     private LoginContract.Presenter mPresenter;
-    TextView mEmail;
-    TextView mPassword;
-    Button mLoginButton;
 
-    Button mGoToSignUpButton;
-    SignInButton mSignInGoogleButton;
+    TextView mEmail() { return findViewById(R.id.email); }
+    TextView mPassword () { return findViewById(R.id.password); }
+    Button mLoginButton() { return findViewById(R.id.email_sign_in_button); }
+    Button mGoToSignUpButton() { return findViewById(R.id.goto_sign_up_button); }
+    SignInButton mSignInGoogleButton() { return findViewById(R.id.button_google_sign_in); }
+
 
     public static int RC_SIGN_IN = 1234;
 
@@ -47,28 +47,25 @@ public class Login extends AppCompatActivity implements LoginContract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mAuth = FirebaseAuth.getInstance();
-        mPresenter = new LoginPresenter(mAuth);
+
+        mPresenter = new LoginPresenter();
         mPresenter.bind(this);
 
-
-        mLoginButton = findViewById(R.id.email_sign_in_button);
-        mEmail = findViewById(R.id.email);
-        mPassword = findViewById(R.id.password);
-        mGoToSignUpButton = findViewById(R.id.goto_sign_up_button);
-        mSignInGoogleButton = findViewById(R.id.button_google_sign_in);
-
-        mSignInGoogleButton.setOnClickListener(v -> {
+        //login using google
+        mSignInGoogleButton().setOnClickListener(v -> {
             findViewById(R.id.login_progress_bar).setVisibility(View.VISIBLE);
             signInWithGoogle();
         });
 
-        mLoginButton.setOnClickListener(v -> {
+        // login via email
+        mLoginButton().setOnClickListener(v -> {
             findViewById(R.id.login_progress_bar).setVisibility(View.VISIBLE);
             mPresenter.loginEmail();
         });
 
-        mGoToSignUpButton.setOnClickListener(v -> {
+        // create a new account
+        // launches sign up activity
+        mGoToSignUpButton().setOnClickListener(v -> {
             Intent i = new Intent(this, SignUp.class);
             startActivity(i);
         });
@@ -85,6 +82,9 @@ public class Login extends AppCompatActivity implements LoginContract.View {
     }
 
 
+    /**
+     * Automatic login if the system account was previously signed in.
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -120,12 +120,12 @@ public class Login extends AppCompatActivity implements LoginContract.View {
 
     @Override
     public String getEmail() {
-        return mEmail.getText().toString().trim();
+        return mEmail().getText().toString().trim();
     }
 
     @Override
     public String getPassword() {
-        return mPassword.getText().toString().trim();
+        return mPassword().getText().toString().trim();
     }
 
     @Override

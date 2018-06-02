@@ -23,28 +23,32 @@ import java.util.List;
 import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.ui.bookinfo.BookInfo;
 import app.mad.com.booklogger.ui.home.Home;
-import app.mad.com.booklogger.ui.search.BookListRecyclerAdapter.OnRowClickListener;
 import app.mad.com.booklogger.model.BookList;
 import app.mad.com.booklogger.api.GoogleBooksImpl;
 
+/**
+ * Searches for books from Google Books
+ * Displays the results if the attempt is successful
+ */
 public class Search extends AppCompatActivity implements SearchContract.View {
 
+    public static final String SEARCH_REF="search";
     Context mContext;
     RecyclerView mRecyclerView;
     BookListRecyclerAdapter mAdapter;
-    List<BookList.BookItem> mBookItem = new ArrayList<>();
-    ProgressBar progressBar;
+    String mSearchQuery;
+    List<BookList.BookItem> mGBook = new ArrayList<>();
+
     private SearchContract.Presenter mPresenter;
-    String mQuery;
+    SearchView mSearchView() { return findViewById(R.id.book_search_view); }
 
-
+    ProgressBar mProgressBar() { return findViewById(R.id.search_progress_bar); }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        progressBar = findViewById(R.id.search_progress_bar);
         setUpActionBar();
         setRecyclerView();
         setSearchQueryListener();
@@ -61,25 +65,24 @@ public class Search extends AppCompatActivity implements SearchContract.View {
 
 
     @Override
-    public String getQuery() {
-        return mQuery;
+    public String getSearchQuery() {
+        return mSearchQuery;
     }
 
+    /**
+     * Displays Search Results in the RecyclerView
+     * @param bookLists: list of BookItem objects to be displayed as results
+     */
     @Override
     public void displayBooks(List<BookList.BookItem> bookLists) {
-        mBookItem.clear();
-        mBookItem.addAll(bookLists);
-        mAdapter = new BookListRecyclerAdapter(mBookItem, mContext);
+        mGBook.clear();
+        mGBook.addAll(bookLists);
+        mAdapter = new BookListRecyclerAdapter(mGBook);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
-        mAdapter.setOnRowClickListener(new OnRowClickListener() {
-            @Override
-            public void onRowClick(BookList.BookItem bookItem, ImageView cover) {
-                displayBookInfo(bookItem, cover);
-            }
-        });
+        mAdapter.setOnRowClickListener((bookItem, cover) -> displayBookInfo(bookItem, cover));
 
-        progressBar.setVisibility(View.INVISIBLE);
+        mProgressBar().setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -90,7 +93,6 @@ public class Search extends AppCompatActivity implements SearchContract.View {
     @Override
     public void displayBookInfo(BookList.BookItem bookItem, ImageView cover) {
         Intent intent = new Intent(getApplicationContext(), BookInfo.class);
-
         intent.putExtra(BookInfo.ID, bookItem.getId());
         intent.putExtra(BookInfo.TITLE, bookItem.getVolumeInfo().getTitle());
         intent.putExtra(BookInfo.AUTHORS, bookItem.getVolumeInfo().getAuthors());
@@ -99,10 +101,9 @@ public class Search extends AppCompatActivity implements SearchContract.View {
         intent.putExtra(BookInfo.PAGE_COUNT, String.valueOf(bookItem.getVolumeInfo().getPageCount()));
         intent.putExtra(BookInfo.AVERAGE_RATING, String.valueOf(bookItem.getVolumeInfo().getAverageRating()));
         intent.putExtra(BookInfo.RATINGS_COUNT, String.valueOf(bookItem.getVolumeInfo().getRatingsCount()));
-        intent.putExtra(BookInfo.CURRENT_VIEW, "search");
+        intent.putExtra(BookInfo.CURRENT_VIEW, SEARCH_REF);
 
         intent.putExtra(BookInfo.TRANSITION_NAME, ViewCompat.getTransitionName(cover));
-
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 Search.this,
                 cover,
@@ -113,16 +114,14 @@ public class Search extends AppCompatActivity implements SearchContract.View {
 
 
     /**
-     *
+     * Attempts to search books from user's query
      */
     public void setSearchQueryListener() {
-        SearchView searchView = findViewById(R.id.book_search_view);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        mSearchView().setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mQuery = query;
-                progressBar.setVisibility(View.VISIBLE);
+                mSearchQuery = query;
+                mProgressBar().setVisibility(View.VISIBLE);
                 mPresenter.loadBooks();
                 return false;
             }

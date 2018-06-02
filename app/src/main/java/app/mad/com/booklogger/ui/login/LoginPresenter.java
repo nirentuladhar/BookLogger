@@ -19,9 +19,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 /**
- * Created by Niren on 19/5/18.
+ * A login screen that offers login via email/password and through Google
  */
-
 public class LoginPresenter implements LoginContract.Presenter {
     FirebaseAuth mAuth;
     LoginContract.View mView;
@@ -29,8 +28,8 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     private static final String TAG = "BOOK_LOGGER";
 
-    LoginPresenter(FirebaseAuth auth) {
-        this.mAuth = auth;
+    LoginPresenter() {
+        this.mAuth = FirebaseAuth.getInstance();
     }
 
     public void bind(LoginContract.View view) {
@@ -44,7 +43,6 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void firebaseAuthWithGoogle(GoogleSignInAccount account) {
-
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {

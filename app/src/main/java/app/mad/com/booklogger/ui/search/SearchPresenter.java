@@ -7,9 +7,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by Niren on 12/5/18.
+ * Searches for books from Google Books
+ * Displays the results if the attempt is successful
  */
-
 public class SearchPresenter implements SearchContract.Presenter {
 
     private SearchContract.View mView;
@@ -27,8 +27,12 @@ public class SearchPresenter implements SearchContract.Presenter {
         this.mView = null;
     }
 
+    /**
+     * Sends a API call based the user's query
+     * If there's a response, view displays a list of books
+     */
     public void loadBooks() {
-        mGoogleBooksApi.getBooks(mView.getQuery())
+        mGoogleBooksApi.getBooks(mView.getSearchQuery())
                 .enqueue(new Callback<BookList>() {
                     @Override
                     public void onResponse(Call<BookList> call, Response<BookList> response) {

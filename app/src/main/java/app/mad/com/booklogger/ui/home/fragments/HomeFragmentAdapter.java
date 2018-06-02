@@ -18,9 +18,9 @@ import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.model.BookList;
 
 /**
- * Created by Niren on 18/5/18.
+ * An instance of the fragment in the home activity
+ * Sets up recycler view and click listener for individual items
  */
-
 public class HomeFragmentAdapter extends FragmentPagerAdapter {
 
     private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -52,7 +52,6 @@ public class HomeFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         // Generate title based on item position
-
         Drawable image = mContext.getResources().getDrawable(imageResId[position]);
         image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
         // Replace blank spaces with image icon

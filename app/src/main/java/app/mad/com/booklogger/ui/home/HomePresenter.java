@@ -3,9 +3,9 @@ package app.mad.com.booklogger.ui.home;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
- * Created by Niren on 18/5/18.
+ * Main screen for users where they can view their saved books
+ * and perform other actions
  */
-
 public class HomePresenter implements HomeContract.presenter{
     private HomeContract.view mView;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -22,7 +22,9 @@ public class HomePresenter implements HomeContract.presenter{
         mView = null;
     }
 
+    @Override
     public void signOut() {
         mAuth.signOut();
+        mView.displaySignedOut();
     }
 }

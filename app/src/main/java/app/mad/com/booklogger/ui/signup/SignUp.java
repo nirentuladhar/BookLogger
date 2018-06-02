@@ -12,20 +12,23 @@ import com.google.firebase.auth.FirebaseAuth;
 import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.ui.login.Login;
 
+/**
+ * Sign Up users using email
+ */
 public class SignUp extends AppCompatActivity implements SignUpContract.View{
 
     public static final String TAG = "BOOK_LOGGER signup";
 
-    Button mGoToLoginButton;
-    Button mSignUpButton;
-    TextView mEmail;
-    TextView mPassword;
+    Button mGoToLoginButton() { return findViewById(R.id.goto_sign_in_button); }
+    Button mSignUpButton() { return findViewById(R.id.email_sign_up_button); }
+    TextView mEmailTextView() { return findViewById(R.id.sign_up_email_textview); }
+    TextView mPasswordTextView() { return findViewById(R.id.sign_up_password_textview); }
     FirebaseAuth mAuth;
     SignUpContract.Presenter mPresenter;
 
+
+
     SignUp() {}
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +38,12 @@ public class SignUp extends AppCompatActivity implements SignUpContract.View{
         mPresenter = new SignUpPresenter(mAuth);
         mPresenter.bind(this);
 
-
-        mGoToLoginButton = findViewById(R.id.goto_sign_in_button);
-        mSignUpButton = findViewById(R.id.email_sign_up_button);
-        mEmail = findViewById(R.id.sign_up_email);
-        mPassword = findViewById(R.id.sign_up_password);
-
-        mGoToLoginButton.setOnClickListener(v -> {
+        mGoToLoginButton().setOnClickListener(v -> {
             Intent i = new Intent(this, Login.class);
             startActivity(i);
         });
 
-        mSignUpButton.setOnClickListener(v -> mPresenter.signUp());
+        mSignUpButton().setOnClickListener(v -> mPresenter.signUp());
     }
 
     @Override
@@ -56,13 +53,13 @@ public class SignUp extends AppCompatActivity implements SignUpContract.View{
     }
 
     @Override
-    public String getEmail() {
-        return mEmail.getText().toString().trim();
+    public String getEmailTextView() {
+        return mEmailTextView().getText().toString().trim();
     }
 
     @Override
-    public String getPassword() {
-        return mPassword.getText().toString().trim();
+    public String getPasswordTextView() {
+        return mPasswordTextView().getText().toString().trim();
     }
 
     @Override

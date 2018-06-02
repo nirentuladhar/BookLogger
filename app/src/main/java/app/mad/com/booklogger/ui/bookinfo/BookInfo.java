@@ -27,7 +27,7 @@ import app.mad.com.booklogger.ui.home.Home;
 
 /**
  * Displays an expanded view of a book
- * Activity usually started on click to RecyclerView items
+ * This Activity is usually launched when a user clicks on a RecyclerView Book item
  */
 public class BookInfo extends AppCompatActivity implements BookInfoContract.View {
 
@@ -65,6 +65,7 @@ public class BookInfo extends AppCompatActivity implements BookInfoContract.View
     TextView mRatingsCountTextView() { return findViewById(R.id.book_info_ratings_count); }
     TextView mPageCountTextView() { return findViewById(R.id.book_info_pagecount_textview); }
     RatingBar mAverageRatingBar() { return findViewById(R.id.ratingbar_average); }
+    TextView mUserRatingTextView() { return findViewById(R.id.textview_user_review_rating); }
     RatingBar mUserRatingBar() { return findViewById(R.id.rating_user_review); }
     Button mDeleteButton() { return findViewById(R.id.button_delete); }
     ImageView mCloseButton() { return findViewById(R.id.button_close); }
@@ -109,6 +110,7 @@ public class BookInfo extends AppCompatActivity implements BookInfoContract.View
         // sets book metadata to the view from the book object
         setViewsText();
         mPresenter.setUserNotes();
+        mPresenter.setUserRatingView();
         mPresenter.setCurrentBookList();
 
         // image transition animation
@@ -221,9 +223,6 @@ public class BookInfo extends AppCompatActivity implements BookInfoContract.View
                 mBook = gson.fromJson(result, Book.class);
                 displayBookInfo();
             }
-            if (resultCode == BookInfo.RESULT_CANCELED) {
-                Toast.makeText(this, R.string.error_book_load_fail, Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
@@ -245,6 +244,12 @@ public class BookInfo extends AppCompatActivity implements BookInfoContract.View
     @Override
     public void displayCompletedSelected() {
         mCurrentBookFlagRadio().check(R.id.radio_completed);
+    }
+
+    @Override
+    public void hideUserRating() {
+        mUserRatingTextView().setVisibility(View.GONE);
+        mUserRatingBar().setVisibility(View.GONE);
     }
 
 
@@ -311,6 +316,7 @@ public class BookInfo extends AppCompatActivity implements BookInfoContract.View
 
     @Override
     public void displayUserRating() {
+        mUserRatingBar().setVisibility(View.VISIBLE);
         mUserRatingBar().setRating(Integer.valueOf(mBook.getUserRating()));
     }
 

@@ -4,9 +4,8 @@ import app.mad.com.booklogger.model.Book;
 import app.mad.com.booklogger.utils.FirebaseHelper;
 
 /**
- * Created by Niren on 26/5/18.
+ * Activity to display, edit and save user notes and rating
  */
-
 public class UserNotePresenter implements UserNoteContract.presenter {
     UserNoteContract.view mView;
     FirebaseHelper mFirebaseHelper;
@@ -25,10 +24,11 @@ public class UserNotePresenter implements UserNoteContract.presenter {
         this.mView = null;
     }
 
+    /**
+     * If the user saves the note, returns the new book object through an intent
+     */
     @Override
     public void saveNote() {
-//        mFirebaseHelper.updateRating();
-
         Book book = mView.getBook();
         mFirebaseHelper.updateRatingNotes("reading", book);
         mView.displaySaved();

@@ -12,7 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,7 +31,6 @@ import app.mad.com.booklogger.ui.bookinfo.BookInfo;
  * An instance of the fragment in the home activity
  * Sets up recycler view and click listener for individual items
  */
-
 public class HomeFragment extends Fragment implements HomeFragmentContract.View {
     private static final String TAG = "BOOK_LOGGER";
 
@@ -85,37 +86,39 @@ public class HomeFragment extends Fragment implements HomeFragmentContract.View 
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        /**
-                         * todo add something here
-                         */
+                        Toast.makeText(getActivity(), databaseError.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
-        mAdapter.setOnRowClickListener((bookItem, cover) -> {
-            // pass an intent to open a book activity
-            Intent intent = new Intent(getContext(), BookInfo.class);
-            intent.putExtra(BookInfo.ID, bookItem.getId());
-            intent.putExtra(BookInfo.TITLE, bookItem.getTitle());
-            intent.putExtra(BookInfo.AUTHORS, bookItem.getAuthors());
-            intent.putExtra(BookInfo.IMAGE_PATH, bookItem.getImagePath());
-            intent.putExtra(BookInfo.DESCRIPTION, bookItem.getDescription());
-            intent.putExtra(BookInfo.PAGE_COUNT, String.valueOf(bookItem.getPageCount()));
-            intent.putExtra(BookInfo.AVERAGE_RATING, String.valueOf(bookItem.getAverageRating()));
-            intent.putExtra(BookInfo.RATINGS_COUNT, String.valueOf(bookItem.getRatingsCount()));
-            intent.putExtra(BookInfo.USER_RATING, String.valueOf(bookItem.getUserRating()));
-            intent.putExtra(BookInfo.NOTE, String.valueOf(bookItem.getNotes()));
-
-            // extra metadata
-            intent.putExtra(BookInfo.CURRENT_VIEW, mCurrentTab);
-            intent.putExtra(BookInfo.TRANSITION_NAME, ViewCompat.getTransitionName(cover));
-
-            // image transition
-            ActivityOptionsCompat options = ActivityOptionsCompat
-                                            .makeSceneTransitionAnimation(getActivity(), cover, ViewCompat.getTransitionName(cover));
-            startActivity(intent, options.toBundle());
-        });
+        // set on click listener on every item
+        mAdapter.setOnRowClickListener((bookItem, cover) -> launchBookInfo(bookItem, cover));
         super.onViewCreated(view, savedInstanceState);
     }
+
+    private void launchBookInfo(Book bookItem, ImageView cover) {
+        // pass an intent to open a book activity
+        Intent intent = new Intent(getContext(), BookInfo.class);
+        intent.putExtra(BookInfo.ID, bookItem.getId());
+        intent.putExtra(BookInfo.TITLE, bookItem.getTitle());
+        intent.putExtra(BookInfo.AUTHORS, bookItem.getAuthors());
+        intent.putExtra(BookInfo.IMAGE_PATH, bookItem.getImagePath());
+        intent.putExtra(BookInfo.DESCRIPTION, bookItem.getDescription());
+        intent.putExtra(BookInfo.PAGE_COUNT, String.valueOf(bookItem.getPageCount()));
+        intent.putExtra(BookInfo.AVERAGE_RATING, String.valueOf(bookItem.getAverageRating()));
+        intent.putExtra(BookInfo.RATINGS_COUNT, String.valueOf(bookItem.getRatingsCount()));
+        intent.putExtra(BookInfo.USER_RATING, String.valueOf(bookItem.getUserRating()));
+        intent.putExtra(BookInfo.NOTE, String.valueOf(bookItem.getNotes()));
+
+        // extra metadata
+        intent.putExtra(BookInfo.CURRENT_VIEW, mCurrentTab);
+        intent.putExtra(BookInfo.TRANSITION_NAME, ViewCompat.getTransitionName(cover));
+
+        // image transition
+        ActivityOptionsCompat options = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(getActivity(), cover, ViewCompat.getTransitionName(cover));
+        startActivity(intent, options.toBundle());
+    }
+
 
     @Override
     public void addBook(Book book) {

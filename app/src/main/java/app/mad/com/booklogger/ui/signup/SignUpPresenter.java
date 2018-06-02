@@ -6,9 +6,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
- * Created by Niren on 25/5/18.
+ * Sign Up users using email
  */
-
 public class SignUpPresenter implements SignUpContract.Presenter {
     public static final String TAG = "BOOK_LOGGER signup";
     private FirebaseAuth mAuth;
@@ -30,8 +29,7 @@ public class SignUpPresenter implements SignUpContract.Presenter {
 
     @Override
     public void signUp() {
-
-        mAuth.createUserWithEmailAndPassword(mView.getEmail(), mView.getPassword())
+        mAuth.createUserWithEmailAndPassword(mView.getEmailTextView(), mView.getPasswordTextView())
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
