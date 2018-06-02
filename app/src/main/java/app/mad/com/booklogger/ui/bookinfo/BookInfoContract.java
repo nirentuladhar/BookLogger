@@ -22,8 +22,8 @@ public interface BookInfoContract {
 
         void displayNoteContainer();
         void hideNoteContainer();
-        void displayWriteReview();
-        void displayEditReview();
+        void displayWriteNote();
+        void displayEditNote();
 
         void displayToReadSelected();
         void displayReadingSelected();

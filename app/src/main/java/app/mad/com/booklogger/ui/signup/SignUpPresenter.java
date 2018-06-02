@@ -9,7 +9,7 @@ import com.google.firebase.auth.FirebaseUser;
  * Sign Up users using email
  */
 public class SignUpPresenter implements SignUpContract.Presenter {
-    public static final String TAG = "BOOK_LOGGER signup";
+    public static final String TAG = "BL " + SignUpPresenter.class.getName();
     private FirebaseAuth mAuth;
     private SignUpContract.View mView;
 
@@ -36,6 +36,7 @@ public class SignUpPresenter implements SignUpContract.Presenter {
                         Log.d(TAG, "createUserWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
                         mView.displaySuccess();
+                        Log.d(TAG, "User created with email");
                     }
                 })
                 .addOnFailureListener(e -> mView.displayError(e.getLocalizedMessage()));

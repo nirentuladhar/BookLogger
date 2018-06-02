@@ -18,6 +18,7 @@ import app.mad.com.booklogger.model.Book;
  */
 
 public class FirebaseHelper {
+    public static final String TAG = "BL " + FirebaseHelper.class.getName();
     private String mUserId;
     private FirebaseDatabase mDatabase;
     private ArrayList<Book> mBookArrayList = new ArrayList<>();
@@ -38,7 +39,7 @@ public class FirebaseHelper {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Book bookFH = ds.getValue(Book.class);
                     if (bookFH.getId().equals(book.getId())) {
-                        Log.d("BOOK_LOGGER", "BOOK ADDED " + book.getTitle());
+                        Log.d(TAG, "BOOK ADDED " + book.getTitle());
                         bookExists = true;
                     }
                 }
@@ -49,6 +50,7 @@ public class FirebaseHelper {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, "addBook" + databaseError.toString());
             }
         });
     }
@@ -57,7 +59,7 @@ public class FirebaseHelper {
         mDatabase = FirebaseDatabase.getInstance();
         mUserId = FirebaseAuth.getInstance().getUid();
         final DatabaseReference booksRef = mDatabase.getReference(ref).child(mUserId);
-        Log.d("BOOK_LOGGER", "FH removeBook");
+        Log.d(TAG, "remove book called");
 
         booksRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -65,7 +67,7 @@ public class FirebaseHelper {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Book bookFH = ds.getValue(Book.class);
                     if (bookFH.getId().equals(book.getId())) {
-                        Log.d("BOOK_LOGGER" , "BOOK DELETED " + book.getTitle());
+                        Log.d(TAG , "BOOK DELETED " + book.getTitle());
                         ds.getRef().removeValue();
                     }
                 }
@@ -73,6 +75,7 @@ public class FirebaseHelper {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, "removeBook" + databaseError.toString());
             }
         });
     }
@@ -89,12 +92,14 @@ public class FirebaseHelper {
                     Book bookFH = ds.getValue(Book.class);
                     if (bookFH.getId().equals(book.getId())) {
                         ds.getRef().child("userRating").setValue(book.getUserRating());
+                        Log.d(TAG, "Rating updated");
                     }
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, "updateRating" + databaseError.toString());
             }
         });
     }
@@ -112,12 +117,14 @@ public class FirebaseHelper {
                     if (bookFH.getId().equals(book.getId())) {
                         ds.getRef().child("userRating").setValue(book.getUserRating());
                         ds.getRef().child("notes").setValue(book.getNotes());
+                        Log.d(TAG, "Rating and notes updated");
                     }
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, "updateRatingNotes" + databaseError.toString());
             }
         });
     }

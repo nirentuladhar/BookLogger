@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -26,7 +27,7 @@ import app.mad.com.booklogger.R;
  * and perform other actions
  */
 public class Home extends AppCompatActivity implements HomeContract.view {
-    public static final String TAG = "BOOK_LOGGER";
+    public static final String TAG = "BL " + Home.class.getName();
     public HomePresenter mPresenter;
 
     public static final String READING_REF = "reading";
@@ -49,6 +50,7 @@ public class Home extends AppCompatActivity implements HomeContract.view {
         findViewById(R.id.search_books_fab).setOnClickListener(v -> {
             Intent intent = new Intent(this, Search.class);
             startActivity(intent);
+            Log.i(TAG, "Search btn clicked. Launch Search");
         });
 
     }
@@ -76,6 +78,7 @@ public class Home extends AppCompatActivity implements HomeContract.view {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_sign_out) {
             mPresenter.signOut();
+            Log.i(TAG, "User signed out");
         }
 
         return super.onOptionsItemSelected(item);
@@ -100,6 +103,7 @@ public class Home extends AppCompatActivity implements HomeContract.view {
         completed.setArguments(getBundle(COMPLETED_REF));
         adapter.addFragment(completed, "Completed");
 
+        Log.i(TAG, "All fragments created successfully");
         viewPager.setAdapter(adapter);
     }
 

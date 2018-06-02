@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +32,7 @@ import app.mad.com.booklogger.ui.home.Home;
  */
 public class BookInfo extends AppCompatActivity implements BookInfoContract.View {
 
-    public static final String TAG = "BOOK_LOGGER BIA";
+    public static final String TAG = "BL " + BookInfo.class.getName();
     public static final int REQUEST_CODE = 1234;
 
     // constants for intent
@@ -141,6 +142,7 @@ public class BookInfo extends AppCompatActivity implements BookInfoContract.View
         mPageCountTextView().setText(mBook.getPageCount() + getString(R.string.pages_text));
         mRatingsCountTextView().setText(getString(R.string.left_bracket) + mBook.getRatingsCount() + getString(R.string.right_bracket));
         mNotesTextView().setText(mBook.getNotes());
+        Log.d(TAG, "Default views set");
     }
 
 
@@ -256,22 +258,24 @@ public class BookInfo extends AppCompatActivity implements BookInfoContract.View
     /**
      * Displays 'Write a Review' button and hides everything else
      */
-    public void displayWriteReview() {
+    public void displayWriteNote() {
         mWriteNoteButton().setVisibility(View.VISIBLE);
         mYourNoteTextView().setVisibility(View.GONE);
         mNotesTextView().setVisibility(View.GONE);
         mEditNoteButton().setVisibility(View.GONE);
+        Log.i(TAG, "Write a Note button visible");
     }
 
     /**
      * Displays the note and the edit button
      * Hides 'Write a Review' button
      */
-    public void displayEditReview() {
+    public void displayEditNote() {
         mWriteNoteButton().setVisibility(View.GONE);
         mYourNoteTextView().setVisibility(View.VISIBLE);
         mNotesTextView().setVisibility(View.VISIBLE);
         mEditNoteButton().setVisibility(View.VISIBLE);
+        Log.d(TAG, "Edit notes button visible");
     }
 
     /**
@@ -293,16 +297,19 @@ public class BookInfo extends AppCompatActivity implements BookInfoContract.View
     public void closeActivity() {
         Intent intent = new Intent(this, Home.class);
         startActivity(intent);
+        Log.d(TAG, "Activity closed");
     }
 
     @Override
     public void displayBookDeleted() {
         Toast.makeText(this, R.string.book_deleted, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "Current book deleted");
     }
 
     @Override
     public void displayBookAdded() {
         Toast.makeText(this, R.string.book_added, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "Current book added");
     }
 
     @Override
@@ -318,6 +325,7 @@ public class BookInfo extends AppCompatActivity implements BookInfoContract.View
     public void displayUserRating() {
         mUserRatingBar().setVisibility(View.VISIBLE);
         mUserRatingBar().setRating(Integer.valueOf(mBook.getUserRating()));
+        Log.d(TAG, "Displayed user rating");
     }
 
 
@@ -347,6 +355,7 @@ public class BookInfo extends AppCompatActivity implements BookInfoContract.View
             Intent i = new Intent(this, UserNote.class);
             i.putExtra(BOOK_INFO_OBJECT, bookAsString);
             startActivityForResult(i, REQUEST_CODE);
+            Log.d(TAG, "Edit note button clicked. New activity started");
         });
     }
 
@@ -361,6 +370,7 @@ public class BookInfo extends AppCompatActivity implements BookInfoContract.View
             Intent i = new Intent(this, UserNote.class);
             i.putExtra(BOOK_INFO_OBJECT, bookAsString);
             startActivityForResult(i, REQUEST_CODE);
+            Log.d(TAG, "Write note button clicked. New activity started");
         });
     }
 
@@ -379,6 +389,7 @@ public class BookInfo extends AppCompatActivity implements BookInfoContract.View
                 mPresenter.setUserRating(stars);
                 mBook.setUserRating(String.valueOf(stars));
                 view.setPressed(false);
+                Log.d(TAG, "User rating clicked");
             }
             if (event.getAction() == MotionEvent.ACTION_DOWN) view.setPressed(true);
             if (event.getAction() == MotionEvent.ACTION_CANCEL) view.setPressed(false);
@@ -396,14 +407,17 @@ public class BookInfo extends AppCompatActivity implements BookInfoContract.View
                 case R.id.radio_completed:
                     mCurrentRef = Home.COMPLETED_REF;
                     mPresenter.addBook();
+                    Log.d(TAG, "Added current book to completed");
                     break;
                 case R.id.radio_reading:
                     mCurrentRef = Home.READING_REF;
                     mPresenter.addBook();
+                    Log.d(TAG, "Added current book to reading");
                     break;
                 case R.id.radio_toread:
                     mCurrentRef = Home.TOREAD_REF;
                     mPresenter.addBook();
+                    Log.d(TAG, "Added current book to toread");
                     break;
             }
         });

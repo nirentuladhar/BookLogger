@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -23,6 +24,7 @@ import app.mad.com.booklogger.ui.bookinfo.BookInfo;
  */
 public class UserNote extends AppCompatActivity implements UserNoteContract.view {
 
+    public static final String TAG = "BL " + UserNote.class.getName();
     public static final String USER_NOTE_INTENT_CODE = "user_note";
     EditText mUserNote() { return findViewById(R.id.edittext_user_review_description); }
     RatingBar mUserRating() { return findViewById(R.id.rating_user_review); }
@@ -112,11 +114,13 @@ public class UserNote extends AppCompatActivity implements UserNoteContract.view
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case android.R.id.home:
+                Log.d(TAG, "Back button pressed");
                 onBackPressed();
                 return true;
             case R.id.action_done:
                 mBook.setNotes(mUserNote().getText().toString());
                 mPresenter.saveNote();
+                Log.d(TAG, "Note saved");
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -133,6 +137,7 @@ public class UserNote extends AppCompatActivity implements UserNoteContract.view
         Intent returnIntent = new Intent();
         returnIntent.putExtra(USER_NOTE_INTENT_CODE , bookAsString);
         setResult(BookInfo.RESULT_OK, returnIntent);
+        Log.d(TAG,"Note saved and return intent");
         finish();
         Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
     }

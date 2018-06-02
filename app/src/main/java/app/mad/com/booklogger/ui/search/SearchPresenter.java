@@ -1,5 +1,7 @@
 package app.mad.com.booklogger.ui.search;
 
+import android.util.Log;
+
 import app.mad.com.booklogger.model.BookList;
 import app.mad.com.booklogger.api.GoogleBooksApi;
 import retrofit2.Call;
@@ -12,6 +14,7 @@ import retrofit2.Response;
  */
 public class SearchPresenter implements SearchContract.Presenter {
 
+    public static final String TAG = "BL " + SearchPresenter.class.getName();
     private SearchContract.View mView;
     private GoogleBooksApi mGoogleBooksApi;
 
@@ -38,12 +41,14 @@ public class SearchPresenter implements SearchContract.Presenter {
                     public void onResponse(Call<BookList> call, Response<BookList> response) {
                         if (mView != null && response.body() != null) {
                             mView.displayBooks(response.body().getItems());
+                            Log.d(TAG, "Books successfully returned");
                         }
                     }
 
                     @Override
                     public void onFailure(Call<BookList> call, Throwable t) {
-                            mView.displayNoBooks();
+                        mView.displayNoBooks();
+                        Log.d(TAG, "No books returned");
                     }
                 });
 

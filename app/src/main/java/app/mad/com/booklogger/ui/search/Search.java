@@ -32,6 +32,7 @@ import app.mad.com.booklogger.api.GoogleBooksImpl;
  */
 public class Search extends AppCompatActivity implements SearchContract.View {
 
+    public static final String TAG = "BL " + Search.class.getName();
     public static final String SEARCH_REF="search";
     Context mContext;
     RecyclerView mRecyclerView;
@@ -87,7 +88,7 @@ public class Search extends AppCompatActivity implements SearchContract.View {
 
     @Override
     public void displayNoBooks() {
-        Log.d(Home.TAG, "No books");
+        Log.d(TAG, "No books");
     }
 
     @Override
@@ -110,6 +111,7 @@ public class Search extends AppCompatActivity implements SearchContract.View {
                 ViewCompat.getTransitionName(cover));
 
         startActivity(intent, options.toBundle());
+        Log.d(TAG, "BookInfo launched with intent");
     }
 
 
@@ -146,6 +148,7 @@ public class Search extends AppCompatActivity implements SearchContract.View {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                Log.d(TAG, "Back button pressed");
                 finish();
                 return true;
         }

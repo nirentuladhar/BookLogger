@@ -10,9 +10,6 @@ public interface SignUpContract {
 
         void displayError(String errorMessage);
 
-        void showProgress(String message);
-        void dismissProgress();
-        void showMessage(String message);
         void displaySuccess();
     }
 

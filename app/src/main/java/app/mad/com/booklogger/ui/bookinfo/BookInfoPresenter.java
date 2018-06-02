@@ -1,6 +1,7 @@
 package app.mad.com.booklogger.ui.bookinfo;
 
-import app.mad.com.booklogger.R;
+import android.util.Log;
+
 import app.mad.com.booklogger.model.Book;
 import app.mad.com.booklogger.ui.home.Home;
 import app.mad.com.booklogger.ui.search.Search;
@@ -12,7 +13,7 @@ import app.mad.com.booklogger.utils.FirebaseHelper;
  */
 public class BookInfoPresenter implements BookInfoContract.Presenter {
 
-    private static final String TAG = "BOOK_LOGGER " + BookInfoPresenter.class.getSimpleName();
+    public static final String TAG = "BL " + BookInfoPresenter.class.getName();
 
     private BookInfoContract.View mView;
     private FirebaseHelper mFirebaseHelper;
@@ -38,6 +39,7 @@ public class BookInfoPresenter implements BookInfoContract.Presenter {
     public void loadBook() {
         mBook = mView.getSelectedBook();
         mView.displayBookInfo();
+        Log.d(TAG, "Current book loaded and displayed");
     }
 
     /**
@@ -48,6 +50,7 @@ public class BookInfoPresenter implements BookInfoContract.Presenter {
         mFirebaseHelper.removeBook(mView.getCurrentRef(), mBook);
         mView.displayBookDeleted();
         mView.closeActivity();
+        Log.d(TAG, "Current book deleted");
     }
 
     /**
@@ -76,15 +79,20 @@ public class BookInfoPresenter implements BookInfoContract.Presenter {
         if (mView.getCurrentRef().equals(Search.SEARCH_REF)) {
             //hide container
             mView.hideNoteContainer();
+            Log.d(TAG, "Activity launched from Search. Notes hidden");
+
         } else {
             //display container
             mView.displayNoteContainer();
+            Log.d(TAG, "Activity launched from Home. Notes displayed");
             if (mBook.getNotes().equals("null") || mBook.getNotes().trim().equals("")) {
                 // display only 'Write a Review'; hides the rest
-                mView.displayWriteReview();
+                mView.displayWriteNote();
+                Log.d(TAG, "User notes empty");
             } else {
                 // display the review and 'Edit' button; hides 'Write a Review' button
-                mView.displayEditReview();
+                mView.displayEditNote();
+                Log.d(TAG, "User notes present");
             }
         }
     }

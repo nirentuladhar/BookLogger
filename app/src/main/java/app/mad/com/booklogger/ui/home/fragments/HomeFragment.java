@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ import app.mad.com.booklogger.ui.bookinfo.BookInfo;
  * Sets up recycler view and click listener for individual items
  */
 public class HomeFragment extends Fragment implements HomeFragmentContract.View {
-    private static final String TAG = "BOOK_LOGGER";
+    public static final String TAG = "BL " + HomeFragment.class.getName();
 
     public static final String CURRENT_TAB_KEY = "key";
     public static final int GRID_COLUMN_COUNT = 3;
@@ -83,6 +84,7 @@ public class HomeFragment extends Fragment implements HomeFragmentContract.View 
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         mBookList.clear();
                         mPresenter.getBooks(dataSnapshot);
+                        Log.d(TAG, "Successfully loaded all books");
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -117,6 +119,7 @@ public class HomeFragment extends Fragment implements HomeFragmentContract.View 
         ActivityOptionsCompat options = ActivityOptionsCompat
                 .makeSceneTransitionAnimation(getActivity(), cover, ViewCompat.getTransitionName(cover));
         startActivity(intent, options.toBundle());
+        Log.d(TAG, "Launch BookInfo");
     }
 
 
@@ -124,6 +127,7 @@ public class HomeFragment extends Fragment implements HomeFragmentContract.View 
     public void addBook(Book book) {
         mBookList.add(book);
         mAdapter.notifyDataSetChanged();
+        Log.d(TAG, "Book added. Adapter updated");
     }
 
 

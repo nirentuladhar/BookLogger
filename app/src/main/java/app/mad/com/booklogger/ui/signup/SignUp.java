@@ -3,6 +3,7 @@ package app.mad.com.booklogger.ui.signup;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,7 +18,7 @@ import app.mad.com.booklogger.ui.login.Login;
  */
 public class SignUp extends AppCompatActivity implements SignUpContract.View{
 
-    public static final String TAG = "BOOK_LOGGER signup";
+    public static final String TAG = "BL " + SignUp.class.getName();
 
     Button mGoToLoginButton() { return findViewById(R.id.goto_sign_in_button); }
     Button mSignUpButton() { return findViewById(R.id.email_sign_up_button); }
@@ -39,6 +40,7 @@ public class SignUp extends AppCompatActivity implements SignUpContract.View{
         mPresenter.bind(this);
 
         mGoToLoginButton().setOnClickListener(v -> {
+            Log.d(TAG, "Go to Login Activity");
             Intent i = new Intent(this, Login.class);
             startActivity(i);
         });
@@ -69,24 +71,10 @@ public class SignUp extends AppCompatActivity implements SignUpContract.View{
     }
 
     @Override
-    public void showProgress(String message) {
-
-    }
-
-    @Override
-    public void dismissProgress() {
-
-    }
-
-    @Override
-    public void showMessage(String message) {
-
-    }
-
-    @Override
     public void displaySuccess() {
         Intent i = new Intent(this, Login.class);
         startActivity(i);
         Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "Successfully logged in");
     }
 }

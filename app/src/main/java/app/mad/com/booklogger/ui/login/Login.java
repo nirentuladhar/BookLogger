@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ import app.mad.com.booklogger.ui.home.Home;
 public class Login extends AppCompatActivity implements LoginContract.View {
 
 
-    private static final String TAG = "Login";
+    private static final String TAG = "BL " + Login.class.getName();
     private GoogleSignInClient mGoogleSignInClient;
     private LoginContract.Presenter mPresenter;
 
@@ -113,6 +114,7 @@ public class Login extends AppCompatActivity implements LoginContract.View {
             if (result.isSuccess()) {
                 GoogleSignInAccount account = result.getSignInAccount();
                 mPresenter.firebaseAuthWithGoogle(account);
+                Log.d(TAG, "Successfully signed in with Google");
             }
         }
     }
@@ -133,6 +135,7 @@ public class Login extends AppCompatActivity implements LoginContract.View {
         findViewById(R.id.login_progress_bar).setVisibility(View.INVISIBLE);
         Intent i = new Intent(this, Home.class);
         startActivity(i);
+        Log.d(TAG, "Successfully logged in. Show home screen");
     }
 
     @Override
