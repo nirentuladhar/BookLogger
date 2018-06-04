@@ -79,11 +79,13 @@ public class BookInfoPresenter implements BookInfoContract.Presenter {
         if (mView.getCurrentRef().equals(Search.SEARCH_REF)) {
             //hide container
             mView.hideNoteContainer();
+            mView.hideDeleteButton();
             Log.d(TAG, "Activity launched from Search. Notes hidden");
 
         } else {
             //display container
             mView.displayNoteContainer();
+            mView.displayDeleteButton();
             Log.d(TAG, "Activity launched from Home. Notes displayed");
             if (mBook.getNotes().equals("null") || mBook.getNotes().trim().equals("")) {
                 // display only 'Write a Review'; hides the rest

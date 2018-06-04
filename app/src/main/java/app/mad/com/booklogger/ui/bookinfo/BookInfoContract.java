@@ -30,6 +30,10 @@ public interface BookInfoContract {
         void displayCompletedSelected();
 
         void hideUserRating();
+
+        void displayDeleteButton();
+
+        void hideDeleteButton();
     }
 
     interface Presenter {

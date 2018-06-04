@@ -25,6 +25,7 @@ import app.mad.com.booklogger.R;
 import app.mad.com.booklogger.ui.usernote.UserNote;
 import app.mad.com.booklogger.model.Book;
 import app.mad.com.booklogger.ui.home.Home;
+import app.mad.com.booklogger.utils.FirebaseHelper;
 
 /**
  * Displays an expanded view of a book
@@ -54,6 +55,7 @@ public class BookInfo extends AppCompatActivity implements BookInfoContract.View
     Intent mIntent;
     BookInfoContract.Presenter mPresenter;
     String mCurrentRef = "";
+    FirebaseHelper mFirebase = new FirebaseHelper();
 
     // member variables
     String mId, mTitle, mAuthors, mImagePath, mDescription, mPageCount, mAverageRating, mRatingsCount, mUserRating, mNotes;
@@ -223,6 +225,7 @@ public class BookInfo extends AppCompatActivity implements BookInfoContract.View
                 String result = data.getStringExtra(UserNote.USER_NOTE_INTENT_CODE);
                 Gson gson = new Gson();
                 mBook = gson.fromJson(result, Book.class);
+                mFirebase.updateRatingNotes(mCurrentRef, mBook);
                 displayBookInfo();
             }
         }
@@ -252,6 +255,16 @@ public class BookInfo extends AppCompatActivity implements BookInfoContract.View
     public void hideUserRating() {
         mUserRatingTextView().setVisibility(View.GONE);
         mUserRatingBar().setVisibility(View.GONE);
+    }
+
+    @Override
+    public void displayDeleteButton() {
+        mDeleteButton().setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideDeleteButton() {
+        mDeleteButton().setVisibility(View.GONE);
     }
 
 
